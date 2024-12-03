@@ -1,2 +1,3 @@
-# PANDORA
-# Pandora - Photometrically Adjusted Neutral Density Optical Ray Attenuator
+# PANDORA - Photometrically Adjusted Neutral Density Optical Ray Attenuator
+
+UNDER CONSTRUCTION
