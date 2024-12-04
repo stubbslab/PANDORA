@@ -3,6 +3,31 @@ import utils.logger as logger
 from .states import State
 
 class FlipMountState:
+    """ FlipMountState class to handle communication with Thorlabs FlipMount devices.
+
+    Args:
+        name (str): Name of the labjack port, e.g. "F01"
+        labjack (LabJack): LabJack object to handle communication with the device.
+
+    Example:
+        labjack = LabJack()
+        flip_mount = FlipMountState(name="F01", labjack=labjack)
+        flip_mount.get_device_info()
+
+        # flips the state of the flip mount
+
+        # activate puts the flip mount in the ON state (on the optical path)
+        flip_mount.activate()
+
+        # deactivate puts the flip mount in the OFF state (off the optical path)
+        flip_mount.deactivate()
+
+        # Get the curent state of the flip mount
+        flip_mount.get_state()
+
+        # Close the labjack connection
+        flip_mount.close()
+    """
     def __init__(self, name, labjack):
         self.labjack = labjack
         self.codename = name  
@@ -13,6 +38,10 @@ class FlipMountState:
     def initialize(self):
         self.logger.info(f"Initializing FlipMountState {self.codename}.")
         self.set_state(State.IDLE)
+
+        # Set the flip-mount to output mode
+        self.labjack.write(f"{self.codename}_DIRECTION", 1)
+
         self.get_state()
 
     def activate(self):
@@ -55,7 +84,9 @@ class FlipMountState:
         if self.state == State.FAULT:
             self.logger.info(f"Resetting Flip Mount from fault state {self.codename}.")
             self.set_state(State.IDLE)
-
+            # Set the flip-mount to output mode
+            self.labjack.write(f"{self.codename}_DIRECTION", 1)
+            
     def get_state(self):
         try:
             self.logger.info(f"Querying Flip Mount state {self.codename}.")
@@ -75,7 +106,8 @@ class FlipMountState:
     def close(self):
         self.logger.info(f"Closing Flip Mount {self.codename}.")
         self.set_state(State.IDLE)
-        self.labjack.close()
+        # Set the flip-mount to input mode
+        self.labjack.write(f"{self.codename}_DIRECTION", 0)
         self.set_state(State.UNINITIALIZED)
 
     def set_state(self, new_state):
@@ -92,3 +124,26 @@ class FlipMountState:
             self.logger.info(f"State changed to {self.state.value}")
         else:
             self.logger.error(f"Invalid state transition from {self.state.value} to {new_state.value}")
+
+if __name__ == "__main__":
+    from labjackHandler import LabJack
+    from config import labjack_ip_address
+
+    ip_address = labjack_ip_address
+    labjack = LabJack(ip_address)
+
+    # Initialize the flip mount
+    flip_mount = FlipMountState(name="F01", labjack=labjack)
+    flip_mount.get_device_info()
+
+    # flips the state of the flip mount
+    # activate puts the flip mount in the ON state (on the optical path)
+    flip_mount.activate()
+    # deactivate puts the flip mount in the OFF state (off the optical path)
+    flip_mount.deactivate()
+
+    # Get the curent state of the flip mount
+    flip_mount.get_state()
+
+    # Close the FIO1 output connection
+    flip_mount.close()

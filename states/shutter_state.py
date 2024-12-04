@@ -3,6 +3,30 @@ import utils.logger as logger
 from .states import State
 
 class ShutterState:
+    """ ShutterState class to handle state and communication with Thorlabs Shutter devices.
+    https://www.thorlabs.com/thorproduct.cfm?partnumber=SHB1T#ad-image-0
+
+    Args:
+        name (str): Name of the labjack port, e.g. "F03"
+        labjack (LabJack): LabJack object to handle communication with the device.
+
+    Example:
+        labjack = LabJack()
+        shutter = ShutterState(name="F03", labjack=labjack)
+        shutter.get_device_info()
+
+        # Activate the shutter
+        shutter.activate()
+
+        # Deactivate the shutter
+        shutter.deactivate()
+
+        # Get the curent state of the shutter
+        shutter.get_state()
+
+        # Close the labjack connection
+        shutter.close()
+    """
     def __init__(self, name, labjack):
         self.labjack = labjack
         self.codename = name  
@@ -18,7 +42,7 @@ class ShutterState:
     def activate(self):
         if self.state == State.OFF:
             self.logger.info(f"Activating Shutter {self.codename}.")
-            self.labjack.send_binary_signal()
+            self.labjack.send_high_signal()
             self.set_state(State.ON)
         
         elif self.state == State.ON:
@@ -34,7 +58,7 @@ class ShutterState:
     def deactivate(self):
         if self.state == State.ON:
             self.logger.info(f"Deactivating Shutter {self.codename}.")
-            self.labjack.send_binary_signal()
+            self.labjack.send_low_signal()
             self.set_state(State.OFF)
         
         elif self.state == State.OFF:
@@ -74,8 +98,9 @@ class ShutterState:
 
     def close(self):
         self.logger.info(f"Closing Shutter {self.codename}.")
+        # Set the flip-mount to input mode
+        self.labjack.write(f"{self.codename}_DIRECTION", 0)
         self.set_state(State.IDLE)
-        self.labjack.close()
         self.set_state(State.UNINITIALIZED)
 
     def set_state(self, new_state):
@@ -92,3 +117,25 @@ class ShutterState:
             self.logger.info(f"State changed to {self.state.value}")
         else:
             self.logger.error(f"Invalid state transition from {self.state.value} to {new_state.value}")
+
+if __name__ == "__main__":
+    from labjackHandler import LabJack
+    from config import labjack_ip_address
+    ip_address = labjack_ip_address
+    labjack = LabJack(ip_address)
+
+    # Initialize the shutter
+    shutter = ShutterState(name="FIO03", labjack=labjack)
+    shutter.get_device_info()
+
+    # Activate the shutter
+    shutter.activate()
+
+    # Deactivate the shutter
+    shutter.deactivate()
+
+    # Get the curent state of the shutter
+    shutter.get_state()
+
+    # Close the labjack connection
+    shutter.close()
