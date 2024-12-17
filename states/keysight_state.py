@@ -1,8 +1,24 @@
 import pyvisa
 from .states import State
-import utils.logger as logger
+import states.logger as logger
 
 class KeysightState():
+    """KeysightState class to handle communication with Keysight devices.
+
+    Args:
+        name (str): Name of the Keysight device.
+        keysight_ip (str): IP address of the Keysight device.
+        timeout_ms (int): Timeout in milliseconds for the connection.
+    
+    Example:
+        keysight = KeysightState(name="K01", keysight_ip="169.254.56.239")
+        keysight.get_device_info()
+        keysight.activate()
+        keysight.deactivate()
+        keysight.get_state()
+        keysight.close()
+
+    """
     def __init__(self, name, keysight_ip="169.254.56.239", timeout_ms=5000):
         ## Initialize the Keysight State Parameters
         self.codename = name
@@ -151,8 +167,16 @@ class KeysightState():
             State.MEASURING: [State.IDLE, State.ON]
         }
 
-        if new_state in valid_transitions[self.state]:
+        if new_state in valid_transitions[self  .state]:
             self.state = new_state
             self.logger.info(f"State changed to {self.state.value}")
         else:
             self.logger.error(f"Invalid state transition from {self.state.value} to {new_state.value}")
+
+if __name__ == "__main__":
+    keysight = KeysightState(name="K01", keysight_ip="169.254.56.239")
+    keysight.get_device_info()
+    keysight.activate()
+    keysight.deactivate()
+    keysight.get_state()
+    keysight.close()
