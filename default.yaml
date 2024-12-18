@@ -1,0 +1,65 @@
+# default.yaml
+labjack_ip_address: &labjack_ip_address "192.168.1.50"
+
+monochromator:
+  type: "MonochromatorState"
+  usb_port: "/dev/ttyUSB0"   # or "COM3" on Windows
+  baud_rate: 9600
+  timeout: 2
+  model: "Acton_SP2150"
+
+shutter:
+  type: "ShutterState"
+  labjack_ip_address: "169.254.5.2"
+  labjack_port: "FIO03"  # Example port name for shutter control line
+
+shutter:
+  type: "ShutterState"
+  labjack_ip_address: *labjack_ip_address
+  labjack_port: "FIO03"
+
+flipmounts:
+  F01:
+    type: "FlipMountState"
+    labjack_ip_address: *labjack_ip_address
+    labjack_port: "FIO01"
+  F02:
+    type: "FlipMountState"
+    labjack_ip_address: *labjack_ip_address
+    labjack_port: "FIO02"
+
+keysights:
+  # Each Keysight device with its own IP address
+  K01:
+    type: "KeysightState"
+    keysight_ip: "169.254.5.2"
+    timeout_ms: 5000
+  K02:
+    type: "KeysightState"
+    keysight_ip: "169.254.56.239"
+    timeout_ms: 5000
+
+zaber_stages:
+  Z1:
+    type: "ZaberStageState"
+    zaber_ip: "192.168.1.70"
+    device_number: 1   # If relevant for your Zaber controller
+  Z2:
+    type: "ZaberStageState"
+    zaber_ip: "192.168.1.70"
+    device_number: 2
+
+spectrograph:
+  type: "SpectrographState"
+  usb_port: "/dev/ttyUSB1"   # or "COM4"
+  baud_rate: 115200
+  timeout: 2
+
+# Additional system parameters
+calibration:
+  attenuation_file: "/path/to/attenuation_calibration.json"
+  pinhole_positions_file: "/path/to/pinhole_positions.json"
+
+logging:
+  level: "INFO"
+  logfile: "/path/to/pandora.log"
