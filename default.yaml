@@ -10,11 +10,6 @@ monochromator:
 
 shutter:
   type: "ShutterState"
-  labjack_ip_address: "169.254.5.2"
-  labjack_port: "FIO03"  # Example port name for shutter control line
-
-shutter:
-  type: "ShutterState"
   labjack_ip_address: *labjack_ip_address
   labjack_port: "FIO03"
 

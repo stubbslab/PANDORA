@@ -1,6 +1,6 @@
 # states/flipmount_state.py
-import logger
-from states import State
+import logging
+from .states import State
 
 class FlipMountState:
     """ FlipMountState class to handle communication with Thorlabs FlipMount devices.
@@ -32,7 +32,7 @@ class FlipMountState:
         self.labjack = labjack
         self.codename = name  
         self.state = State.UNINITIALIZED
-        self.logger = logger.get_logger(f"FlipMountState-{name}")
+        self.logger = logging.getLogger(f"pandora.flipmount.{name}")
         self.initialize()
 
     def initialize(self):
@@ -119,24 +119,30 @@ class FlipMountState:
             self.logger.error(f"Invalid state transition from {self.state.value} to {new_state.value}")
 
 if __name__ == "__main__":
-    from labjackHandler import LabJack
-    from config import labjack_ip_address
+    pass
+    # from labjackHandler import LabJack
+    # from config import labjack_ip_address
 
-    ip_address = labjack_ip_address
-    labjack = LabJack(ip_address)
+    # # Set up logging
+    # initialize_central_logger("../flipmount.log", "INFO")
 
-    # Initialize the flip mount
-    fm = FlipMountState(name="FIO01", labjack=labjack)
-    fm.get_device_info()
+    # # Initialize the LabJack connection
+    # ip_address = labjack_ip_address
+    # labjack = LabJack(ip_address)
 
-    # flips the state of the flip mount
-    # activate puts the flip mount in the ON state (on the optical path)
-    fm.activate()
-    # deactivate puts the flip mount in the OFF state (off the optical path)
-    fm.deactivate()
 
-    # Get the curent state of the flip mount
-    fm.get_state()
+    # # Initialize the flip mount
+    # fm = FlipMountState(name="FIO01", labjack=labjack)
+    # fm.get_device_info()
 
-    # Close the FIO1 output connection
-    fm.close()
+    # # flips the state of the flip mount
+    # # activate puts the flip mount in the ON state (on the optical path)
+    # fm.activate()
+    # # deactivate puts the flip mount in the OFF state (off the optical path)
+    # fm.deactivate()
+
+    # # Get the curent state of the flip mount
+    # fm.get_state()
+
+    # # Close the FIO1 output connection
+    # fm.close()

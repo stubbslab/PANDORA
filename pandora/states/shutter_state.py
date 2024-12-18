@@ -1,8 +1,8 @@
 # states/shutter_state.py
-import logger
-from states import State
-from operation_timer import OperationTimer
-import time
+import logging
+from .states import State                # '.' means same directory as shutter_state.py
+from ..utils.logger import initialize_central_logger  # '..' means go up one directory
+from ..utils.operation_timer import OperationTimer
 
 class ShutterState:
     """ ShutterState class to handle state and communication with Thorlabs Shutter devices.
@@ -33,7 +33,7 @@ class ShutterState:
         self.labjack = labjack
         self.codename = name  
         self.state = State.UNINITIALIZED
-        self.logger = logger.get_logger(f"Shutter-{name}")
+        self.logger = logging.getLogger(f"pandora.shutter.{name}")
 
         ## Safety measure for SHB1 shutter
         self.max_operation_freq = 10 # Hz
@@ -140,6 +140,10 @@ class ShutterState:
 if __name__ == "__main__":
     from labjackHandler import LabJack
     from config import labjack_ip_address
+
+    # Initialize the logger
+    initialize_central_logger("../shutter.log", "INFO")
+
     ip_address = labjack_ip_address
     labjack = LabJack(ip_address)
 

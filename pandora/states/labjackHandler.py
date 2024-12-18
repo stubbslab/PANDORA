@@ -1,7 +1,7 @@
 # ./labjackHandler.py
 
-from labjack import ljm
-import logger
+# from labjack import ljm
+# import ..utils.logger import 
 import time
 
 class LabJack:

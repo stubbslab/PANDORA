@@ -1,6 +1,8 @@
 import pyvisa
+import logging
+
 from .states import State
-import states.logger as logger
+from ..utils.logger import initialize_central_logger
 
 class KeysightState():
     """KeysightState class to handle communication with Keysight devices.
@@ -25,11 +27,10 @@ class KeysightState():
         self.keysight_ip = keysight_ip
         self.resource_string = f"TCPIP::{keysight_ip}::hislip0,4880::INSTR"
         self.timeout_ms = timeout_ms
-        self.logger = logger.get_logger(f"keysight-{name}")
+        self.logger = logging.getLogger(f"pandora.keysight.state.{name}")
 
         ## Initialize the Keysight State
         self.state = State.UNINITIALIZED
-        self.logger = logger.get_logger(f"KeysightState-{name}")
         self.initialize()
 
     def initialize(self):
@@ -150,7 +151,7 @@ class KeysightState():
         try:
             self.logger.info(f"Querying Keysight {self.codename} state.")
             value = self.get_power()
-            self.set_state(State.ON if value == '1' else State.OFF)
+            self.set_state(State.IDLE if value == '1' else State.OFF)
             return self.state
         except:
             self.logger.error(f"Error querying Keysight {self.codename} state.")

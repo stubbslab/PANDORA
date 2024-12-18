@@ -1,6 +1,12 @@
 import serial
-import time
-import logger
+import logging
+
+"""
+This scripts provides a class to control a monochromator via serial communication.
+
+The monochromator should be powered on and connected to the computer via a serial port.
+
+"""
 
 class MonochromatorController:
     def __init__(self, port, baudrate=9600):
@@ -15,7 +21,7 @@ class MonochromatorController:
         self.baudrate = baudrate
 
         # Set up logging
-        self.logger = logger.get_logger(f"Monochromator")
+        self.logger = logging.getLogger(f"pandora.monochromator")
 
     def connect(self, timeout=1):
         """
