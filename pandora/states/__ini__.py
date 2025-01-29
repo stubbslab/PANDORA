@@ -3,7 +3,7 @@
 from .flipmount_state import FlipMountState
 from .shutter_state import ShutterState
 from .keysight_state import KeysightState
-from .labjackHandler import LabJack
+from .labjack_handler import LabJack
 from .states_map import State
 
 # If you have an operation_timer in states directory that you need:
