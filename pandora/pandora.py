@@ -3,7 +3,8 @@ from states.flipmount_state import FlipMountState
 from states.shutter_state import ShutterState
 from states.keysight_state import KeysightState
 from commands.monochromator import MonochromatorController
-from states.labjackHandler import LabJack
+from commands.zaberstages import ZaberController
+from PANDORA.pandora.states.labjack_handler import LabJack
 from states.states_map import State
 from utils.logger import initialize_central_logger
 from utils.operation_timer import OperationTimer
