@@ -1,12 +1,12 @@
 ## Make Pandora Class
-from .states.flipmount_state import FlipMountState
-from .states.shutter_state import ShutterState
-from .states.keysight_state import KeysightState
-from .commands.monochromator import MonochromatorController
-from .states.labjackHandler import LabJack
-from .states.states import State
-from .utils.logger import initialize_central_logger
-from .utils.operation_timer import OperationTimer
+from states.flipmount_state import FlipMountState
+from states.shutter_state import ShutterState
+from states.keysight_state import KeysightState
+from commands.monochromator import MonochromatorController
+from states.labjackHandler import LabJack
+from states.states_map import State
+from utils.logger import initialize_central_logger
+from utils.operation_timer import OperationTimer
 
 class PandoraBox:
     """
@@ -33,7 +33,7 @@ class PandoraBox:
         self.logger = self._initialize_logger()
 
         # Initializer a timer
-        self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"Shutter-{name}")
+        self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"Pandora")
 
     def _load_config(self, config_file):
         # Parse a config file (JSON, YAML, etc.) with device parameters
