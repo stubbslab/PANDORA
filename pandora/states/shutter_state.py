@@ -145,7 +145,7 @@ class ShutterState:
             self.logger.error(f"Invalid state transition from {self.state.value} to {new_state.value}")
 
 if __name__ == "__main__":
-    from PANDORA.pandora.states.labjack_handler import LabJack
+    from labjack_handler import LabJack
     # import logging
     # from config import labjack_ip_address
     from utils.logger import initialize_central_logger  
