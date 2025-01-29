@@ -1,0 +1,544 @@
+2025-01-28 16:15:02,585 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:15:02,585 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:15:02,585 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:15:02,589 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:15:02,589 - pandora.shutter.FIO03 - INFO - State changed to fault
+2025-01-28 16:15:02,589 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:15:40,323 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:15:40,323 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:15:40,323 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:15:40,327 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:15:40,327 - pandora.shutter.FIO03 - INFO - State changed to fault
+2025-01-28 16:15:40,327 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:16:01,023 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:16:01,023 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:16:01,023 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:16:01,027 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:16:01,028 - pandora.shutter.FIO03 - INFO - State changed to fault
+2025-01-28 16:16:01,028 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:16:53,200 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:16:53,200 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:16:53,200 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:16:53,204 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:16:53,204 - pandora.shutter.FIO03 - INFO - State changed to fault
+2025-01-28 16:16:53,204 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:17:58,546 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:17:58,546 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:17:58,546 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:17:58,551 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:17:58,551 - pandora.shutter.FIO03 - INFO - State changed to fault
+2025-01-28 16:17:58,551 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:18:35,881 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:18:35,881 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:18:35,881 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:18:35,886 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:18:35,886 - pandora.shutter.FIO03 - INFO - State changed to fault
+2025-01-28 16:18:35,886 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:18:35,991 - pandora.shutter.FIO03 - ERROR - Error activating Shutter FIO03.
+2025-01-28 16:18:35,991 - pandora.shutter.FIO03 - ERROR - Error deactivating Shutter FIO03.
+2025-01-28 16:18:35,991 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:18:35,992 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:18:35,992 - pandora.shutter.FIO03 - ERROR - Invalid state transition from fault to fault
+2025-01-28 16:18:35,992 - pandora.shutter.FIO03 - INFO - Closing Shutter FIO03.
+2025-01-28 16:18:35,992 - pandora.shutter.FIO03 - ERROR - Error deactivating Shutter FIO03.
+2025-01-28 16:18:35,992 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:18:35,992 - pandora.shutter.FIO03 - INFO - State changed to uninitialized
+2025-01-28 16:19:45,712 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:19:45,712 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:19:45,712 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:19:45,717 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:19:45,717 - pandora.shutter.FIO03 - INFO - State changed to fault
+2025-01-28 16:19:45,717 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:19:45,822 - pandora.shutter.FIO03 - ERROR - Error activating Shutter FIO03.
+2025-01-28 16:19:45,822 - pandora.shutter.FIO03 - ERROR - Error deactivating Shutter FIO03.
+2025-01-28 16:19:45,822 - pandora.shutter.FIO03 - INFO - Querying Shutter state FIO03.
+2025-01-28 16:19:45,822 - pandora.shutter.FIO03 - ERROR - Error querying Shutter FIO03 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-28 16:19:45,822 - pandora.shutter.FIO03 - ERROR - Invalid state transition from fault to fault
+2025-01-28 16:19:45,822 - pandora.shutter.FIO03 - INFO - Closing Shutter FIO03.
+2025-01-28 16:19:45,823 - pandora.shutter.FIO03 - ERROR - Error deactivating Shutter FIO03.
+2025-01-28 16:19:45,823 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:19:45,823 - pandora.shutter.FIO03 - INFO - State changed to uninitialized
+2025-01-28 16:20:11,226 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:20:11,227 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:20:11,227 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:20:11,332 - pandora.shutter.FIO03 - INFO - Shutter FIO03 is already activated.
+2025-01-28 16:20:11,332 - pandora.shutter.FIO03 - INFO - Deactivating Shutter FIO03.
+2025-01-28 16:20:11,332 - pandora.shutter.FIO03 - INFO - State changed to off
+2025-01-28 16:20:11,333 - pandora.shutter.FIO03 - INFO - Closing Shutter FIO03.
+2025-01-28 16:20:11,333 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:20:29,935 - pandora.shutter.FIO03 - INFO - Initializing ShutterState FIO03.
+2025-01-28 16:20:29,935 - pandora.shutter.FIO03 - INFO - State changed to idle
+2025-01-28 16:20:29,935 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:20:30,041 - pandora.shutter.FIO03 - INFO - Shutter FIO03 is already activated.
+2025-01-28 16:20:30,041 - pandora.shutter.FIO03 - INFO - Deactivating Shutter FIO03.
+2025-01-28 16:20:30,041 - pandora.shutter.FIO03 - INFO - State changed to off
+2025-01-28 16:20:30,041 - pandora.shutter.FIO03 - INFO - Closing Shutter FIO03.
+2025-01-28 16:20:30,041 - pandora.shutter.FIO03 - WARNING - Operation too fast for Shutter FIO03.
+2025-01-28 16:20:30,146 - pandora.shutter.FIO03 - INFO - Deactivating Shutter FIO03.
+2025-01-28 16:20:30,147 - pandora.shutter.FIO03 - INFO - State changed to off
+2025-01-28 16:20:30,148 - pandora.shutter.FIO03 - ERROR - Invalid state transition from off to idle
+2025-01-28 16:20:30,148 - pandora.shutter.FIO03 - ERROR - Invalid state transition from off to uninitialized
+2025-01-29 07:42:32,203 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:42:32,204 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:42:32,204 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:42:32,208 - pandora.shutter.FIO0 - ERROR - Error querying Shutter FIO0 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-29 07:42:32,208 - pandora.shutter.FIO0 - INFO - State changed to fault
+2025-01-29 07:42:32,208 - pandora.shutter.FIO0 - ERROR - The shutter state is fault
+2025-01-29 07:42:32,208 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:42:32,313 - pandora.shutter.FIO0 - ERROR - Error activating Shutter FIO0.
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - ERROR - Error deactivating Shutter FIO0.
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - ERROR - Error querying Shutter FIO0 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - ERROR - Invalid state transition from fault to fault
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - ERROR - The shutter state is fault
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - ERROR - Error deactivating Shutter FIO0.
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:42:32,314 - pandora.shutter.FIO0 - INFO - State changed to uninitialized
+2025-01-29 07:43:12,031 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:43:12,031 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:43:12,031 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:43:12,036 - pandora.shutter.FIO0 - ERROR - Error querying Shutter FIO0 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-29 07:43:12,036 - pandora.shutter.FIO0 - INFO - State changed to fault
+2025-01-29 07:43:12,036 - pandora.shutter.FIO0 - ERROR - The shutter state is fault
+2025-01-29 07:43:21,510 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:43:21,510 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:43:21,511 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:43:21,516 - pandora.shutter.FIO0 - ERROR - Error querying Shutter FIO0 state: unsupported operand type(s) for &: 'float' and 'int'
+2025-01-29 07:43:21,516 - pandora.shutter.FIO0 - INFO - State changed to fault
+2025-01-29 07:43:21,516 - pandora.shutter.FIO0 - ERROR - The shutter state is fault
+2025-01-29 07:43:46,596 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:43:46,596 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:45:28,010 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:45:28,010 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:45:28,010 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:45:28,015 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:45:28,015 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:45:45,491 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:45:45,491 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:45:45,491 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:45:45,496 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:45:45,496 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 07:46:25,569 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:46:25,569 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:46:25,569 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:46:25,574 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:46:25,574 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 07:47:08,779 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:47:08,779 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:47:08,779 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:47:08,783 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:47:08,783 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 07:47:40,645 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:47:40,645 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:47:40,645 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:47:40,649 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:47:40,649 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 07:47:40,649 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:47:40,754 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 07:47:40,754 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 07:47:40,755 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:47:40,755 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:47:40,756 - pandora.shutter.FIO0 - ERROR - Invalid state transition from off to off
+2025-01-29 07:47:40,756 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:47:40,756 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 07:47:40,756 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:48:05,896 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:48:05,897 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:48:05,897 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:48:05,901 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:48:05,901 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:48:05,901 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:48:06,006 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 07:48:06,007 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:48:06,007 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:48:06,112 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 07:48:06,113 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:48:06,113 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:48:06,114 - pandora.shutter.FIO0 - ERROR - Invalid state transition from off to off
+2025-01-29 07:48:06,114 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:48:06,114 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 07:48:06,114 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:48:06,217 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already deactivated.
+2025-01-29 07:48:06,217 - pandora.shutter.FIO0 - ERROR - Invalid state transition from off to idle
+2025-01-29 07:48:06,217 - pandora.shutter.FIO0 - ERROR - Invalid state transition from off to uninitialized
+2025-01-29 07:48:24,548 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:48:24,549 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:48:24,549 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:48:24,553 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:48:24,554 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:48:24,554 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:48:24,659 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 07:48:24,660 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:49:00,595 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:49:00,595 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:49:00,595 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:49:00,600 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:49:00,600 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 07:49:00,600 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:49:00,705 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 07:49:00,705 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 07:49:00,706 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:50:35.019 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:50:35.019 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:50:35.019 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:50:35.024 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:50:35.024 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:50:35.024 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:50:35.129 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 07:50:35.129 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:50:35.130 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:50:35.235 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 07:50:35.236 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:51:09.839 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:51:09.839 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:51:09.839 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:51:09.844 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:51:09.844 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:51:09.844 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:51:09.949 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 07:51:09.949 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:51:09.949 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:51:10.055 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 07:51:10.056 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:51:10.056 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:51:10.056 - pandora.shutter.FIO0 - ERROR - Invalid state transition from off to off
+2025-01-29 07:51:10.056 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:51:44.124 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:51:44.124 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:51:44.124 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:51:44.129 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:51:44.129 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:51:44.129 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:51:44.234 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 07:51:44.235 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:51:44.235 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:51:44.340 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 07:51:44.341 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:51:44.341 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:51:44.342 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:51:44.342 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 07:52:29.758 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 07:52:29.758 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 07:52:29.758 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:52:29.763 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:52:29.763 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:52:29.868 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 07:52:29.869 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 07:52:29.869 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 07:52:29.974 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 07:52:29.975 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 07:52:29.975 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 07:52:29.976 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:00:16.625 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:00:16.625 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:00:16.625 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:00:16.630 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:00:16.630 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:00:16.735 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:00:16.736 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:00:16.736 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:00:16.736 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:00:16.842 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:00:16.842 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:00:16.843 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:00:16.843 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:00:16.843 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:00:16.844 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:00:16.945 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already deactivated.
+2025-01-29 08:00:16.945 - pandora.shutter.FIO0 - ERROR - Invalid state transition from off to idle
+2025-01-29 08:00:16.945 - pandora.shutter.FIO0 - ERROR - Invalid state transition from off to uninitialized
+2025-01-29 08:00:56.596 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:00:56.596 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:00:56.596 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:00:56.601 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:00:56.601 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:00:56.706 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:00:56.707 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:00:56.707 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:00:56.707 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:00:56.812 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:00:56.813 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:00:56.813 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:00:56.814 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:00:56.814 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:00:56.918 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:00:56.919 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:00:56.919 - pandora.shutter.FIO0 - ERROR - Invalid state transition from on to idle
+2025-01-29 08:00:56.919 - pandora.shutter.FIO0 - ERROR - Invalid state transition from on to uninitialized
+2025-01-29 08:01:10.445 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:01:10.445 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:01:10.445 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:01:10.450 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:01:10.450 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:01:10.555 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:01:10.555 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:01:10.556 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:01:10.556 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:01:10.556 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:01:10.556 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:01:10.556 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:01:10.661 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:01:10.662 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:01:10.662 - pandora.shutter.FIO0 - ERROR - Invalid state transition from on to idle
+2025-01-29 08:01:10.662 - pandora.shutter.FIO0 - ERROR - Invalid state transition from on to uninitialized
+2025-01-29 08:01:22.420 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:01:22.420 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:01:22.421 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:01:22.425 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:01:22.425 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:01:22.530 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:01:22.530 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:01:22.531 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:01:22.531 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:01:22.532 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:01:22.532 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:01:22.532 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:01:22.636 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:01:22.637 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:01:22.637 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:01:22.638 - pandora.shutter.FIO0 - INFO - State changed to uninitialized
+2025-01-29 08:02:10.683 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:02:10.683 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:02:10.683 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:02:10.688 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:02:10.688 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:02:10.793 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:02:10.794 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:02:10.794 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:02:10.794 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:02:10.795 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:02:10.795 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:02:10.795 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:02:10.899 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:02:10.900 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:02:46.176 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:02:46.176 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:02:46.176 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:02:46.181 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:02:46.181 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:02:46.286 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:02:46.286 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:02:46.287 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:02:46.287 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:02:46.287 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:02:46.287 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:02:46.287 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:02:46.392 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:02:46.393 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:02:46.393 - pandora.shutter.FIO0 - INFO - State changed to uninitialized
+2025-01-29 08:37:38.542 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:37:38.542 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:37:38.542 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:37:38.547 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:37:38.547 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:37:38.547 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:37:38.652 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:37:38.653 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:38:23.360 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:38:23.360 - pandora.shutter.FIO0 - INFO - State changed to idle
+2025-01-29 08:38:23.360 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:38:23.365 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:38:23.365 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:38:23.365 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:38:23.470 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:38:23.470 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:38:23.470 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:38:23.470 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:38:23.471 - pandora.shutter.FIO0 - INFO - State changed to off
+2025-01-29 08:38:23.471 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:38:23.471 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:38:23.471 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:38:23.576 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:38:23.577 - pandora.shutter.FIO0 - INFO - State changed to on
+2025-01-29 08:38:23.577 - pandora.shutter.FIO0 - INFO - State changed to uninitialized
+2025-01-29 08:38:36.779 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:38:36.779 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:38:36.783 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:38:36.783 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:38:36.888 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:38:36.888 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:38:36.889 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:38:36.890 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:38:36.890 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:38:36.890 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:38:36.994 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:39:10.082 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:39:10.082 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:39:10.087 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:39:10.087 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:39:10.192 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:39:10.192 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:39:10.192 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:39:10.193 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:39:10.193 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:39:10.193 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:39:10.298 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:40:41.865 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:40:41.865 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:40:41.870 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:40:41.870 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:40:41.870 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:40:41.975 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:40:41.975 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:40:41.976 - pandora.shutter.FIO0 - INFO - Querying Shutter state FIO0.
+2025-01-29 08:40:41.977 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 08:40:41.977 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:40:41.977 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:40:41.977 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:40:42.081 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:41:12.851 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:41:12.856 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:41:12.856 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:41:12.856 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:41:12.961 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:41:12.961 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:41:12.962 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 08:41:12.962 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:41:12.962 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:41:12.962 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:41:13.067 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:42:04.676 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:42:04.681 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:42:04.681 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:42:04.681 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:42:04.786 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:42:04.786 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:42:04.787 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 08:42:04.787 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:42:04.787 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:42:04.788 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:42:15.022 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:42:15.027 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:42:15.027 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:42:15.027 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:42:15.132 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:42:15.132 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:42:15.133 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 08:42:15.133 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:42:15.133 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:42:15.133 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:42:15.238 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:42:32.168 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:42:32.172 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:42:32.172 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:42:32.172 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:42:32.278 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:42:32.278 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:42:32.384 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:42:32.385 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:42:32.385 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:42:32.385 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:42:32.489 - pandora.shutter.FIO0 - INFO - Shutter FIO0 is already activated.
+2025-01-29 08:42:32.489 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:43:06.165 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:43:06.171 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:43:06.171 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:43:06.171 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:06.276 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:43:06.277 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:06.383 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:43:06.383 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:43:06.383 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:43:06.383 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:06.488 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:43:22.582 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:43:22.587 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:43:22.587 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:43:22.587 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:22.692 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:43:22.693 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:22.799 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:43:22.800 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:43:22.800 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:43:22.800 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:22.904 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:43:41.574 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:43:41.579 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:43:41.579 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:43:41.579 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:41.684 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:43:41.684 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:41.791 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:43:41.791 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:43:41.791 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:43:41.791 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:43:41.895 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:44:16.982 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:44:16.987 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:44:16.987 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:44:16.987 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:44:17.093 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:44:17.093 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:44:17.199 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:44:17.200 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:44:17.200 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:44:17.200 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:44:17.304 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:44:57.367 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:44:57.372 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:44:57.372 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:44:57.372 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:44:57.477 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:44:57.477 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:44:57.582 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 08:44:57.584 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:44:57.584 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:44:57.584 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:44:57.584 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:44:57.689 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 08:44:57.689 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:46:31.739 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:46:31.745 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:46:31.745 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:46:31.745 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:46:31.850 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:46:31.850 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:46:31.955 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 08:46:31.957 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:46:31.957 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:46:31.957 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:46:31.957 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:46:32.060 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 08:46:32.060 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:50:42.650 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:50:42.655 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:50:42.656 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:50:42.656 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:51:03.902 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:51:03.907 - pandora.shutter.FIO0 - INFO - The shutter state is off
+2025-01-29 08:51:03.907 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:51:03.907 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:51:04.012 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:51:04.013 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:51:04.013 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:51:04.013 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:51:04.013 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:51:04.117 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 08:51:04.118 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 08:58:36.840 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 08:58:36.845 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:58:36.845 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 08:58:36.845 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:58:36.951 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:58:36.951 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:58:37.056 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 08:58:37.058 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 08:58:37.058 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 08:58:37.058 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 08:58:37.058 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 08:58:37.161 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 08:58:37.161 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized
+2025-01-29 09:02:05.943 - pandora.shutter.FIO0 - INFO - Initializing ShutterState FIO0.
+2025-01-29 09:02:05.948 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 09:02:05.948 - pandora.shutter.FIO0 - INFO - Deactivating Shutter FIO0.
+2025-01-29 09:02:05.948 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 09:02:06.053 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 09:02:06.053 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 09:02:06.158 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 09:02:06.160 - pandora.shutter.FIO0 - INFO - The shutter state is on
+2025-01-29 09:02:06.160 - pandora.shutter.FIO0 - INFO - Closing Shutter FIO0.
+2025-01-29 09:02:06.160 - pandora.shutter.FIO0 - INFO - Activating Shutter FIO0.
+2025-01-29 09:02:06.160 - pandora.shutter.FIO0 - WARNING - Operation too fast for Shutter FIO0.
+2025-01-29 09:02:06.264 - pandora.shutter.FIO0 - WARNING - System sleeped for 0.10 seconds.
+2025-01-29 09:02:06.264 - pandora.shutter.FIO0 - INFO - The shutter state is uninitialized

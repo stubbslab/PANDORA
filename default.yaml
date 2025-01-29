@@ -1,5 +1,5 @@
 # default.yaml
-labjack_ip_address: &labjack_ip_address "192.168.1.50"
+labjack_ip_address: &labjack_ip_address "169.254.84.89"
 
 monochromator:
   type: "MonochromatorState"
@@ -11,7 +11,7 @@ monochromator:
 shutter:
   type: "ShutterState"
   labjack_ip_address: *labjack_ip_address
-  labjack_port: "FIO03"
+  labjack_port: "FIO00"
 
 flipmounts:
   F01:
@@ -22,6 +22,10 @@ flipmounts:
     type: "FlipMountState"
     labjack_ip_address: *labjack_ip_address
     labjack_port: "FIO02"
+  F03:
+    type: "FlipMountState"
+    labjack_ip_address: *labjack_ip_address
+    labjack_port: "FIO03"
 
 keysights:
   # Each Keysight device with its own IP address
@@ -43,6 +47,10 @@ zaber_stages:
     type: "ZaberStageState"
     zaber_ip: "192.168.1.70"
     device_number: 2
+  Z3:
+    type: "ZaberStageState"
+    zaber_ip: "192.168.1.70"
+    device_number: 3
 
 spectrograph:
   type: "SpectrographState"
