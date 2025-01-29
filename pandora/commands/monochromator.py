@@ -146,7 +146,7 @@ class MonochromatorController:
         self.wavelength = current_wavelength_nm
         self.close()
 
-    def set_wavelength(self, wavelength_nm, timeout=2):
+    def move_to_wavelength(self, wavelength_nm, timeout=2):
         """
         Move the monochromator to a specified wavelength.
 
@@ -184,7 +184,7 @@ class MonochromatorController:
             else:
                 self._handle_status_byte(status)
         else:
-            self.logger.error("Error: No response from monochromator during set_wavelength.")
+            self.logger.error("Error: No response from monochromator during move_to_wavelength.")
 
         # close the connection
         self.close()
@@ -323,7 +323,7 @@ if __name__ == "__main__":
 
     # Set the monochromator to a new wavelength
     new_wavelength = 650.0  # Move to 550 nm
-    mono.set_wavelength(new_wavelength)
+    mono.move_to_wavelength(new_wavelength)
     # print(f"Monochromator moved to {new_wavelength:.2f} nm.")
     
     # # # Perform a wavelength scan

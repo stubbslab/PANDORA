@@ -15,6 +15,7 @@ MASK_MAP = {'OD05': 7,
             'OD10': 7+39.37,
             'OD15': 7+39.37+33.20,
             'OD20': 7+39.37+33.20+34,
+            'CLEAR': 7+39.37+33.20+34+35.20,
             }
 
 class ZaberController:
@@ -85,7 +86,7 @@ class ZaberController:
         self.device = None
         self.axis = None
 
-    def move_to_mask(self, mask_slot_name):
+    def move_to_slot(self, mask_slot_name):
         """
         Move the Zaber stage to a predefined mask slot.
 
@@ -163,7 +164,7 @@ if __name__ == "__main__":
     zb.move_zaber_axis(-10.0)
 
     # Move to a predefined mask slot
-    zb.move_to_mask(mask_slot_name="OD10")
+    zb.move_to_slot(mask_slot_name="OD10")
 
     # Get the current position
     position = zb.get_position()
