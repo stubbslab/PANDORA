@@ -80,6 +80,7 @@ class OperationTimer:
         Returns:
             bool: True if operation can proceed, False otherwise.
         """
+        self.remaining_time = 0
         if min_interval is None:
             min_interval = self.min_interval
             
