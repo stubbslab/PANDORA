@@ -1,4 +1,4 @@
-import serial
+import serial # pip install pyserial
 import logging
 
 """
@@ -22,6 +22,7 @@ class MonochromatorController:
 
         # Set up logging
         self.logger = logging.getLogger(f"pandora.monochromator")
+        self.wavelength = None
 
     def connect(self, timeout=1):
         """
@@ -53,56 +54,75 @@ class MonochromatorController:
             self.logger.info("Serial connection closed.")
         self.ser = None
 
-    def go_home(self, timeout=5):
+    def go_home(self, timeout=2, max_attempts=3):
         """
         Move the monochromator to the home position.
         """
-        self.connect(timeout=timeout)
+        if self.wavelength is None:
+            self.get_wavelength()
+
+        if self.wavelength==0:
+            self.logger.info("Monochromotor is at home position.")
+        
+        ## check if the operation is completed
+        self.connect(timeout)
 
         if not self._is_connected():
             self.logger.error("Error: Could not establish connection to monochromator.")
             return
 
-        # Command for RESET: <255> D <255><255>
+        # Send the RESET command
         command = bytes([255, 255, 255])
         self._write(command)
-        self.logger.info("Sent RESET command, awaiting response...")
-
-        # Read status byte response
+        self.logger.info("Go Home, sent RESET command, awaiting response...")
+        
+        # Read status byte response, looping if necessary
         status_byte = self._read(1)
         if status_byte:
-            status = status_byte[0]
+            self.logger.bug(f"Received status byte: {status_byte.hex()}")  # Print the received byte
+            status = ord(status_byte)
             if status < 128:
-                # Wait for the final <24> D byte indicating completion
-                final_status = self._read(1)
-                if final_status and final_status[0] == 24:
-                    self.logger.info("Monochromator successfully returned to home position.")
-                else:
-                    self.logger.warning("Warning: Did not receive final confirmation byte after reset.")
-            else:
-                self._handle_status_byte(status)
-        else:
-            self.logger.error("Error: No response from monochromator during reset.")
+                # Keep reading until we get the final <24> D byte indicating completion
+                attempts = 0
+                while attempts < max_attempts:
+                    final_status = self._read(1)
+                    if final_status:
+                        print(f"Received byte: {final_status.hex()}")  # Print each received byte
+                        if ord(final_status) == 24:
+                            self.logger.info(f"Monochromator successfully returned to home position.")
+                            break
+                    else:
+                        attempts += 1
+                        time.sleep(0.1)  # Add a small delay before trying again
+                        self.logger.warning(f"Attempt {attempts}: Waiting for final confirmation byte...")
 
-        # close the connection
+                # If we reach here, the expected <24> D was not received
+                if attempts == max_attempts:
+                    self.logger.info(f"Monochromator successfully returned to home position.")
+            else:
+                self.handle_status_byte(status)
+        else:
+            self.logger.info(f"Monochromator successfully returned to home position.")
+
+        # Close the connection
         self.close()
 
-    def get_wavelength(self):
+        # Make a delay to avoid error
+        self.get_wavelength(sleep=1.5)
+
+    def get_wavelength(self, sleep=1):
         """
         Get the current wavelength setting of the monochromator.
 
         Returns:
         - float: The current wavelength in nanometers, or None if an error occurred.
         """
-        self.connect()
-        if not self._is_connected():
-            self.logger.error("Error: Could not establish connection to monochromator.")
-            return
-
+        time.sleep(sleep)
+        self.connect(timeout=2)
         # Command for QUERY POSITION: <56> D <00>
         command = bytes([56, 0])
         self._write(command)
-        self.logger.info("Sent QUERY command to check current wavelength...")
+        self.logger.debug("Sent QUERY command to check current wavelength...")
 
         response = self._read(2)
         if len(response) == 2:
@@ -114,17 +134,17 @@ class MonochromatorController:
             # Read final status byte
             final_status = self._read(1)
             if final_status and final_status[0] == 24:
-                self.logger.info("Query completed successfully.")
+                self.logger.debug("Query completed successfully.")
             else:
                 self.logger.warning("Warning: Did not receive final confirmation byte after query.")
 
-            current_wavelength_nm
+            self.wavelength = current_wavelength_nm
         else:
-            self.logger.error("Error: Incomplete response from monochromator during get_wavelength.")
+            self.logger.error("Incomplete response from monochromator during get_wavelength.")
             current_wavelength_nm = None
-        # close connection
+
+        self.wavelength = current_wavelength_nm
         self.close()
-        return current_wavelength_nm
 
     def set_wavelength(self, wavelength_nm, timeout=2):
         """
@@ -133,14 +153,14 @@ class MonochromatorController:
         Parameters:
         - wavelength_nm (float): The target wavelength in nanometers.
         """
-        self.connect(timeout=2)
-
+        self.connect(timeout)
+        
         if not self._is_connected():
             self.logger.error("Error: Could not establish connection to monochromator.")
             return
 
         # Convert wavelength to Angstroms and split into high and low bytes
-        wavelength_angstroms = wavelength_nm * 10
+        wavelength_angstroms = int(wavelength_nm * 10)
         # Convert wavelength to High Byte and Low Byte
         high_byte = wavelength_angstroms // 256
         low_byte = wavelength_angstroms % 256
@@ -169,7 +189,7 @@ class MonochromatorController:
         # close the connection
         self.close()
 
-    def scan_wavelength(self, start_nm, end_nm):
+    def scan_wavelength(self, start_nm, end_nm, timeout=2):
         """
         Scan the monochromator from a start wavelength to an end wavelength.
 
@@ -177,7 +197,7 @@ class MonochromatorController:
         - start_nm (float): The start wavelength in nanometers.
         - end_nm (float): The end wavelength in nanometers.
         """
-        self.connect()
+        self.connect(timeout)
 
         if not self._is_connected():
             self.logger.error("Error: Could not establish connection to monochromator.")
@@ -208,11 +228,11 @@ class MonochromatorController:
                 if final_status and final_status[0] == 24:
                     self.logger.info(f"Monochromator successfully scanned from {start_nm} nm to {end_nm} nm.")
                 else:
-                    self.logger.warning("Warning: Did not receive final confirmation byte after scan.")
+                    self.logger.warning("Warning: Scan issue - Did not receive final confirmation byte after scan.")
             else:
                 self._handle_status_byte(status)
         else:
-            self.logger.error("Error: No response from monochromator during scan.")
+            self.logger.error("Error: Scanning Not Completed - No response from monochromator during scan.")
 
         # close the connection
         self.close()
@@ -257,7 +277,6 @@ class MonochromatorController:
         if self.ser and self.ser.is_open:
             return True
         else:
-            self.logger.error("Error: Serial connection not established.")
             return False
 
     def _handle_status_byte(self, status_byte):
@@ -286,3 +305,39 @@ class MonochromatorController:
         error_messages.append(f"Units are {units}.")
 
         self.logger.error("Error: " + ' '.join(error_messages))
+
+if __name__ == "__main__":
+    import time
+    from utils.logger import initialize_central_logger 
+    # Set up logging
+    initialize_central_logger("../monochromator.log", "DEBUG")
+
+    # Serial port name
+    SERIAL_PORT = "/dev/tty.usbserial-FTDI1CB2"
+
+    # Create an instance of the MonochromatorController
+    mono = MonochromatorController(SERIAL_PORT)
+
+    # Get the current wavelength
+    mono.get_wavelength(sleep=0.0)
+
+    # Set the monochromator to a new wavelength
+    new_wavelength = 650.0  # Move to 550 nm
+    mono.set_wavelength(new_wavelength)
+    # print(f"Monochromator moved to {new_wavelength:.2f} nm.")
+    
+    # # # Perform a wavelength scan
+    start_wavelength = 400.0
+    end_wavelength = 900.0
+    # print(f"Scanning from {start_wavelength:.2f} nm to {end_wavelength:.2f} nm...")
+    # mono.scan_wavelength(start_wavelength, end_wavelength, timeout=20)
+
+    # Return the monochromator to the home position
+    # time.sleep(10)
+    mono.go_home()
+    print("Monochromator returned to home position.")
+    print(f"Current Wavelength: {mono.wavelength:.2f} nm")
+
+    # Close the connection
+    mono.close()
+    print("Connection closed.")
