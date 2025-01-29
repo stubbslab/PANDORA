@@ -1,8 +1,7 @@
 # states/shutter_state.py
 import logging
-from .states import State                # '.' means same directory as shutter_state.py
-from ..utils.logger import initialize_central_logger  # '..' means go up one directory
-from ..utils.operation_timer import OperationTimer
+from states_map import State                # '.' means same directory as shutter_state.py
+from utils.operation_timer import OperationTimer
 
 class ShutterState:
     """ ShutterState class to handle state and communication with Thorlabs Shutter devices.
@@ -31,7 +30,7 @@ class ShutterState:
     """
     def __init__(self, name, labjack):
         self.labjack = labjack
-        self.codename = name  
+        self.codename = name
         self.state = State.UNINITIALIZED
         self.logger = logging.getLogger(f"pandora.shutter.{name}")
 
@@ -48,19 +47,20 @@ class ShutterState:
         self.timer.update_last_operation_time()
 
     def activate(self):
+        self.logger.info(f"Activating Shutter {self.codename}.")
+
         if not self.timer.can_operate():
             self.logger.warning(f"Operation too fast for Shutter {self.codename}.")
             self.timer.sleep_through_remaining_interval()
-            self.logger.debug(f"System sleeped for {self.timer.remaining_interval:0.2f} seconds.")
+            self.logger.warning(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
 
         if self.state == State.OFF:
-            self.logger.info(f"Activating Shutter {self.codename}.")
-            self.labjack.send_low_signal()
+            self.labjack.send_low_signal(self.codename)
             self.set_state(State.ON)
             self.timer.update_last_operation_time()
         
         elif self.state == State.ON:
-            self.logger.info(f"Shutter {self.codename} is already activated.")
+            self.logger.debug(f"Shutter {self.codename} is already activated.")
         
         elif self.state == State.FAULT:
             self.logger.error(f"Error activating Shutter {self.codename}.")
@@ -70,19 +70,20 @@ class ShutterState:
             self.activate()
 
     def deactivate(self):
+        self.logger.info(f"Deactivating Shutter {self.codename}.")
+
         if not self.timer.can_operate():
             self.logger.warning(f"Operation too fast for Shutter {self.codename}.")
             self.timer.sleep_through_remaining_interval()
-            self.logger.debug(f"System sleeped for {self.timer.remaining_interval:0.2f} seconds.")
+            self.logger.debug(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
 
         if self.state == State.ON:
-            self.logger.info(f"Deactivating Shutter {self.codename}.")
-            self.labjack.send_high_signal()
+            self.labjack.send_high_signal(self.codename)
             self.set_state(State.OFF)
             self.timer.update_last_operation_time()
         
         elif self.state == State.OFF:
-            self.logger.info(f"Shutter {self.codename} is already deactivated.")
+            self.logger.debug(f"Shutter {self.codename} is already deactivated.")
         
         elif self.state == State.FAULT:
             self.logger.error(f"Error deactivating Shutter {self.codename}.")
@@ -101,15 +102,21 @@ class ShutterState:
             self.set_state(State.IDLE)
 
     def get_state(self):
-        try:
-            self.logger.info(f"Querying Shutter state {self.codename}.")
-            value = int(self.labjack.read("FIO_STATE") & 1)
-            self.set_state(State.ON if value == 1 else State.OFF)
-            return self.state
-        except Exception as e:
-            self.logger.error(f"Error querying Shutter {self.codename} state: {e}")
-            self.set_state(State.FAULT)
-            return self.state
+        self.logger.debug(f"Querying Shutter state {self.codename}.")
+
+        if self.state != State.UNINITIALIZED:
+            try:
+                value = int(self.labjack.read("FIO_STATE")) & 1
+                self.set_state(State.ON if value == 0 else State.OFF)
+                # self.logger.info(f"The shutter state is {self.state.value}")
+
+            except Exception as e:
+                self.logger.error(f"Error querying Shutter {self.codename} state: {e}")
+                self.set_state(State.FAULT)
+                self.logger.error(f"The shutter state is {self.state.value}")
+
+        self.logger.info(f"The shutter state is {self.state.value}")
+        return self.state
 
     def get_device_info(self):
         self.labjack.get_device_info()
@@ -118,44 +125,46 @@ class ShutterState:
 
     def close(self):
         self.logger.info(f"Closing Shutter {self.codename}.")
-        self.deactivate()
-        self.set_state(State.IDLE)
+        self.activate()
         self.set_state(State.UNINITIALIZED)
+        self.get_state()
 
     def set_state(self, new_state):
         valid_transitions = {
             State.UNINITIALIZED: [State.IDLE],
-            State.IDLE: [State.ON, State.OFF, State.FAULT, State.UNINITIALIZED],
-            State.ON: [State.OFF, State.FAULT],
-            State.OFF: [State.ON, State.FAULT],
+            State.IDLE: [State.ON, State.OFF, State.FAULT, State.UNINITIALIZED, State.IDLE],
+            State.ON: [State.OFF, State.FAULT, State.ON, State.IDLE, State.UNINITIALIZED],
+            State.OFF: [State.ON, State.FAULT, State.OFF],
             State.FAULT: [State.IDLE]
         }
 
         if new_state in valid_transitions[self.state]:
             self.state = new_state
-            self.logger.info(f"State changed to {self.state.value}")
+            self.logger.debug(f"State changed to {self.state.value}")
         else:
             self.logger.error(f"Invalid state transition from {self.state.value} to {new_state.value}")
 
 if __name__ == "__main__":
     from labjackHandler import LabJack
-    from config import labjack_ip_address
+    # import logging
+    # from config import labjack_ip_address
+    from utils.logger import initialize_central_logger  
 
     # Initialize the logger
     initialize_central_logger("../shutter.log", "INFO")
 
-    ip_address = labjack_ip_address
+    ip_address = "169.254.84.89"
     labjack = LabJack(ip_address)
 
     # Initialize the shutter
-    shutter = ShutterState(name="FIO03", labjack=labjack)
+    shutter = ShutterState(name="FIO0", labjack=labjack)
     shutter.get_device_info()
-
-    # Activate the shutter
-    shutter.activate()
 
     # Deactivate the shutter
     shutter.deactivate()
+
+    # Activate the shutter
+    shutter.activate()
 
     # Get the curent state of the shutter
     shutter.get_state()

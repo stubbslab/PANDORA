@@ -1,8 +1,6 @@
-import pyvisa
 import logging
-
-from .states import State
-from ..utils.logger import initialize_central_logger
+from states_map import State
+import pyvisa
 
 class KeysightState():
     """KeysightState class to handle communication with Keysight devices.
