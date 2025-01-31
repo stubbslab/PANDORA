@@ -7,12 +7,12 @@ class FlipMountState:
     """ FlipMountState class to handle communication with Thorlabs FlipMount devices.
 
     Args:
-        name (str): Name of the labjack port, e.g. "F01"
+        labjack_port (str): Name of the labjack port, e.g. "F01"
         labjack (LabJack): LabJack object to handle communication with the device.
 
     Example:
         labjack = LabJack()
-        fm = FlipMountState(name="F01", labjack=labjack)
+        fm = FlipMountState(labjack_port="F01", labjack=labjack)
         fm.get_device_info()
 
         # flips the state of the flip mount
@@ -29,84 +29,97 @@ class FlipMountState:
         # Close the labjack connection
         fm.close()
     """
-    def __init__(self, name, labjack):
+    def __init__(self, labjack_port, labjack):
+        if labjack_port is None:
+            raise ValueError("Flip Mount name cannot be None.")
+        if labjack is None:
+            raise ValueError("LabJack cannot be None.")
+        
+        ## Initialize the Flip Mount State Parameters
         self.labjack = labjack
-        self.codename = name  
+        self.labjack_port = labjack_port  
         self.state = State.UNINITIALIZED
-        self.logger = logging.getLogger(f"pandora.flipmount.{name}")
+        self.logger = logging.getLogger(f"pandora.flipmount.{labjack_port}")
         ## Safety measure for SHB1 shutter
         self.max_operation_freq = 2 # Hz
-        self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"FlipMount-{name}")
+        self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"FlipMount-{labjack_port}")
 
         self.initialize()
 
     def initialize(self):
-        self.logger.info(f"Initializing FlipMount {self.codename}.")
+        """ Initialize the FlipMountState object.
+        Steps:
+        1. Set the initial state to IDLE.
+        2. Get the current state of the flip mount.
+        3. Close the flip mount.
+        """
+        self.logger.info(f"Initializing FlipMount {self.labjack_port}.")
         self.set_state(State.IDLE)
         self.get_state()
+        self.deactivate()
         self.timer.update_last_operation_time()
 
     def activate(self):
-        self.logger.info(f"Activating FlipMount {self.codename}.")
+        self.logger.info(f"Activating FlipMount {self.labjack_port}.")
         if not self.timer.can_operate():
-            self.logger.warning(f"Operation too fast {self.codename}.")
+            self.logger.warning(f"Operation too fast {self.labjack_port}.")
             self.timer.sleep_through_remaining_interval()
             self.logger.debug(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
 
         if self.state == State.OFF:
-            self.labjack.send_low_signal(self.codename)
+            self.labjack.send_low_signal(self.labjack_port)
             self.set_state(State.ON)
             self.timer.update_last_operation_time()
         
         elif self.state == State.ON:
-            self.logger.info(f"Flip Mount is already activated {self.codename}.")
+            self.logger.info(f"Flip Mount is already activated {self.labjack_port}.")
     
         elif self.state == State.FAULT:
-            self.logger.error(f"Error activating Flip Mount {self.codename}.")
+            self.logger.error(f"Error activating Flip Mount {self.labjack_port}.")
         
         elif self.state == State.IDLE:
             self.get_state()
             self.activate()
 
     def deactivate(self):
-        self.logger.info(f"Deactivating FlipMount {self.codename}.")
+        self.logger.info(f"Deactivating FlipMount {self.labjack_port}.")
         if not self.timer.can_operate():
-            self.logger.warning(f"Operation too fast {self.codename}.")
+            self.logger.warning(f"Operation too fast {self.labjack_port}.")
             self.timer.sleep_through_remaining_interval()
             self.logger.warning(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
 
         if self.state == State.ON:
-            self.labjack.send_high_signal(self.codename)
+            self.labjack.send_high_signal(self.labjack_port)
             self.set_state(State.OFF)
             self.timer.update_last_operation_time()
         
         elif self.state == State.OFF:
-            self.logger.info(f"Flip Mount is already deactivated {self.codename}.")
+            self.logger.info(f"Flip Mount is already deactivated {self.labjack_port}.")
         
         elif self.state == State.FAULT:
-            self.logger.error(f"Error deactivating Flip Mount {self.codename}.")
+            self.logger.error(f"Error deactivating Flip Mount {self.labjack_port}.")
         
         elif self.state == State.IDLE:
             self.get_state()
             self.deactivate()
 
     def set_error(self):
-        self.logger.error(f"Setting state to fault for Flip Mount {self.codename}.")
+        self.logger.error(f"Setting state to fault for Flip Mount {self.labjack_port}.")
         self.set_state(State.FAULT)
 
     def reset(self):
         if self.state == State.FAULT:
-            self.logger.debug(f"Resetting Flip Mount from fault state {self.codename}.")
+            self.logger.debug(f"Resetting Flip Mount from fault state {self.labjack_port}.")
             self.set_state(State.IDLE)
             
     def get_state(self):
         if self.state != State.UNINITIALIZED:
             try:
-                self.logger.debug(f"Querying Flip Mount state {self.codename}.")
-                value = int(self.labjack.read(self.codename))
+                self.logger.debug(f"Querying Flip Mount state {self.labjack_port}.")
+                value = int(self.labjack.read(self.labjack_port))
                 self.set_state(State.ON if value == 0 else State.OFF)
             except:
-                self.logger.error(f"Error querying Flip Mount {self.codename} state.")
+                self.logger.error(f"Error querying Flip Mount {self.labjack_port} state.")
                 self.set_state(State.FAULT)
         
         self.logger.info(f"FlipMount state is {self.state.value}")
@@ -114,11 +127,11 @@ class FlipMountState:
 
     def get_device_info(self):
         self.labjack.get_device_info()
-        print(f"Flip Mount name: {self.codename}")
-        print(f"Flip Mount {self.codename} state: {self.state.value}")
+        print(f"Flip Mount name: {self.labjack_port}")
+        print(f"Flip Mount {self.labjack_port} state: {self.state.value}")
 
     def close(self):
-        self.logger.info(f"Closing Flip Mount {self.codename}.")
+        self.logger.info(f"Closing Flip Mount {self.labjack_port}.")
         self.deactivate()
         # self.set_state(State.IDLE)
         self.set_state(State.UNINITIALIZED)
@@ -154,9 +167,9 @@ if __name__ == "__main__":
     # labjack.send_low_signal("FIO3")
 
     # Initialize the flip mount
-    fm1 = FlipMountState(name="FIO01", labjack=labjack)
-    fm2 = FlipMountState(name="FIO02", labjack=labjack)
-    fm3 = FlipMountState(name="FIO03", labjack=labjack)
+    fm1 = FlipMountState("FIO01", labjack=labjack)
+    fm2 = FlipMountState("FIO02", labjack=labjack)
+    fm3 = FlipMountState("FIO03", labjack=labjack)
 
     for f in [fm1, fm2, fm3]:
         f.activate()

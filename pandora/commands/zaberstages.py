@@ -44,6 +44,20 @@ class ZaberController:
         # Enable Zaber's device database
         Library.enable_device_db_store()
 
+    def initialize(self):
+        """
+        Initialize the Zaber connection.
+        
+        Steps:
+        1. Connect to the Zaber device.
+        2. Set the speed of the Zaber device.
+        3. Move to the home position.
+        """
+        self.connect()
+        self.set_zaber_speed(self.speed_mm_per_sec)
+        self.go_home()
+        pass
+
     def connect(self):
         """
         Establish the serial connection to the Zaber device.
@@ -60,8 +74,8 @@ class ZaberController:
 
                 self.device = devices[self.device]
                 self.axis = self.device.get_axis(self.axis_id)
-                
-                self.set_zaber_speed(self.speed_mm_per_sec)
+
+                # self.set_zaber_speed(self.speed_mm_per_sec)
                 self.logger.info(f"Connected to Zaber device on {self.ip_address} with speed {self.speed_mm_per_sec} mm/s.")
 
             except Exception as e:

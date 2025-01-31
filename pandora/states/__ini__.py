@@ -2,7 +2,7 @@
 
 from .flipmount_state import FlipMountState
 from .shutter_state import ShutterState
-from .keysight_state import KeysightState
+from ..commands.keysight import KeysightState
 from .labjack_handler import LabJack
 from .states_map import State
 

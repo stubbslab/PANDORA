@@ -68,6 +68,11 @@ class OperationTimer:
         Returns:
             float: The number of seconds elapsed since the event. 
                    Returns None if label not found.
+
+        Example:
+            self.mark("start")
+            time.sleep(2)
+            elapsed = self.elapsed_since("start")  # Should return approximately 2.0
         """
         event_time = self.get_mark(label)
         if event_time is not None:

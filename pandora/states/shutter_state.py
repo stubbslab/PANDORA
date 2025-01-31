@@ -29,6 +29,12 @@ class ShutterState:
         shutter.close()
     """
     def __init__(self, name, labjack):
+        if name is None:
+            raise ValueError("Shutter name cannot be None.")
+        if labjack is None:
+            raise ValueError("LabJack cannot be None.")
+
+        # Initialize the ShutterState object
         self.labjack = labjack
         self.codename = name
         self.state = State.UNINITIALIZED
@@ -41,9 +47,17 @@ class ShutterState:
         self.initialize()
 
     def initialize(self):
+        """ Initialize the ShutterState object.
+        
+        Steps:
+        1. Set the initial state to IDLE.
+        2. Get the current state of the shutter.
+        3. Close the shutter.
+        """
         self.logger.info(f"Initializing ShutterState {self.codename}.")
         self.set_state(State.IDLE)
         self.get_state()
+        self.activate()
         self.timer.update_last_operation_time()
 
     def activate(self):

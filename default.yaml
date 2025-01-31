@@ -1,56 +1,71 @@
-# default.yaml
-labjack_ip_address: &labjack_ip_address "169.254.84.89"
+# Configuration file for the Pandora system
+# This file contains the default settings for the system components
+# and their parameters.
+# Each component is defined with its type and parameters.
+
+database:
+  type: "Database"
+  db_path: "./data/"
+  db_name: "{run_id}.csv"
+  lightcurve_name: "{run_id}_lightcurve.npy"
+
+# labjack_ip_address: &labjack_ip_address "169.254.84.89"
 
 monochromator:
   type: "MonochromatorState"
-  usb_port: "/dev/ttyUSB0"   # or "COM3" on Windows
+  usb_port: "/dev/tty.usbserial-FTDI1CB2"
   baud_rate: 9600
   timeout: 2
   model: "Acton_SP2150"
 
-shutter:
-  type: "ShutterState"
-  labjack_ip_address: *labjack_ip_address
-  labjack_port: "FIO00"
-
-flipmounts:
-  F01:
-    type: "FlipMountState"
-    labjack_ip_address: *labjack_ip_address
-    labjack_port: "FIO01"
-  F02:
-    type: "FlipMountState"
-    labjack_ip_address: *labjack_ip_address
-    labjack_port: "FIO02"
-  F03:
-    type: "FlipMountState"
-    labjack_ip_address: *labjack_ip_address
-    labjack_port: "FIO03"
+labjack:
+  ip_address: "169.254.84.89"
+  timeout: 2
+  shutter: "FIO00"
+  flipmount1: "FIO1"
+  flipmount2: "FIO2"
+  flipmount3: "FIO3"
 
 keysights:
   # Each Keysight device with its own IP address
-  K01:
-    type: "KeysightState"
+  K1:
     keysight_ip: "169.254.5.2"
     timeout_ms: 5000
-  K02:
-    type: "KeysightState"
+    settings:
+      mode: "current"
+      range: 1e-9
+      nplc: 1.
+      nsamples: 100
+      delay: 0.
+      interval: 2e-3
+  K2:
     keysight_ip: "169.254.56.239"
     timeout_ms: 5000
-
+    settings:
+      mode: "current"
+      range: 1e-9
+      nplc: 1.
+      nsamples: 100
+      delay: 0.
+      interval: 2e-3
+      
 zaber_stages:
   Z1:
-    type: "ZaberStageState"
     zaber_ip: "192.168.1.70"
-    device_number: 1   # If relevant for your Zaber controller
+    slot_map: {'OD05': 7, 'OD10': 40, 'OD15':2, 'OD20':3, 'Clear':4}
+    device_number: 0
+    axis_id: 1
+    speed_mm_per_sec: 10
   Z2:
-    type: "ZaberStageState"
+    zaber_ip: "192.168.1.70"
+    device_number: 1
+    axis_id: 1
+    speed_mm_per_sec: 10
+  Z3:
     zaber_ip: "192.168.1.70"
     device_number: 2
-  Z3:
-    type: "ZaberStageState"
-    zaber_ip: "192.168.1.70"
-    device_number: 3
+    axis_id: 1
+    speed_mm_per_sec: 10
 
 spectrograph:
   type: "SpectrographState"
@@ -65,4 +80,4 @@ calibration:
 
 logging:
   level: "INFO"
-  logfile: "/path/to/pandora.log"
+  logfile: "./pandora.log"

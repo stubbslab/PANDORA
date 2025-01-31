@@ -17,12 +17,25 @@ class MonochromatorController:
         - port (str): The serial port to connect to (e.g., 'COM3' or '/dev/ttyUSB0').
         """
         self.port = port
-        self.ser = None
         self.baudrate = baudrate
 
         # Set up logging
+        self.ser = None
         self.logger = logging.getLogger(f"pandora.monochromator")
         self.wavelength = None
+
+    def initialize(self):
+        """
+        Initialize the monochromator by connecting to the serial port.
+
+        Steps:
+        1. Connect to the monochromator.
+        2. Move to the home position.
+        3. Get the current wavelength.
+        """
+        self.logger.info(f"Initialize Zaber device at {self.ip_address}.")
+        self.go_home()
+        self.logger.info(f"Current wavelength is: {self.wavelength} nm.")
 
     def connect(self, timeout=1):
         """
@@ -63,6 +76,7 @@ class MonochromatorController:
 
         if self.wavelength==0:
             self.logger.info("Monochromotor is at home position.")
+            return
         
         ## check if the operation is completed
         self.connect(timeout)

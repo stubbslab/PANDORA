@@ -1,7 +1,7 @@
 ## Make Pandora Class
 from states.flipmount_state import FlipMountState
 from states.shutter_state import ShutterState
-from states.keysight_state import KeysightState
+from pandora.commands.keysight import KeysightState
 from commands.monochromator import MonochromatorController
 from commands.zaberstages import ZaberController
 from states.labjack_handler import LabJack
@@ -9,6 +9,10 @@ from states.states_map import State
 from utils.logger import initialize_central_logger
 from utils.operation_timer import OperationTimer
 
+## TODOS:
+## Add a timer to the Pandora methods to measure the time taken for each operation
+## Each method should log the time taken for the operation
+## 
 class PandoraBox:
     """
     The Pandora class manages all subsystems of the PANDORA instrument.
@@ -22,7 +26,6 @@ class PandoraBox:
     - Validating that each subsystem is ready (e.g. in IDLE state)
     - Providing a unified interface to configure and operate the entire system
     """
-
     def __init__(self, config_file='default.yaml'):
         # Load configuration (IP addresses, device IDs, calibration files, etc.)
         self.config = self._load_config(config_file)
@@ -38,12 +41,22 @@ class PandoraBox:
 
     def _load_config(self, config_file):
         # Parse a config file (JSON, YAML, etc.) with device parameters
-        # Return a config dictionary.
-        pass
+        import yaml
+        with open(config_file, 'r') as file:
+            config = yaml.safe_load(file)
+        return config
+
+    def get_config_section(self, section, config=None):
+        if config is None: config = self.config
+        return config.get(section, {})
+    
+    def get_config_value(self, section, key, default=None, config=None):
+        if config is None: config = self.config
+        return config.get(section, {}).get(key, default)
 
     def _initialize_logger(self):
         # Setup and return a logger instance for the Pandora class
-        logging_config = self.config['logging']
+        logging_config = self.get_config_section('logging')
         self.logger = initialize_central_logger(logging_config['logfile'], logging_config['level'])
         pass
 
@@ -53,66 +66,57 @@ class PandoraBox:
         run initial setup routines for each device. After this call, we should have
         objects ready to connect.
         """
-        # Create one LabJack object to be shared among shutter, flip mounts, etc.
-        labjack_ip = self.config['labjack_ip_address']
+        # Query the config for IP addresses and other parameters
+        mono_config = self.get_config_section('monochromator')
+        ks_config = self.get_config_section('keysights')
+        zb_config = self.get_config_section('zaber_stages')
+        
+        # LabJack Controlled Devices
+        # Port names for each subsystem
+        labjack_ip = self.get_config_value('labjack', 'ip_address')
+        shutter_port = self.get_config_value('labjack', 'shutter')
+        fm1_port = self.get_config_value('labjack', 'flipmount1')
+        fm2_port = self.get_config_value('labjack', 'flipmount2')
+        fm3_port = self.get_config_value('labjack', 'flipmount3')
+        # Add more ports as needed...
+
+        # Photodiode Controlled Devices
+        # Ethernet connections with ip_addresses
+        k1_config = self.get_config_section('K1', config=ks_config)
+        k2_config = self.get_config_section('K2', config=ks_config)
+        z1_config = self.get_config_section('Z1', config=zb_config)
+        z2_config = self.get_config_section('Z2', config=zb_config)
+
+        # LabJack
         self.labjack = LabJack(ip_address=labjack_ip)
 
         # Shutter
-        self.shutter = ShutterState(
-            name=self.config['shutter']['labjack_port'],
-            labjack=self.labjack
-        )
-
+        self.shutter = ShutterState(shutter_port,labjack=self.labjack)
+        
         # Flip Mounts
         self.flipMount = type('FlipMountContainer', (), {})()
-        flipmount_config = self.config['flipmounts']
-        self.flipMount.f1 = FlipMountState(
-            name=flipmount_config['F01']['labjack_port'],
-            labjack=self.labjack
-        )
-        self.flipMount.f2 = FlipMountState(
-            name=flipmount_config['F02']['labjack_port'],
-            labjack=self.labjack
-        )
+        self.flipMount.deviceNames = ['fm1', 'fm2', 'fm3']
+        self.flipMount.f1 = FlipMountState(fm1_port, labjack=self.labjack)
+        self.flipMount.f2 = FlipMountState(fm2_port, labjack=self.labjack)
+        self.flipMount.f3 = FlipMountState(fm3_port, labjack=self.labjack)
         # Add more flip mounts as needed...
 
         # Keysights
         self.keysight = type('KeysightContainer', (), {})()
-        ks_config = self.config['keysights']
-        self.keysight.k1 = KeysightState(
-            name="K01",
-            keysight_ip=ks_config['K01']['keysight_ip'],
-            timeout_ms=ks_config['K01']['timeout_ms']
-        )
-        self.keysight.k2 = KeysightState(
-            name="K02",
-            keysight_ip=ks_config['K02']['keysight_ip'],
-            timeout_ms=ks_config['K02']['timeout_ms']
-        )
+        self.keysight.deviceNames = list(ks_config.keys())
+        self.keysight.k1 = KeysightState(**k1_config)
+        self.keysight.k2 = KeysightState(**k2_config)
         # Add more Keysights as needed...
 
         # Zaber Stages
-        # self.zaber = type('ZaberContainer', (), {})()
-        # zb_config = self.config['zaber_stages']
-        # self.zaber.z1 = ZaberStageState(
-        #     name="Z1",
-        #     zaber_ip=zb_config['Z1']['zaber_ip'],
-        #     device_number=zb_config['Z1']['device_number']
-        # )
-        # self.zaber.z2 = ZaberStageState(
-        #     name="Z2",
-        #     zaber_ip=zb_config['Z2']['zaber_ip'],
-        #     device_number=zb_config['Z2']['device_number']
-        # )
-        # # Add more stages as needed...
+        self.zaber = type('ZaberContainer', (), {})()
+        self.zaber.deviceNames = list(zb_config.keys())
+        self.zaber.z1 = ZaberController(**z1_config)
+        self.zaber.z2 = ZaberController(**z2_config)
+        # Add more stages as needed...
 
-        # # Monochromator
-        # mono_conf = self.config['monochromator']
-        # self.monochromator = MonochromatorController(
-        #     usb_port=mono_conf['usb_port'],
-        #     baud_rate=mono_conf['baud_rate'],
-        #     timeout=mono_conf['timeout']
-        # )
+        # Monochromator
+        self.monochromator = MonochromatorController(**mono_config)
 
         # # Spectrograph
         # spec_conf = self.config['spectrograph']
@@ -133,43 +137,7 @@ class PandoraBox:
         - Keysights: IDLE (no measurement)
         - Monochromator: send to home position
         """
-        self.logger.info("Moving system to home state.")
-
-        # Flip mounts OFF
-        # Assuming flipMount.f1, flipMount.f2, etc. exist
-        # and OFF is achieved by calling deactivate()
-        for attr_name in dir(self.flipMount):
-            if attr_name.startswith('f'):
-                flipmount = getattr(self.flipMount, attr_name, None)
-                if flipmount:
-                    self.logger.info(f"Deactivating flip mount {attr_name}")
-                    flipmount.deactivate()
-
-        # Shutter ON
-        # Assuming ON state achieved by calling activate()
-        self.logger.info("Activating shutter.")
-        self.shutter.activate()
-
-        # Keysights IDLE
-        # Assuming IDLE can be achieved by resetting or deactivating keysight
-        for attr_name in dir(self.keysight):
-            if attr_name.startswith('k'):
-                keysight = getattr(self.keysight, attr_name, None)
-                if keysight:
-                    self.logger.info(f"Setting keysight {attr_name} to IDLE")
-                    keysight.deactivate()  # Deactivate sets OFF
-                    keysight.reset()       # Reset moves from FAULT->IDLE if needed, or no-op if not in fault.
-                    # If KeysightState does not have a direct method to set IDLE, 
-                    # ensure OFF or IDLE states are acceptable. If not, you may need a dedicated method.
-
-        # Monochromator sent home
-        # Assuming MonochromatorState class has a method like home() or set_wavelength(0)
-        self.logger.info("Homing monochromator.")
-        self.monochromator.go_home()
-        # Check how long we should wait here
-        # self.monochromator.wait_until_ready()
-
-        self.logger.info("System is now in the home state.")
+        pass
 
     def exposure(self, counts=None, exptime=None):
         """
@@ -186,62 +154,40 @@ class PandoraBox:
             pb.exposure(counts=1e-13)  # Integrate until 1e-13 ADU is reached
             pb.exposure(exptime=1)     # Integrate for 1 second
         """
-        if counts is None and exptime is None:
-            raise ValueError("Must provide either 'counts' or 'exptime'.")
+        pass
 
+    def take_exposure(self, exptime):
+        """
+        Take an exposure for a specified time.
+
+        Args:
+            exptime (float): Exposure time in seconds.
+
+        """
+        self.open_shutter()  # Shutter ON 
         self.timer.mark("Exposure")
 
-        # Assume we have a dedicated keysight for measurement.
-        # Let's say keysight.k1 is used for measuring flux/charge.
-        # Set keysight to ON (measurement mode)
-        if self.keysight.k2.get_state() != State.ON:
-            self.logger.info("Activating Keysight for measurement.")
-            self.keysight.k2.activate()
+        self.keysight.k1.on()  # Keysight 1 ON
+        self.keysight.k2.on()  # Keysight 2 ON
 
-        # Open the shutter if not already open
-        self.logger.info("Opening shutter for exposure.")
-        self.open_shutter()
-        self.timer.shutter.mark("Shutter")
+        # Set acquisition time if exptime is provided
+        self.keysight.k1.set_acquisition_time(exptime)
+        self.keysight.k2.set_acquisition_time(exptime)
 
-        # PLACEHOLDER CODE: Replace with actual measurement loop
-        if counts is not None:
-            # Integrate until threshold counts is reached
-            self.logger.info(f"Starting exposure until {counts} ADU is reached.")
-            total_charge = 0.0
-            # Hypothetical continuous measurement loop
-            while total_charge < counts:
-                # This is conceptual. Replace with actual keysight measurement commands.
-                new_reading = self.keysight.k1.read_current_charge()
-                total_charge += new_reading
-                self.logger.debug(f"Integrated charge: {total_charge} ADU")
+        # Start acquire without waiting
+        self.keysight.k1.acquire()
+        self.keysight.k2.acquire()
+        self.logger.info(f"Exposure started for {self.keysight.k1.t_acq:0.3f} seconds.")
 
-                # Optional timeout or max integration guard
-                if self.timer.elapsed_since("Shutter") > 600:  # 10 minutes max, for example
-                    self.logger.warning("Exposure timed out before reaching target counts.")
-                    break
+        # Wait for the specified exposure time
+        d1 = self.keysight.k1.read_data(wait=True)
+        d2 = self.keysight.k2.read_data(wait=True)    
+        self.close_shutter()  # Shutter OFF
 
-            self.logger.info(f"Exposure ended. Integrated charge: {total_charge} ADU")
+        eff_exptime = self.time.elapsed_since("Exposure")
+        self.logger.info(f"Exposure ended after {eff_exptime} seconds.")
 
-        elif exptime is not None:
-            # Integrate for a fixed exposure time
-            self.logger.info(f"Starting exposure for {exptime} seconds.")
-            if self.timer.elapsed_since("Shutter")<exptime:
-                self.timer.sleep(exptime-self.timer.elapsed_since("Shutter"))
-
-            # One final reading at the end, if needed
-            total_charge = self.keysight.k1.read_total_charge()
-            self.logger.info(f"Exposure ended after {exptime} s. Integrated charge: {total_charge} ADU")
-
-        # Close shutter and put keysight to IDLE/OFF
-        self.logger.info("Closing shutter and returning keysight to IDLE state.")
-        self.shutter.deactivate()  # Shutter OFF
-        shutter_time = self.timer.elapsed_since("Shutter")
-
-        self.keysight.k1.deactivate()  # Keysight OFF
-        print(f"The exposure took {self.timer.elapsed_since('Exposure'):.3f} seconds.")
-        print(f"The shuter was open for {shutter_time:.3f} seconds.")
-        print(f"The integrated charge was {total_charge} ADU.")
-        return total_charge, shutter_time
+        # Save the exposure data
 
     def close_all_connections(self):
         """
