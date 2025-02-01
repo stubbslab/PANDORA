@@ -12,11 +12,9 @@ database:
 # labjack_ip_address: &labjack_ip_address "169.254.84.89"
 
 monochromator:
-  type: "MonochromatorState"
   usb_port: "/dev/tty.usbserial-FTDI1CB2"
-  baud_rate: 9600
-  timeout: 2
-  model: "Acton_SP2150"
+  baudrate: 9600
+  # model: "Acton_SP2150"
 
 labjack:
   ip_address: "169.254.84.89"
@@ -29,48 +27,50 @@ labjack:
 keysights:
   # Each Keysight device with its own IP address
   K1:
+    name: "K1"
     keysight_ip: "169.254.5.2"
-    timeout_ms: 5000
+    timeout_ms: 25000
     settings:
-      mode: "current"
-      range: 1e-9
+      mode: "CURR"
+      rang: 'AUTO'
       nplc: 1.
-      nsamples: 100
+      nsamples: 10
       delay: 0.
       interval: 2e-3
   K2:
-    keysight_ip: "169.254.56.239"
-    timeout_ms: 5000
+    name: "K2"
+    keysight_ip: "169.254.124.255"
+    timeout_ms: 25000
     settings:
-      mode: "current"
-      range: 1e-9
+      mode: "CURR"
+      rang: 'AUTO'
       nplc: 1.
-      nsamples: 100
+      nsamples: 10
       delay: 0.
       interval: 2e-3
       
 zaber_stages:
   Z1:
-    zaber_ip: "192.168.1.70"
-    slot_map: {'OD05': 7, 'OD10': 40, 'OD15':2, 'OD20':3, 'Clear':4}
-    device_number: 0
+    ip_address: "169.254.47.12"
+    slot_map: {'OD05': 7, 'OD10': 46.37, 'OD15': 79.57, 'OD20': 113.57, 'CLEAR': 148.77}
+    device: 0
     axis_id: 1
-    speed_mm_per_sec: 10
+    speed_mm_per_sec: 25
   Z2:
-    zaber_ip: "192.168.1.70"
-    device_number: 1
+    ip_address: "192.168.1.70"
+    device: 1
     axis_id: 1
     speed_mm_per_sec: 10
   Z3:
-    zaber_ip: "192.168.1.70"
-    device_number: 2
+    ip_address: "192.168.1.70"
+    device: 2
     axis_id: 1
     speed_mm_per_sec: 10
 
 spectrograph:
   type: "SpectrographState"
   usb_port: "/dev/ttyUSB1"   # or "COM4"
-  baud_rate: 115200
+  baudrate: 115200
   timeout: 2
 
 # Additional system parameters
