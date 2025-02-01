@@ -9,14 +9,14 @@ The monochromator should be powered on and connected to the computer via a seria
 """
 
 class MonochromatorController:
-    def __init__(self, port, baudrate=9600):
+    def __init__(self, usb_port, baudrate=9600):
         """
         Initialize the MonochromatorController object.
 
         Parameters:
-        - port (str): The serial port to connect to (e.g., 'COM3' or '/dev/ttyUSB0').
+        - usb_port (str): The serial port to connect to (e.g., 'COM3' or '/dev/ttyUSB0').
         """
-        self.port = port
+        self.port = usb_port
         self.baudrate = baudrate
 
         # Set up logging

@@ -2,6 +2,9 @@ import logging
 import pyvisa
 import numpy as np
 
+
+from utils.ping_ip import is_port_open
+
 class KeysightState():
     DEFAULT = {"mode": 'CURR',
                "rang": 'AUTO',
@@ -37,12 +40,12 @@ class KeysightState():
         self.resource_string = f"TCPIP::{keysight_ip}::hislip0,4880::INSTR"
         self.timeout_ms = timeout_ms
 
-        self.logger = logging.getLogger(f"pandora.keysight.state.{name}")
+        self.logger = logging.getLogger(f"pandora.keysight.{name}")
 
         ## Initialize the Keysight State
         self.tracked_properties = ['mode', 'nplc', 'rang', 'delay', 'interval', 'nsamples']
         self.params = settings
-        self.initialize(settings)
+        self.initialize()
 
         self.get_acquisition_time()
 
@@ -51,6 +54,7 @@ class KeysightState():
         self.rm = pyvisa.ResourceManager('@py')  # Use '@py' for PyVISA-py backend
         self.instrument = None
         self._connect()
+        self.on()
 
         # Set default settings
         self.set_default_settings()
@@ -74,6 +78,10 @@ class KeysightState():
 
     def _connect(self):
         """Establish a connection to the instrument."""
+        if not is_port_open(self.keysight_ip, 4880, timeout=self.timeout_ms/1000):
+            self.logger.error(f"Cannot reach {self.keysight_ip}:4880 within {self.timeout_ms/1000:.2f} sec. Aborting connection.")
+            self.instrument = None
+            raise ConnectionError(f"Cannot reach keysight {self.name} with ip adress {self.keysight_ip}. Please check if the instrument is on")
         try:
             self.instrument = self.rm.open_resource(self.resource_string, timeout=self.timeout_ms)
             self.logger.info(f"Connected to Keysight device at {self.keysight_ip}")
@@ -136,15 +144,20 @@ class KeysightState():
         :param wait: If True, wait for the acquisition to complete.
         :return: Data from the instrument.
         """
-        if wait:
-            self.logger.info(f"Waiting for acquisition to complete.")
-            opc = int(self.read('*OPC?'))
+        # if wait:
+        #     self.logger.info(f"Waiting for acquisition to complete.")
+        #     opc = int(self.read('*OPC?'))
 
+        # mode = self.get_mode()
+        # self.logger.info(f"The mode is set to be {mode}")
         self.logger.info(f"Reading data from exposure.")
-        t = self.client.query_ascii_values(':FETC:ARR:TIME?')
+        # self.logger.info(f"The opc values is {opc}")
+        t = self.instrument.query_ascii_values(':FETC:ARR:TIME?')
         t = np.array(t, dtype=float)
-        d = self.client.query_ascii_values(f':FETC:ARR:{self.params["mode"]}?')
-        d = np.array(d, dtype=float)
+        # self._reconnect()
+        # d = self.instrument.query_ascii_values(f':FETC:ARR:{self.params["mode"]}?')
+        d = self.read(f':FETC:ARR:{self.params["mode"]}?')
+        d = np.array(d.split(b',')).astype(float)
         return np.rec.fromarrays([t, d], names=['time', self.params["mode"]])
 
     def get_acquisition_time(self, freq=50):
@@ -296,9 +309,21 @@ class KeysightState():
 
         
 if __name__ == "__main__":
-    keysight = KeysightState(name="K01", keysight_ip="169.254.56.239")
+    settings = {
+                'mode': "CURR",
+                'rang': 'AUTO',
+                'nplc': 1.,
+                'nsamples': 10,
+                'delay': 0.,
+                'interval': 2e-3,
+                }
+    
+    keysight = KeysightState(name="K01", keysight_ip="169.254.5.2")
+    # keysight = KeysightState(name="K02", keysight_ip="169.254.124.255")
     keysight.get_device_info()
     keysight.on()
     keysight.set_mode('CURR')
     keysight.acquire()
+    d = keysight.read_data(wait=True)
+    print(d)
     keysight.close()
