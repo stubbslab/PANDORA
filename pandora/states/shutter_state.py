@@ -1,6 +1,6 @@
 # states/shutter_state.py
 import logging
-from states_map import State                # '.' means same directory as shutter_state.py
+from states.states_map import State                # '.' means same directory as shutter_state.py
 from utils.operation_timer import OperationTimer
 
 class ShutterState:
@@ -172,16 +172,16 @@ if __name__ == "__main__":
 
     # Initialize the shutter
     shutter = ShutterState(name="FIO0", labjack=labjack)
-    shutter.get_device_info()
+    # shutter.get_device_info()
 
     # Deactivate the shutter
     shutter.deactivate()
 
     # Activate the shutter
-    shutter.activate()
+    # shutter.activate()
 
     # Get the curent state of the shutter
     shutter.get_state()
 
     # Close the labjack connection
-    shutter.close()
+    # shutter.close()
