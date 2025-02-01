@@ -1,2 +1,2 @@
 # pandora/__init__.py
-from pandora import PandoraBox
+from pandora_controller import PandoraBox

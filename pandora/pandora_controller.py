@@ -1,3 +1,5 @@
+import logging
+
 ## Make Pandora Class
 from states.flipmount_state import FlipMountState
 from states.shutter_state import ShutterState
@@ -30,13 +32,15 @@ class PandoraBox:
         # Load configuration (IP addresses, device IDs, calibration files, etc.)
         self.config = self._load_config(config_file)
 
+        # Initialize logger
+        self._initialize_logger()
+        self.logger = logging.getLogger(f"pandora.controller")
+
         # Instantiate subsystem controllers using config parameters.
         self.initialize_subsystems()
 
-        # Initialize logger
-        self.logger = self._initialize_logger()
-
         # Initializer a timer
+        self.max_operation_freq = 10 # Hz
         self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"Pandora")
 
     def _load_config(self, config_file):
@@ -86,6 +90,7 @@ class PandoraBox:
         k2_config = self.get_config_section('K2', config=ks_config)
         z1_config = self.get_config_section('Z1', config=zb_config)
         z2_config = self.get_config_section('Z2', config=zb_config)
+        z3_config = self.get_config_section('Z3', config=zb_config)
 
         # LabJack
         self.labjack = LabJack(ip_address=labjack_ip)
@@ -104,6 +109,7 @@ class PandoraBox:
         # Keysights
         self.keysight = type('KeysightContainer', (), {})()
         self.keysight.deviceNames = list(ks_config.keys())
+        print(k1_config['settings'])
         self.keysight.k1 = KeysightState(**k1_config)
         self.keysight.k2 = KeysightState(**k2_config)
         # Add more Keysights as needed...
@@ -112,7 +118,8 @@ class PandoraBox:
         self.zaber = type('ZaberContainer', (), {})()
         self.zaber.deviceNames = list(zb_config.keys())
         self.zaber.z1 = ZaberController(**z1_config)
-        self.zaber.z2 = ZaberController(**z2_config)
+        # self.zaber.z2 = ZaberController(**z2_config)
+        # self.zaber.z3 = ZaberController(**z3_config)
         # Add more stages as needed...
 
         # Monochromator
@@ -177,13 +184,15 @@ class PandoraBox:
         # Start acquire without waiting
         self.keysight.k1.acquire()
         self.keysight.k2.acquire()
-        self.logger.info(f"Exposure started for {self.keysight.k1.t_acq:0.3f} seconds.")
+        self.logger.info(f"Exposure is set last {self.keysight.k1.t_acq:0.3f} seconds.")
 
         # Wait for the specified exposure time
-        d1 = self.keysight.k1.read_data(wait=True)
+        # d1 = self.keysight.k1.read_data(wait=True)
         d2 = self.keysight.k2.read_data(wait=True)    
         self.close_shutter()  # Shutter OFF
 
+        # print(d1)
+        print(d2)
         eff_exptime = self.time.elapsed_since("Exposure")
         self.logger.info(f"Exposure ended after {eff_exptime} seconds.")
 
@@ -289,10 +298,10 @@ class PandoraBox:
         Set the monochromator to a specific wavelength.
         """
         self.timer.mark("Wavelength")
-        self.monochromator.set_wavelength(wavelength, timeout)
+        self.monochromator.move_to_wavelength(wavelength, timeout)
         # Check how long we should wait here
         # self.monochromator.wait_until_ready()
-        print(f"Set wavelength to {wavelength} nm took {self.timer.elapsed_since('Wavelength'):.3f} seconds.")
+        self.logger.debug(f"Set wavelength to {wavelength} nm took {self.timer.elapsed_since('Wavelength'):.3f} seconds.")
         pass
     
     def shutdown(self):
