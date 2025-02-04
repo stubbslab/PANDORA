@@ -3,6 +3,7 @@ import csv
 import pandas as pd
 import numpy as np
 from datetime import datetime
+import logging
 
 from columns_map import COLUMN_DEFINITIONS, DEFAULT_VALUES
 
@@ -35,13 +36,16 @@ class PandoraDatabase:
             If True, we create a new run_id if one is not provided. 
             If False, we just load the latest or a given run_id for reading.
         """
-        
+        # Set up logging
+        self.logger = logging.getLogger(f"pandora.database")
+
         # Use today's date if none provided
         if date is None:
             date = datetime.now().strftime("%Y%m%d")
         self.date_str = date
         
         # Root path
+        self.logger.info(f"Root path: {root_path}")
         self.root_path = os.path.abspath(root_path)
         
         # Path to hidden cache of run_ids
@@ -68,6 +72,7 @@ class PandoraDatabase:
         """
         Sets up all relevant paths and directories for the data, run, and lightcurves.
         """
+        self.logger.info(f"Initializing paths for run_id={self.run_id}")
         # Directories
         self.data_path = os.path.join(self.root_path, "data")
         self.lightcurves_dir = os.path.join(self.root_path, "lightcurves", self.run_id)
@@ -79,6 +84,9 @@ class PandoraDatabase:
         os.makedirs(self.root_path, exist_ok=True)
         os.makedirs(self.data_path, exist_ok=True)
         os.makedirs(self.lightcurves_dir, exist_ok=True)
+
+        self.logger.debug(f"Paths initialized: {self.data_path}, {self.lightcurves_dir}")
+        self.logger.debug(f"Directories created: {self.root_path}, {self.data_path}, {self.lightcurves_dir}")
 
     def add(self, key: str, value):
         """
@@ -102,7 +110,7 @@ class PandoraDatabase:
                 value = value.isoformat()
             
         self.current_exposure[key] = value
-        print(f"Added property '{key}' with value '{value}' to current exposure.")
+        self.logger.debug(f"Added property '{key}' with value '{value}' to current exposure.")
 
     def write_exposure(self) -> int:
         """
@@ -140,8 +148,7 @@ class PandoraDatabase:
 
         # Update the main run CSV
         self.run_db.to_csv(self.run_data_file, index=False)
-
-        print(f"Wrote exposure exp_id={exp_id} to run_id={self.run_id}")
+        self.logger.info(f"Wrote exposure exp_id={exp_id} to run_id={self.run_id}")
 
         # Reset the current exposure
         self.current_exposure = {}
@@ -175,22 +182,31 @@ class PandoraDatabase:
         """
         # If a run_id is explicitly provided, trust that it is valid
         if run_id is not None:
+            self.logger.info(f"Using provided run_id: {run_id}")
             self.run_id = run_id
             return
         
         # If no run_id is provided, either generate new or load the latest from cache
         if writing_mode:
+            self.logger.info(f"Generating new run_id for date {self.date_str}")
             self.run_id = generate_new_run_id(self.date_str, self.cache_file)
         else:
+            self.logger.info(f"Loading latest run_id for date {self.date_str}")
             # Load the most recent run_id for this date from the cache (or default)
             self.run_id = self._latest_run_id_for_date(self.date_str)
 
+        self.logger.info(f"Set run_id to {self.run_id}")
+
     def set_next_expid(self):
         if self.run_db.empty:
+            self.logger.info(f"Run database is empty, starting with exp_id=0")
             self.current_expid = 0
         else:
+            self.logger.info(f"Loading latest exp_id from run database")
             self.current_expid = self.run_db["exp_id"].max()
-    
+        self.logger.info(f"Set exp_id to {self.current_expid}")
+        pass
+
     def _latest_run_id_for_date(self, date_str: str) -> str:
         """
         Finds the highest run_id for the given date in the cache file.
@@ -246,12 +262,12 @@ class PandoraDatabase:
     def save(self):
         """Saves the in-memory DataFrame to the main run CSV file."""
         self.run_db.to_csv(self.run_data_file, index=False)
-        print(f"Saved run database for run_id={self.run_id}")
+        self.logger.info(f"Saved run database for run_id={self.run_id}")
 
     def close(self):
         """Closes the database by saving the current data to disk."""
         self.save()
-        print(f"Closed PandoraDatabase for run_id={self.run_id}")
+        self.logger.info(f"Closed PandoraDatabase for run_id={self.run_id}")
         self.run_db = None
 
 def generate_new_run_id(date_str: str, cache_file: str) -> str:
