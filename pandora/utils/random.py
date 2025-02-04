@@ -1,4 +1,7 @@
 def head(text):
-    print(50*"-")
+    line()
     print("\t"+text)
-    print(50*"-")
+    line()
+
+def line():
+    print(75*"-")

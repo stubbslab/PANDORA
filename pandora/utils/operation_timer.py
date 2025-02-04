@@ -109,3 +109,6 @@ class OperationTimer:
         """Sleep through the remaining time interval until the next operation."""
         # logger.info(f"Sleeping for {remaining_time:.2f} seconds before next operation.")
         time.sleep(self.remaining_time)
+
+    def sleep(self, period):
+        time.sleep(period)

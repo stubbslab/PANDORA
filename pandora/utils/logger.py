@@ -21,13 +21,13 @@ def initialize_central_logger(log_file: str, level_str: str) -> logging.Logger:
     file_handler.setFormatter(formatter)
 
     # Optional: also add a console handler if you want logs on stdout
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(level)
-    console_handler.setFormatter(formatter)
+    # console_handler = logging.StreamHandler(sys.stdout)
+    # console_handler.setLevel(level)
+    # console_handler.setFormatter(formatter)
 
-    # Add handlers to the logger if they are not already present
-    if not logger.hasHandlers():
-        logger.addHandler(file_handler)
-        logger.addHandler(console_handler)
+    # # Add handlers to the logger if they are not already present
+    # if not logger.hasHandlers():
+    #     logger.addHandler(file_handler)
+    #     logger.addHandler(console_handler)
 
     return logger
