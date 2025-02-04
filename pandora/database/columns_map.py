@@ -5,6 +5,8 @@ from datetime import datetime
 # External dictionary defining column names and their data types
 COLUMN_DEFINITIONS = {
     "expid": int,
+    "exptime": float,
+    "eff_exptime": float,
     "timestamp": str,      # ISO formatted datetime string
     "photoInput": float,
     "photoInputErr": float,
@@ -20,7 +22,7 @@ COLUMN_DEFINITIONS = {
     "FM3": bool,
     "zarber": str,
     "maskSlot": str,
-    "shutter": bool,
+    "shutter_opened": bool,
     "description": str
 }
 

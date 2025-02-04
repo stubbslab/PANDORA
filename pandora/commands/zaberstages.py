@@ -38,6 +38,7 @@ class ZaberController:
         self.axis = None
         self.speed_mm_per_sec = speed_mm_per_sec
         self.slot_map = slot_map
+        self.position = 'UNKNOWN'
         self.timeout_ms = 2000
 
         # Set up logging
@@ -128,6 +129,7 @@ class ZaberController:
         self.logger.info(f"Zaber stage set to move to slot {mask_slot_name}")
         self.logger.debug(f"The position set to move is {target_position:.2f} mm")
         self.axis.move_absolute(target_position, Units.LENGTH_MILLIMETRES, True)
+        self.position = mask_slot_name
         self.logger.info(f"Moved to mask slot {mask_slot_name} at {target_position:0.2f} mm.")
 
     def move_zaber_axis(self, distance_mm):
@@ -143,6 +145,7 @@ class ZaberController:
 
         self.axis.move_relative(distance_mm, Units.LENGTH_MILLIMETRES, True)
         self.logger.info(f"Moved Zaber axis by {distance_mm} mm.")
+        self.position = 'UNKNOWN'
 
     def go_home(self):
         """
@@ -150,6 +153,7 @@ class ZaberController:
         """
         self.connect()
         self.axis.home()
+        self.position = 'HOME'
         self.logger.info("Homed the Zaber stage.")
 
     def set_zaber_speed(self, speed):
@@ -160,7 +164,7 @@ class ZaberController:
         # Set movement speed (mm/sec)
         self.axis.move_velocity(speed, Units.VELOCITY_MILLIMETRES_PER_SECOND)
 
-    def get_position(self):
+    def get_position_mm(self):
         """
         Get the current position of the Zaber stage in millimeters.
         """
@@ -193,7 +197,7 @@ if __name__ == "__main__":
     zb.move_to_slot(mask_slot_name="CLEAR")
 
     # Get the current position
-    position = zb.get_position()
+    position = zb.get_position_mm()
 
     # Close the connection when done
     zb.close()

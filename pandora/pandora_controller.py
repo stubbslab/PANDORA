@@ -1,5 +1,7 @@
 import logging
 import time
+from datetime import datetime
+import numpy as np
 
 ## Make Pandora Class
 from states.flipmount_state import FlipMountState
@@ -11,6 +13,7 @@ from states.labjack_handler import LabJack
 from states.states_map import State
 from utils.logger import initialize_central_logger
 from utils.operation_timer import OperationTimer
+from database.db import PandoraDatabase
 
 ## TODOS:
 ## Add a timer to the Pandora methods to measure the time taken for each operation
@@ -29,7 +32,7 @@ class PandoraBox:
     - Validating that each subsystem is ready (e.g. in IDLE state)
     - Providing a unified interface to configure and operate the entire system
     """
-    def __init__(self, config_file='default.yaml'):
+    def __init__(self, run_id=None, config_file='default.yaml'):
         # Load configuration (IP addresses, device IDs, calibration files, etc.)
         self.config = self._load_config(config_file)
 
@@ -38,27 +41,25 @@ class PandoraBox:
         self.logger = logging.getLogger(f"pandora.controller")
 
         # Instantiate subsystem controllers using config parameters.
-        self.initialize_subsystems()
+        self.initialize_subsystems()  
+
+        # Initialize the database
+        self.initialize_db(run_id)
 
         # Initializer a timer
         self.max_operation_freq = 10 # Hz
         self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"Pandora")
 
-    def _load_config(self, config_file):
-        # Parse a config file (JSON, YAML, etc.) with device parameters
-        import yaml
-        with open(config_file, 'r') as file:
-            config = yaml.safe_load(file)
-        return config
+    def initialize_db(self, run_id=None):
+        # Initialize the database connection
+        self.logger.info("Initializing database connection...")
+        root = self.get_config_value('database', 'root')
+        self.pdb = PandoraDatabase(run_id=run_id, root_path=root)
+        pass
 
-    def get_config_section(self, section, config=None):
-        if config is None: config = self.config
-        return config.get(section, {})
+    def get_db(self):
+        return self.pdb.db
     
-    def get_config_value(self, section, key, default=None, config=None):
-        if config is None: config = self.config
-        return config.get(section, {}).get(key, default)
-
     def _initialize_logger(self):
         # Setup and return a logger instance for the Pandora class
         logging_config = self.get_config_section('logging')
@@ -137,6 +138,21 @@ class PandoraBox:
         self.logger.info("All subsystems have been initialized.")
         pass
 
+    def _load_config(self, config_file):
+        # Parse a config file (JSON, YAML, etc.) with device parameters
+        import yaml
+        with open(config_file, 'r') as file:
+            config = yaml.safe_load(file)
+        return config
+
+    def get_config_section(self, section, config=None):
+        if config is None: config = self.config
+        return config.get(section, {})
+    
+    def get_config_value(self, section, key, default=None, config=None):
+        if config is None: config = self.config
+        return config.get(section, {}).get(key, default)
+
     def go_home(self):
         """
         Set the PANDORA system to a known "home" state:
@@ -164,7 +180,7 @@ class PandoraBox:
         """
         pass
 
-    def take_exposure(self, exptime):
+    def take_exposure(self, exptime, observation_type="acq", is_dark=False):
         """
         Take an exposure for a specified time.
 
@@ -179,8 +195,17 @@ class PandoraBox:
         self.keysight.k1.set_acquisition_time(exptime)
         self.keysight.k2.set_acquisition_time(exptime)
 
-        self.open_shutter()  # Shutter ON 
+        # Define exposure
+        self.pdb.add("exptime", exptime)
+        self.pdb.add("Description", observation_type)
+
+        if is_dark:
+            self.close_shutter()
+        else:
+            self.open_shutter()  # Shutter ON
+
         self.timer.mark("Exposure")
+        self.pdb.add("timestamp", datetime.now())
 
         # Start acquire without waiting
         self.keysight.k1.acquire()
@@ -196,7 +221,44 @@ class PandoraBox:
         self.logger.info(f"Exposure ended after {eff_exptime} seconds.")
 
         # Save the exposure data
-        return d1, d2
+        self._save_exposure(d1, d2, eff_exptime, not is_dark)
+        pass
+
+    def _save_exposure(self, d1, d2, eff_exptime, shutter_flag=True):
+        self.pdb.add("wavelength", self.get_wavelength())
+        self.pdb.add("photoInput", np.mean(d1['CURR']))
+        self.pdb.add("photoOutput", np.mean(d2['CURR']))
+        self.pdb.add("photoInputErr", np.std(d1['CURR']))
+        self.pdb.add("photoOutputErr", np.std(d2['CURR']))
+        self.pdb.add("zaber", self.zaber.z1.position)
+        self.pdb.add("FM1", self.flipMount.f1.state.value)
+        self.pdb.add("FM2", self.flipMount.f2.state.value)
+        self.pdb.add("FM3", self.flipMount.f3.state.value)
+        self.pdb.add("shutter_opened", shutter_flag)
+        self.pdb.add("effective_exptime", eff_exptime)
+        self.pdb.save_lightcurve(d1, tag="photoInput")
+        self.pdb.save_lightcurve(d2, tag="photoOutput")
+        # self.pdb.add("Alt", self.mount.altitude)
+        # self.pdb.add("Az", self.mount.azimuth)
+
+        self.write_exposure()
+    
+    def take_dark(self, exptime, observation_type="dark"):
+        """
+        Take a dark exposure for a specified time.
+
+        Args:
+            exptime (float): Exposure time in seconds.
+
+        """
+        self.take_exposure(exptime, observation_type=observation_type, is_dark=True)
+
+    def write_exposure(self):
+        """
+        Write the exposure data to the database.
+        """
+        self.pdb.write_exposure()
+        pass
 
     def close_all_connections(self):
         """
@@ -303,6 +365,12 @@ class PandoraBox:
         # self.monochromator.wait_until_ready()
         self.logger.debug(f"Set wavelength to {wavelength} nm took {self.timer.elapsed_since('Wavelength'):.3f} seconds.")
         pass
+
+    def get_wavelength(self):
+        """
+        Get the current wavelength of the monochromator.
+        """
+        return self.monochromator.wavelength
     
     def shutdown(self):
         """

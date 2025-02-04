@@ -15,7 +15,7 @@ class PandoraDatabase:
     File structure:
         ./.run_cache.csv
         ./data/<run_id>.csv
-        ./lightcurves/<run_id>/<exp_id>.csv
+        ./lightcurves/<run_id>/<expid>.csv
     """
     
     def __init__(self, 
@@ -120,18 +120,18 @@ class PandoraDatabase:
         Returns
         -------
         int
-            The exp_id assigned to this new exposure.
+            The expid assigned to this new exposure.
         """
-        # Assign a new exp_id
+        # Assign a new expid
         self.current_expid += 1
-        exp_id = self.current_expid
+        expid = self.current_expid
 
         # Initialize a new row with default values
         new_row = DEFAULT_VALUES.copy()
         
         # Update the new_row with any properties set via `add`
         new_row.update(self.current_exposure)
-        new_row["exp_id"] = exp_id
+        new_row["expid"] = expid
 
         # Append to in-memory DataFrame
         new_row_df = pd.DataFrame([new_row])
@@ -143,29 +143,28 @@ class PandoraDatabase:
             self.run_db = pd.concat([self.run_db, new_row_df], ignore_index=True)
 
         # Save to individual CSV
-        # exp_file = os.path.join(self.lightcurves_dir, f"{exp_id:04d}.csv")
+        # exp_file = os.path.join(self.lightcurves_dir, f"{expid:04d}.csv")
         # pd.DataFrame([new_row]).to_csv(exp_file, index=False)
 
         # Update the main run CSV
         self.run_db.to_csv(self.run_data_file, index=False)
-        self.logger.info(f"Wrote exposure exp_id={exp_id} to run_id={self.run_id}")
+        self.logger.info(f"Wrote exposure expid={expid} to run_id={self.run_id}")
 
         # Reset the current exposure
         self.current_exposure = {}
+        pass
 
-        return exp_id
-
-    def get_exposure(self, exp_id: int) -> pd.Series:
+    def get_exposure(self, expid: int) -> pd.Series:
         """
-        Retrieve a single exposure (row) from the in-memory DB by exp_id.
+        Retrieve a single exposure (row) from the in-memory DB by expid.
         
         Raises
         ------
-        ValueError if exp_id is not found.
+        ValueError if expid is not found.
         """
-        row = self.run_db.loc[self.run_db["exp_id"] == exp_id]
+        row = self.run_db.loc[self.run_db["expid"] == expid]
         if row.empty:
-            raise ValueError(f"Exposure ID {exp_id} not found in run {self.run_id}.")
+            raise ValueError(f"Exposure ID {expid} not found in run {self.run_id}.")
         return row.iloc[0]
 
     def set_run_id(self, run_id: str = None, writing_mode: bool = True):
@@ -199,13 +198,29 @@ class PandoraDatabase:
 
     def set_next_expid(self):
         if self.run_db.empty:
-            self.logger.info(f"Run database is empty, starting with exp_id=0")
+            self.logger.info(f"Run database is empty, starting with expid=0")
             self.current_expid = 0
         else:
-            self.logger.info(f"Loading latest exp_id from run database")
-            self.current_expid = self.run_db["exp_id"].max()
-        self.logger.info(f"Set exp_id to {self.current_expid}")
+            self.logger.info(f"Loading latest expid from run database")
+            self.current_expid = self.run_db["expid"].max()
+        self.logger.info(f"Set expid to {self.current_expid}")
         pass
+
+    def save_lightcurve(self, data, tag="k1"):
+        """
+        Saves a lightcurve for a given expid to the appropriate directory.
+        
+        Parameters
+        ----------
+        expid : int
+            The exposure ID.
+        data : pd.DataFrame
+            The lightcurve data to save.
+        """
+        expid = self.current_expid
+        lc_path = os.path.join(self.lightcurves_dir, f"{tag}_{expid:03d}")
+        np.save(data, lc_path)
+        self.logger.info(f"Saved lightcurve for expid={expid} to {lc_path}")
 
     def _latest_run_id_for_date(self, date_str: str) -> str:
         """
