@@ -3,7 +3,7 @@ import pyvisa
 import numpy as np
 
 
-from utils.ping_ip import is_port_open
+from pandora.utils.socket_helper import is_port_open
 
 class KeysightState():
     DEFAULT = {"mode": 'CURR',
@@ -11,7 +11,8 @@ class KeysightState():
                'nplc': 1,
                'nsamples': 10,
                'delay': 0,
-               'interval': 2e-3
+               'interval': 2e-3,
+               'aper': 'AUTO'
                }
     """KeysightState class to handle communication with Keysight devices.
 
@@ -144,20 +145,15 @@ class KeysightState():
         :param wait: If True, wait for the acquisition to complete.
         :return: Data from the instrument.
         """
-        # if wait:
-        #     self.logger.info(f"Waiting for acquisition to complete.")
-        #     opc = int(self.read('*OPC?'))
+        if wait:
+            self.logger.info(f"Waiting for acquisition to complete.")
+            opc = int(self.read('*OPC?'))
 
-        # mode = self.get_mode()
-        # self.logger.info(f"The mode is set to be {mode}")
-        self.logger.info(f"Reading data from exposure.")
-        # self.logger.info(f"The opc values is {opc}")
+        self.logger.info(f"Reading data from exposure.")        
         t = self.instrument.query_ascii_values(':FETC:ARR:TIME?')
         t = np.array(t, dtype=float)
-        # self._reconnect()
-        # d = self.instrument.query_ascii_values(f':FETC:ARR:{self.params["mode"]}?')
-        d = self.read(f':FETC:ARR:{self.params["mode"]}?')
-        d = np.array(d.split(b',')).astype(float)
+        d = self.instrument.query_ascii_values(f':FETC:ARR:{self.params["mode"]}?')
+        d = np.array(d, dtype=float)
         return np.rec.fromarrays([t, d], names=['time', self.params["mode"]])
 
     def get_acquisition_time(self, freq=50):
@@ -261,7 +257,8 @@ class KeysightState():
         self.logger.info(f"Setting acquisition time to {time} seconds.")
         nsamples = int(time * freq / float(self.params['nplc']))
         self.set_nsamples(nsamples)
-        print(f"Acquisition time set to {time:0.3f} sec with nsamples {self.params['nsamples']} and {self.params['nplc']}")
+        self.t_acq = time
+        # print(f"Acquisition time set to {time:0.3f} sec with nsamples {self.params['nsamples']} and {self.params['nplc']}")
 
     def on(self):
         self.logger.info(f"Turning Keysight input ON.")
@@ -277,11 +274,13 @@ class KeysightState():
 
     def get_mode(self):
         self.logger.info(f"Getting current mode from Keysight.")
-        return self.read(f'SENS:FUNC?')
+        res = str(self.read(f'SENS:FUNC?'))
+        return res.strip('"')
 
     def get_aper(self):
         self.logger.info(f"Getting aperture setting from Keysight.")
-        return self.read(f'SENS:{self.params["mode"]}:APER?')
+        res = self.read(f'SENS:{self.params["mode"]}:APER?')
+        return 
 
     def get_nplc(self):
         self.logger.info(f"Getting NPLC setting from Keysight.")

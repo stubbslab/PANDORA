@@ -1,7 +1,7 @@
 import logging
 from zaber_motion import Library, Units
 from zaber_motion.ascii import Connection
-from utils.ping_ip import is_port_open
+from pandora.utils.socket_helper import is_port_open
 
 """
 This script provides a class to control a Zaber stage via serial communication.
