@@ -1,4 +1,5 @@
 import logging
+import time
 
 ## Make Pandora Class
 from states.flipmount_state import FlipMountState
@@ -109,7 +110,7 @@ class PandoraBox:
         # Keysights
         self.keysight = type('KeysightContainer', (), {})()
         self.keysight.deviceNames = list(ks_config.keys())
-        print(k1_config['settings'])
+        # print(k1_config['settings'])
         self.keysight.k1 = KeysightState(**k1_config)
         self.keysight.k2 = KeysightState(**k2_config)
         # Add more Keysights as needed...
@@ -171,9 +172,6 @@ class PandoraBox:
             exptime (float): Exposure time in seconds.
 
         """
-        self.open_shutter()  # Shutter ON 
-        self.timer.mark("Exposure")
-
         self.keysight.k1.on()  # Keysight 1 ON
         self.keysight.k2.on()  # Keysight 2 ON
 
@@ -181,22 +179,24 @@ class PandoraBox:
         self.keysight.k1.set_acquisition_time(exptime)
         self.keysight.k2.set_acquisition_time(exptime)
 
+        self.open_shutter()  # Shutter ON 
+        self.timer.mark("Exposure")
+
         # Start acquire without waiting
         self.keysight.k1.acquire()
         self.keysight.k2.acquire()
         self.logger.info(f"Exposure is set last {self.keysight.k1.t_acq:0.3f} seconds.")
 
+        self.timer.sleep(exptime*0.96)
         # Wait for the specified exposure time
-        # d1 = self.keysight.k1.read_data(wait=True)
+        d1 = self.keysight.k1.read_data(wait=True)
         d2 = self.keysight.k2.read_data(wait=True)    
         self.close_shutter()  # Shutter OFF
-
-        # print(d1)
-        print(d2)
-        eff_exptime = self.time.elapsed_since("Exposure")
+        eff_exptime = self.timer.elapsed_since("Exposure")
         self.logger.info(f"Exposure ended after {eff_exptime} seconds.")
 
         # Save the exposure data
+        return d1, d2
 
     def close_all_connections(self):
         """
@@ -267,14 +267,14 @@ class PandoraBox:
         """
         Open the shutter to allow light to pass.
         """
-        self.shutter.activate()
+        self.shutter.deactivate()
         pass
 
     def close_shutter(self):
         """
         Close the shutter to block light.
         """
-        self.shutter.deactivate()
+        self.shutter.activate()
         pass
 
     def switch_flipmount(self, mount_name):
