@@ -126,7 +126,13 @@ class PandoraDatabase:
         new_row["exp_id"] = exp_id
 
         # Append to in-memory DataFrame
-        self.run_db = pd.concat([self.run_db, pd.DataFrame([new_row])], ignore_index=True)
+        new_row_df = pd.DataFrame([new_row])
+
+        # Ensure self.run_db is correctly initialized before concatenation
+        if self.run_db.empty:
+            self.run_db = new_row_df
+        else:
+            self.run_db = pd.concat([self.run_db, new_row_df], ignore_index=True)
 
         # Save to individual CSV
         # exp_file = os.path.join(self.lightcurves_dir, f"{exp_id:04d}.csv")
@@ -311,7 +317,7 @@ if __name__ == "__main__":
     from datetime import datetime
 
     # Instantiate (in writing mode, no run_id => auto-generate)
-    pdb = PandoraDatabase(root_path="/Users/esteves/Desktop", writing_mode=True)
+    pdb = PandoraDatabase(root_path="/Users/pandora_ctrl/Desktop", writing_mode=True)
     
     # Add properties one by one
     pdb.add("timestamp", datetime.now())
