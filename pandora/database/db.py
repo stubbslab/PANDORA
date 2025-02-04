@@ -331,10 +331,14 @@ def generate_new_run_id(date_str: str, cache_file: str) -> str:
 # Example usage (comment out if integrating into a larger system):
 if __name__ == "__main__":
     from datetime import datetime
+    from utils.logger import initialize_central_logger     
+    
+    # Set up logging
+    initialize_central_logger("../database.log", "INFO", verbose=True)
 
     # Instantiate (in writing mode, no run_id => auto-generate)
     pdb = PandoraDatabase(root_path="/Users/pandora_ctrl/Desktop", writing_mode=True)
-    
+        
     # Add properties one by one
     pdb.add("timestamp", datetime.now())
     pdb.add("current", 1.23)
