@@ -20,7 +20,7 @@ MASK_MAP = {'OD05': 7,
             }
 
 class ZaberController:
-    def __init__(self, ip_address, device=0, axis_id=1, slot_map=MASK_MAP, speed_mm_per_sec=8.0):
+    def __init__(self, ip_address, device=0, axis_id=1, slot_map=MASK_MAP, speed_mm_per_sec=8.0, type=None):
         """
         Initialize the ZaberController object.
 

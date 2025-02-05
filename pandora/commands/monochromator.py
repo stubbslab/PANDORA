@@ -1,5 +1,6 @@
 import serial # pip install pyserial
 import logging
+import time
 
 """
 This scripts provides a class to control a monochromator via serial communication.
@@ -9,7 +10,7 @@ The monochromator should be powered on and connected to the computer via a seria
 """
 
 class MonochromatorController:
-    def __init__(self, usb_port, baudrate=9600):
+    def __init__(self, usb_port, baudrate=9600, type=None):
         """
         Initialize the MonochromatorController object.
 
