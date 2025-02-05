@@ -201,25 +201,26 @@ class PandoraBox:
         self.pdb.add("exptime", exptime)
         self.pdb.add("Description", observation_type)
 
+        self.pdb.add("timestamp", datetime.now())
         if is_dark:
             self.close_shutter()
         else:
             self.open_shutter()  # Shutter ON
-
         self.timer.mark("Exposure")
-        self.pdb.add("timestamp", datetime.now())
 
         # Start acquire without waiting
         self.keysight.k1.acquire()
         self.keysight.k2.acquire()
         self.logger.info(f"Exposure is set last {self.keysight.k1.t_acq:0.3f} seconds.")
 
-        self.timer.sleep(exptime*0.96)
-        # Wait for the specified exposure time
-        d1 = self.keysight.k1.read_data(wait=True)
-        d2 = self.keysight.k2.read_data(wait=True)    
+        self.timer.sleep(exptime)
         self.close_shutter()  # Shutter OFF
         eff_exptime = self.timer.elapsed_since("Exposure")
+
+        # Reading the data
+        d1 = self.keysight.k1.read_data(wait=True)
+        d2 = self.keysight.k2.read_data(wait=True)
+
         self.logger.info(f"Exposure ended after {eff_exptime} seconds.")
 
         # Save the exposure data
