@@ -16,6 +16,8 @@ from utils.operation_timer import OperationTimer
 from database.db import PandoraDatabase
 
 ## TODOS:
+## Add a header to the class
+## Add a header with the run information
 ## Add a timer to the Pandora methods to measure the time taken for each operation
 ## Each method should log the time taken for the operation
 ## 
@@ -198,9 +200,7 @@ class PandoraBox:
         self.keysight.k2.set_acquisition_time(exptime)
 
         # Define exposure
-        self.pdb.add("exptime", exptime)
-        self.pdb.add("Description", observation_type)
-
+        self.pdb.add("exptime", float(exptime))
         self.pdb.add("timestamp", datetime.now())
         if is_dark:
             self.close_shutter()
@@ -224,23 +224,25 @@ class PandoraBox:
         self.logger.info(f"Exposure ended after {eff_exptime:.3f} seconds.")
 
         # Save the exposure data
-        self._save_exposure(d1, d2, eff_exptime, not is_dark)
+        self._save_exposure(d1, d2, eff_exptime, observation_type, not is_dark)
         pass
 
-    def _save_exposure(self, d1, d2, eff_exptime, shutter_flag=True):
+    def _save_exposure(self, d1, d2, eff_exptime, description, shutter_flag=True):
+        self.pdb.add("effective_exptime", eff_exptime)
         self.pdb.add("wavelength", self.get_wavelength())
-        self.pdb.add("photoInput", np.mean(d1['CURR']))
-        self.pdb.add("photoOutput", np.mean(d2['CURR']))
-        self.pdb.add("photoInputErr", np.std(d1['CURR']))
-        self.pdb.add("photoOutputErr", np.std(d2['CURR']))
+        self.pdb.add("currentInput", np.abs(np.mean(d1['CURR'])))
+        self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
+        self.pdb.add("currentInputErr", np.std(d1['CURR']))
+        self.pdb.add("currentOutputErr", np.std(d2['CURR']))
         self.pdb.add("zaber", self.zaber.z1.position)
         self.pdb.add("FM1", self.flipMount.f1.state.value)
         self.pdb.add("FM2", self.flipMount.f2.state.value)
         self.pdb.add("FM3", self.flipMount.f3.state.value)
         self.pdb.add("shutter_opened", shutter_flag)
-        self.pdb.add("effective_exptime", eff_exptime)
-        self.pdb.save_lightcurve(d1, tag="photoInput")
-        self.pdb.save_lightcurve(d2, tag="photoOutput")
+        self.pdb.add("Description", description)
+        
+        self.pdb.save_lightcurve(d1, tag="currentInput")
+        self.pdb.save_lightcurve(d2, tag="currentOutput")
         # self.pdb.add("Alt", self.mount.altitude)
         # self.pdb.add("Az", self.mount.azimuth)
 
@@ -255,6 +257,8 @@ class PandoraBox:
 
         """
         self.take_exposure(exptime, observation_type=observation_type, is_dark=True)
+        pass
+        
 
     def write_exposure(self):
         """
@@ -376,11 +380,23 @@ class PandoraBox:
         self.monochromator.get_wavelength()
         return self.monochromator.wavelength
     
-    def move_to_nd_filter(self,nd_filter_name):
+    def move_nd_filter(self,nd_filter_name):
         """
         
         """
         self.zaber.z1.move_to_slot(nd_filter_name)
+
+    def set_photodiode_scale(self, scale_down=None, scale=None):
+        if scale_down is None and scale is None:
+            self.open_shutter()
+            self.keysight.k1.auto_scale()
+            self.keysight.k2.auto_scale()
+            self.close_shutter()
+        elif scale is None:
+            s1 = float(self.keysight.k2.get_rang())
+            self.keysight.k2.set_rang(s1/scale_down)
+        else:
+            self.keysight.k2.set_rang(scale)
 
     def shutdown(self):
         """
