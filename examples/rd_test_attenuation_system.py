@@ -16,10 +16,8 @@ expTimeDark = 0.25 # sec
 line()
 
 # Create a PandoraBox object
-pandora_box = PandoraBox("../default.yaml")
+pandora_box = PandoraBox(config_file="../default.yaml", verbose=True)
 # pandora_box.start_run(run_id) # makes a catalog with name run_id:05d
-import logging
-pandora_box.logger.addHandler(logging.NullHandler())
 
 # Initialize the Pandora System Components
 pandora_box.initialize_subsystems()
@@ -34,11 +32,9 @@ for wav in [400, 500, 600, 700]:
     ods = ["CLEAR", "OD20", "OD15", "OD10", "OD05"]
     for od in ods:
         pandora_box.zaber.z1.move_to_slot(od)
-        d1, d2 = pandora_box.take_exposure(expTime)
-        np.save(out.format(wav, od, 'd1'),d1)
-        np.save(out.format(wav, od, 'd2'),d2)
-
+        pandora_box.take_exposure(expTime)
         # pandora_box.take_dark(expTimeDark)
+
         # pandora_box.take_measurement(expTime)
         # pandora_box.take_dark(expTimeDark)
     print(f"Finsihed wavelength {wav} nm")

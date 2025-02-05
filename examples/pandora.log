@@ -8701,3 +8701,1102 @@
 2025-01-31 19:43:48.856 - pandora.zaber - INFO - Zaber connection closed.
 2025-01-31 19:43:48.856 - pandora.controller - INFO - Closing LabJack connection.
 2025-01-31 19:43:48.857 - pandora.controller - INFO - All device connections have been closed.
+2025-02-04 15:57:27.014 - pandora.shutter.FIO00 - INFO - Initializing ShutterState FIO00.
+2025-02-04 15:57:27.015 - pandora.shutter.FIO00 - INFO - The shutter state is on
+2025-02-04 15:57:27.015 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:57:27.015 - pandora.flipmount.FIO1 - INFO - Initializing FlipMount FIO1.
+2025-02-04 15:57:27.016 - pandora.flipmount.FIO1 - INFO - FlipMount state is off
+2025-02-04 15:57:27.016 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 15:57:27.016 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 15:57:27.016 - pandora.flipmount.FIO2 - INFO - Initializing FlipMount FIO2.
+2025-02-04 15:57:27.016 - pandora.flipmount.FIO2 - INFO - FlipMount state is off
+2025-02-04 15:57:27.017 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 15:57:27.017 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 15:57:27.017 - pandora.flipmount.FIO3 - INFO - Initializing FlipMount FIO3.
+2025-02-04 15:57:27.017 - pandora.flipmount.FIO3 - INFO - FlipMount state is off
+2025-02-04 15:57:27.017 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 15:57:27.017 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 15:57:27.018 - pandora.keysight.K1 - INFO - Initializing Keysight State.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Connected to Keysight device at 169.254.5.2
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Setting default settings.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Setting mode to CURR.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Setting range to AUTO.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Setting delay to 0.0.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Setting interval to 2e-3.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Setting number of samples to 10.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:57:27.083 - pandora.keysight.K1 - INFO - Getting power reading from Keysight.
+2025-02-04 15:57:27.142 - pandora.keysight.K1 - INFO - Getting current mode from Keysight.
+2025-02-04 15:57:27.143 - pandora.keysight.K1 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:57:27.145 - pandora.keysight.K1 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:57:27.146 - pandora.keysight.K1 - INFO - Getting range setting from Keysight.
+2025-02-04 15:57:27.148 - pandora.keysight.K1 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:57:27.149 - pandora.keysight.K1 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:57:27.150 - pandora.keysight.K1 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:57:27.152 - pandora.keysight.K1 - INFO - Acquisition time defined to be 0.220 sec.
+2025-02-04 15:57:27.152 - pandora.keysight.K2 - INFO - Initializing Keysight State.
+2025-02-04 15:57:27.168 - pandora.keysight.K2 - INFO - Connected to Keysight device at 169.254.124.255
+2025-02-04 15:57:27.168 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Setting default settings.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Setting mode to CURR.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Setting range to AUTO.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Setting delay to 0.0.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Setting interval to 2e-3.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:57:27.169 - pandora.keysight.K2 - INFO - Getting power reading from Keysight.
+2025-02-04 15:57:27.238 - pandora.keysight.K2 - INFO - Getting current mode from Keysight.
+2025-02-04 15:57:27.240 - pandora.keysight.K2 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:57:27.242 - pandora.keysight.K2 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:57:27.243 - pandora.keysight.K2 - INFO - Getting range setting from Keysight.
+2025-02-04 15:57:27.245 - pandora.keysight.K2 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:57:27.247 - pandora.keysight.K2 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:57:27.248 - pandora.keysight.K2 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:57:27.249 - pandora.keysight.K2 - INFO - Acquisition time defined to be 1.100 sec.
+2025-02-04 15:57:28.305 - pandora.zaber - INFO - Connected to Zaber device on 169.254.47.12 with speed 25 mm/s.
+2025-02-04 15:57:28.308 - pandora.controller - INFO - All subsystems have been initialized.
+2025-02-04 15:57:28.308 - pandora.controller - INFO - Initializing database connection...
+2025-02-04 15:57:28.308 - pandora.database - INFO - Root path: /Users/pandora_ctrl/Desktop
+2025-02-04 15:57:28.308 - pandora.database - INFO - Generating new run_id for date 20250204
+2025-02-04 15:57:28.309 - pandora.database - INFO - Set run_id to 20250204004
+2025-02-04 15:57:28.309 - pandora.database - INFO - Initializing paths for run_id=20250204004
+2025-02-04 15:57:28.316 - pandora.database - INFO - Run database is empty, starting with expid=0
+2025-02-04 15:57:28.316 - pandora.database - INFO - Set expid to 0
+2025-02-04 15:57:28.317 - pandora.shutter.FIO00 - INFO - Initializing ShutterState FIO00.
+2025-02-04 15:57:28.317 - pandora.shutter.FIO00 - INFO - The shutter state is on
+2025-02-04 15:57:28.317 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:57:28.317 - pandora.flipmount.FIO1 - INFO - Initializing FlipMount FIO1.
+2025-02-04 15:57:28.318 - pandora.flipmount.FIO1 - INFO - FlipMount state is off
+2025-02-04 15:57:28.318 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 15:57:28.318 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 15:57:28.318 - pandora.flipmount.FIO2 - INFO - Initializing FlipMount FIO2.
+2025-02-04 15:57:28.318 - pandora.flipmount.FIO2 - INFO - FlipMount state is off
+2025-02-04 15:57:28.318 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 15:57:28.318 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 15:57:28.319 - pandora.flipmount.FIO3 - INFO - Initializing FlipMount FIO3.
+2025-02-04 15:57:28.319 - pandora.flipmount.FIO3 - INFO - FlipMount state is off
+2025-02-04 15:57:28.319 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 15:57:28.319 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 15:57:28.319 - pandora.keysight.K1 - INFO - Initializing Keysight State.
+2025-02-04 15:57:28.348 - pandora.keysight.K1 - INFO - Connected to Keysight device at 169.254.5.2
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Setting default settings.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Setting mode to CURR.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Setting range to AUTO.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Setting delay to 0.0.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Setting interval to 0.002.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Setting number of samples to 10.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:57:28.349 - pandora.keysight.K1 - INFO - Getting power reading from Keysight.
+2025-02-04 15:57:28.408 - pandora.keysight.K1 - INFO - Getting current mode from Keysight.
+2025-02-04 15:57:28.409 - pandora.keysight.K1 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:57:28.411 - pandora.keysight.K1 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:57:28.413 - pandora.keysight.K1 - INFO - Getting range setting from Keysight.
+2025-02-04 15:57:28.415 - pandora.keysight.K1 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:57:28.416 - pandora.keysight.K1 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:57:28.418 - pandora.keysight.K1 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:57:28.419 - pandora.keysight.K1 - INFO - Acquisition time defined to be 0.220 sec.
+2025-02-04 15:57:28.419 - pandora.keysight.K2 - INFO - Initializing Keysight State.
+2025-02-04 15:57:28.863 - pandora.keysight.K2 - INFO - Connected to Keysight device at 169.254.124.255
+2025-02-04 15:57:28.864 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:57:28.864 - pandora.keysight.K2 - INFO - Setting default settings.
+2025-02-04 15:57:28.864 - pandora.keysight.K2 - INFO - Setting mode to CURR.
+2025-02-04 15:57:28.864 - pandora.keysight.K2 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:57:28.864 - pandora.keysight.K2 - INFO - Setting range to AUTO.
+2025-02-04 15:57:28.864 - pandora.keysight.K2 - INFO - Setting delay to 0.0.
+2025-02-04 15:57:28.864 - pandora.keysight.K2 - INFO - Setting interval to 0.002.
+2025-02-04 15:57:28.865 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:57:28.865 - pandora.keysight.K2 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:57:28.865 - pandora.keysight.K2 - INFO - Getting power reading from Keysight.
+2025-02-04 15:57:28.933 - pandora.keysight.K2 - INFO - Getting current mode from Keysight.
+2025-02-04 15:57:28.935 - pandora.keysight.K2 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:57:28.936 - pandora.keysight.K2 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:57:28.938 - pandora.keysight.K2 - INFO - Getting range setting from Keysight.
+2025-02-04 15:57:28.940 - pandora.keysight.K2 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:57:28.941 - pandora.keysight.K2 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:57:28.943 - pandora.keysight.K2 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:57:28.944 - pandora.keysight.K2 - INFO - Acquisition time defined to be 1.100 sec.
+2025-02-04 15:57:29.994 - pandora.zaber - INFO - Connected to Zaber device on 169.254.47.12 with speed 25 mm/s.
+2025-02-04 15:57:29.996 - pandora.controller - INFO - All subsystems have been initialized.
+2025-02-04 15:57:30.508 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 15:57:30.508 - pandora.monochromator - INFO - Sent GOTO command to move to 400 nm.
+2025-02-04 15:57:30.527 - pandora.monochromator - INFO - Monochromator successfully moved to 400 nm.
+2025-02-04 15:57:32.034 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 15:57:32.034 - pandora.zaber - INFO - Zaber stage set to move to slot CLEAR
+2025-02-04 15:57:32.761 - pandora.zaber - INFO - Moved to mask slot CLEAR at 148.77 mm.
+2025-02-04 15:57:32.761 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:57:32.761 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:57:32.762 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 15:57:32.762 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 15:57:32.762 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 15:57:32.762 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:57:32.762 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 15:57:32.763 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 15:57:32.763 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 15:57:32.763 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 15:57:33.726 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 15:57:33.728 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 15:57:33.737 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 15:57:33.738 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 15:57:33.857 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:57:33.858 - pandora.controller - INFO - Exposure ended after 1.094918966293335 seconds.
+2025-02-04 15:58:17.872 - pandora.shutter.FIO00 - INFO - Initializing ShutterState FIO00.
+2025-02-04 15:58:17.874 - pandora.shutter.FIO00 - INFO - The shutter state is on
+2025-02-04 15:58:17.874 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:58:17.874 - pandora.flipmount.FIO1 - INFO - Initializing FlipMount FIO1.
+2025-02-04 15:58:17.875 - pandora.flipmount.FIO1 - INFO - FlipMount state is off
+2025-02-04 15:58:17.875 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 15:58:17.875 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 15:58:17.875 - pandora.flipmount.FIO2 - INFO - Initializing FlipMount FIO2.
+2025-02-04 15:58:17.876 - pandora.flipmount.FIO2 - INFO - FlipMount state is off
+2025-02-04 15:58:17.876 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 15:58:17.876 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 15:58:17.877 - pandora.flipmount.FIO3 - INFO - Initializing FlipMount FIO3.
+2025-02-04 15:58:17.877 - pandora.flipmount.FIO3 - INFO - FlipMount state is off
+2025-02-04 15:58:17.878 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 15:58:17.878 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 15:58:17.878 - pandora.keysight.K1 - INFO - Initializing Keysight State.
+2025-02-04 15:58:17.943 - pandora.keysight.K1 - INFO - Connected to Keysight device at 169.254.5.2
+2025-02-04 15:58:17.943 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:17.943 - pandora.keysight.K1 - INFO - Setting default settings.
+2025-02-04 15:58:17.943 - pandora.keysight.K1 - INFO - Setting mode to CURR.
+2025-02-04 15:58:17.943 - pandora.keysight.K1 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:58:17.944 - pandora.keysight.K1 - INFO - Setting range to AUTO.
+2025-02-04 15:58:17.944 - pandora.keysight.K1 - INFO - Setting delay to 0.0.
+2025-02-04 15:58:17.944 - pandora.keysight.K1 - INFO - Setting interval to 2e-3.
+2025-02-04 15:58:17.944 - pandora.keysight.K1 - INFO - Setting number of samples to 10.
+2025-02-04 15:58:17.944 - pandora.keysight.K1 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:58:17.944 - pandora.keysight.K1 - INFO - Getting power reading from Keysight.
+2025-02-04 15:58:18.002 - pandora.keysight.K1 - INFO - Getting current mode from Keysight.
+2025-02-04 15:58:18.003 - pandora.keysight.K1 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:58:18.005 - pandora.keysight.K1 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:58:18.006 - pandora.keysight.K1 - INFO - Getting range setting from Keysight.
+2025-02-04 15:58:18.008 - pandora.keysight.K1 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:58:18.010 - pandora.keysight.K1 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:58:18.011 - pandora.keysight.K1 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:58:18.154 - pandora.keysight.K1 - INFO - Acquisition time defined to be 0.220 sec.
+2025-02-04 15:58:18.154 - pandora.keysight.K2 - INFO - Initializing Keysight State.
+2025-02-04 15:58:18.171 - pandora.keysight.K2 - INFO - Connected to Keysight device at 169.254.124.255
+2025-02-04 15:58:18.172 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:18.172 - pandora.keysight.K2 - INFO - Setting default settings.
+2025-02-04 15:58:18.172 - pandora.keysight.K2 - INFO - Setting mode to CURR.
+2025-02-04 15:58:18.173 - pandora.keysight.K2 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:58:18.173 - pandora.keysight.K2 - INFO - Setting range to AUTO.
+2025-02-04 15:58:18.173 - pandora.keysight.K2 - INFO - Setting delay to 0.0.
+2025-02-04 15:58:18.173 - pandora.keysight.K2 - INFO - Setting interval to 2e-3.
+2025-02-04 15:58:18.174 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:58:18.174 - pandora.keysight.K2 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:58:18.174 - pandora.keysight.K2 - INFO - Getting power reading from Keysight.
+2025-02-04 15:58:18.242 - pandora.keysight.K2 - INFO - Getting current mode from Keysight.
+2025-02-04 15:58:18.244 - pandora.keysight.K2 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:58:18.245 - pandora.keysight.K2 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:58:18.247 - pandora.keysight.K2 - INFO - Getting range setting from Keysight.
+2025-02-04 15:58:18.249 - pandora.keysight.K2 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:58:18.250 - pandora.keysight.K2 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:58:18.252 - pandora.keysight.K2 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:58:18.253 - pandora.keysight.K2 - INFO - Acquisition time defined to be 1.100 sec.
+2025-02-04 15:58:19.307 - pandora.zaber - INFO - Connected to Zaber device on 169.254.47.12 with speed 25 mm/s.
+2025-02-04 15:58:19.309 - pandora.controller - INFO - All subsystems have been initialized.
+2025-02-04 15:58:19.310 - pandora.controller - INFO - Initializing database connection...
+2025-02-04 15:58:19.310 - pandora.database - INFO - Root path: /Users/pandora_ctrl/Desktop
+2025-02-04 15:58:19.310 - pandora.database - INFO - Generating new run_id for date 20250204
+2025-02-04 15:58:19.311 - pandora.database - INFO - Set run_id to 20250204005
+2025-02-04 15:58:19.311 - pandora.database - INFO - Initializing paths for run_id=20250204005
+2025-02-04 15:58:19.318 - pandora.database - INFO - Run database is empty, starting with expid=0
+2025-02-04 15:58:19.318 - pandora.database - INFO - Set expid to 0
+2025-02-04 15:58:19.318 - pandora.shutter.FIO00 - INFO - Initializing ShutterState FIO00.
+2025-02-04 15:58:19.319 - pandora.shutter.FIO00 - INFO - The shutter state is on
+2025-02-04 15:58:19.319 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:58:19.319 - pandora.flipmount.FIO1 - INFO - Initializing FlipMount FIO1.
+2025-02-04 15:58:19.320 - pandora.flipmount.FIO1 - INFO - FlipMount state is off
+2025-02-04 15:58:19.320 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 15:58:19.320 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 15:58:19.320 - pandora.flipmount.FIO2 - INFO - Initializing FlipMount FIO2.
+2025-02-04 15:58:19.321 - pandora.flipmount.FIO2 - INFO - FlipMount state is off
+2025-02-04 15:58:19.321 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 15:58:19.321 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 15:58:19.321 - pandora.flipmount.FIO3 - INFO - Initializing FlipMount FIO3.
+2025-02-04 15:58:19.322 - pandora.flipmount.FIO3 - INFO - FlipMount state is off
+2025-02-04 15:58:19.322 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 15:58:19.322 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 15:58:19.322 - pandora.keysight.K1 - INFO - Initializing Keysight State.
+2025-02-04 15:58:19.351 - pandora.keysight.K1 - INFO - Connected to Keysight device at 169.254.5.2
+2025-02-04 15:58:19.351 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:19.351 - pandora.keysight.K1 - INFO - Setting default settings.
+2025-02-04 15:58:19.351 - pandora.keysight.K1 - INFO - Setting mode to CURR.
+2025-02-04 15:58:19.352 - pandora.keysight.K1 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:58:19.352 - pandora.keysight.K1 - INFO - Setting range to AUTO.
+2025-02-04 15:58:19.352 - pandora.keysight.K1 - INFO - Setting delay to 0.0.
+2025-02-04 15:58:19.352 - pandora.keysight.K1 - INFO - Setting interval to 0.002.
+2025-02-04 15:58:19.352 - pandora.keysight.K1 - INFO - Setting number of samples to 10.
+2025-02-04 15:58:19.352 - pandora.keysight.K1 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:58:19.352 - pandora.keysight.K1 - INFO - Getting power reading from Keysight.
+2025-02-04 15:58:19.410 - pandora.keysight.K1 - INFO - Getting current mode from Keysight.
+2025-02-04 15:58:19.412 - pandora.keysight.K1 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:58:19.414 - pandora.keysight.K1 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:58:19.416 - pandora.keysight.K1 - INFO - Getting range setting from Keysight.
+2025-02-04 15:58:19.417 - pandora.keysight.K1 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:58:19.419 - pandora.keysight.K1 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:58:19.421 - pandora.keysight.K1 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:58:19.423 - pandora.keysight.K1 - INFO - Acquisition time defined to be 0.220 sec.
+2025-02-04 15:58:19.423 - pandora.keysight.K2 - INFO - Initializing Keysight State.
+2025-02-04 15:58:19.439 - pandora.keysight.K2 - INFO - Connected to Keysight device at 169.254.124.255
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Setting default settings.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Setting mode to CURR.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Setting range to AUTO.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Setting delay to 0.0.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Setting interval to 0.002.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:58:19.440 - pandora.keysight.K2 - INFO - Getting power reading from Keysight.
+2025-02-04 15:58:19.510 - pandora.keysight.K2 - INFO - Getting current mode from Keysight.
+2025-02-04 15:58:19.512 - pandora.keysight.K2 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:58:19.514 - pandora.keysight.K2 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:58:19.516 - pandora.keysight.K2 - INFO - Getting range setting from Keysight.
+2025-02-04 15:58:19.517 - pandora.keysight.K2 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:58:19.519 - pandora.keysight.K2 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:58:19.521 - pandora.keysight.K2 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:58:19.523 - pandora.keysight.K2 - INFO - Acquisition time defined to be 1.100 sec.
+2025-02-04 15:58:20.574 - pandora.zaber - INFO - Connected to Zaber device on 169.254.47.12 with speed 25 mm/s.
+2025-02-04 15:58:20.576 - pandora.controller - INFO - All subsystems have been initialized.
+2025-02-04 15:58:21.086 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 15:58:21.086 - pandora.monochromator - INFO - Sent GOTO command to move to 400 nm.
+2025-02-04 15:58:21.106 - pandora.monochromator - INFO - Monochromator successfully moved to 400 nm.
+2025-02-04 15:58:22.613 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 15:58:22.613 - pandora.zaber - INFO - Zaber stage set to move to slot CLEAR
+2025-02-04 15:58:23.340 - pandora.zaber - INFO - Moved to mask slot CLEAR at 148.77 mm.
+2025-02-04 15:58:23.340 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:23.340 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:23.340 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 15:58:23.341 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 15:58:23.341 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 15:58:23.341 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:58:23.341 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 15:58:23.342 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 15:58:23.342 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 15:58:23.342 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 15:58:24.306 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 15:58:24.308 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 15:58:24.317 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 15:58:24.318 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 15:58:24.474 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:58:24.475 - pandora.controller - INFO - Exposure ended after 1.1326923370361328 seconds.
+2025-02-04 15:58:54.478 - pandora.shutter.FIO00 - INFO - Initializing ShutterState FIO00.
+2025-02-04 15:58:54.479 - pandora.shutter.FIO00 - INFO - The shutter state is on
+2025-02-04 15:58:54.479 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:58:54.479 - pandora.flipmount.FIO1 - INFO - Initializing FlipMount FIO1.
+2025-02-04 15:58:54.480 - pandora.flipmount.FIO1 - INFO - FlipMount state is off
+2025-02-04 15:58:54.480 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 15:58:54.480 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 15:58:54.481 - pandora.flipmount.FIO2 - INFO - Initializing FlipMount FIO2.
+2025-02-04 15:58:54.481 - pandora.flipmount.FIO2 - INFO - FlipMount state is off
+2025-02-04 15:58:54.481 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 15:58:54.481 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 15:58:54.482 - pandora.flipmount.FIO3 - INFO - Initializing FlipMount FIO3.
+2025-02-04 15:58:54.482 - pandora.flipmount.FIO3 - INFO - FlipMount state is off
+2025-02-04 15:58:54.482 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 15:58:54.482 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 15:58:54.482 - pandora.keysight.K1 - INFO - Initializing Keysight State.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Connected to Keysight device at 169.254.5.2
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Setting default settings.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Setting mode to CURR.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Setting range to AUTO.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Setting delay to 0.0.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Setting interval to 2e-3.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Setting number of samples to 10.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:58:54.548 - pandora.keysight.K1 - INFO - Getting power reading from Keysight.
+2025-02-04 15:58:54.607 - pandora.keysight.K1 - INFO - Getting current mode from Keysight.
+2025-02-04 15:58:54.854 - pandora.keysight.K1 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:58:54.855 - pandora.keysight.K1 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:58:54.857 - pandora.keysight.K1 - INFO - Getting range setting from Keysight.
+2025-02-04 15:58:54.859 - pandora.keysight.K1 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:58:54.860 - pandora.keysight.K1 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:58:54.862 - pandora.keysight.K1 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:58:54.863 - pandora.keysight.K1 - INFO - Acquisition time defined to be 0.220 sec.
+2025-02-04 15:58:54.863 - pandora.keysight.K2 - INFO - Initializing Keysight State.
+2025-02-04 15:58:54.881 - pandora.keysight.K2 - INFO - Connected to Keysight device at 169.254.124.255
+2025-02-04 15:58:54.881 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:54.881 - pandora.keysight.K2 - INFO - Setting default settings.
+2025-02-04 15:58:54.881 - pandora.keysight.K2 - INFO - Setting mode to CURR.
+2025-02-04 15:58:54.881 - pandora.keysight.K2 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:58:54.881 - pandora.keysight.K2 - INFO - Setting range to AUTO.
+2025-02-04 15:58:54.882 - pandora.keysight.K2 - INFO - Setting delay to 0.0.
+2025-02-04 15:58:54.882 - pandora.keysight.K2 - INFO - Setting interval to 2e-3.
+2025-02-04 15:58:54.882 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:58:54.882 - pandora.keysight.K2 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:58:54.882 - pandora.keysight.K2 - INFO - Getting power reading from Keysight.
+2025-02-04 15:58:54.950 - pandora.keysight.K2 - INFO - Getting current mode from Keysight.
+2025-02-04 15:58:54.952 - pandora.keysight.K2 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:58:54.954 - pandora.keysight.K2 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:58:54.955 - pandora.keysight.K2 - INFO - Getting range setting from Keysight.
+2025-02-04 15:58:54.957 - pandora.keysight.K2 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:58:54.958 - pandora.keysight.K2 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:58:54.960 - pandora.keysight.K2 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:58:54.961 - pandora.keysight.K2 - INFO - Acquisition time defined to be 1.100 sec.
+2025-02-04 15:58:56.015 - pandora.zaber - INFO - Connected to Zaber device on 169.254.47.12 with speed 25 mm/s.
+2025-02-04 15:58:56.018 - pandora.controller - INFO - All subsystems have been initialized.
+2025-02-04 15:58:56.018 - pandora.controller - INFO - Initializing database connection...
+2025-02-04 15:58:56.018 - pandora.database - INFO - Root path: /Users/pandora_ctrl/Desktop
+2025-02-04 15:58:56.018 - pandora.database - INFO - Generating new run_id for date 20250204
+2025-02-04 15:58:56.019 - pandora.database - INFO - Set run_id to 20250204006
+2025-02-04 15:58:56.019 - pandora.database - INFO - Initializing paths for run_id=20250204006
+2025-02-04 15:58:56.027 - pandora.database - INFO - Run database is empty, starting with expid=0
+2025-02-04 15:58:56.027 - pandora.database - INFO - Set expid to 0
+2025-02-04 15:58:56.027 - pandora.shutter.FIO00 - INFO - Initializing ShutterState FIO00.
+2025-02-04 15:58:56.028 - pandora.shutter.FIO00 - INFO - The shutter state is on
+2025-02-04 15:58:56.028 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:58:56.028 - pandora.flipmount.FIO1 - INFO - Initializing FlipMount FIO1.
+2025-02-04 15:58:56.029 - pandora.flipmount.FIO1 - INFO - FlipMount state is off
+2025-02-04 15:58:56.029 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 15:58:56.029 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 15:58:56.029 - pandora.flipmount.FIO2 - INFO - Initializing FlipMount FIO2.
+2025-02-04 15:58:56.029 - pandora.flipmount.FIO2 - INFO - FlipMount state is off
+2025-02-04 15:58:56.030 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 15:58:56.030 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 15:58:56.030 - pandora.flipmount.FIO3 - INFO - Initializing FlipMount FIO3.
+2025-02-04 15:58:56.030 - pandora.flipmount.FIO3 - INFO - FlipMount state is off
+2025-02-04 15:58:56.030 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 15:58:56.030 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 15:58:56.031 - pandora.keysight.K1 - INFO - Initializing Keysight State.
+2025-02-04 15:58:56.049 - pandora.keysight.K1 - INFO - Connected to Keysight device at 169.254.5.2
+2025-02-04 15:58:56.049 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:56.049 - pandora.keysight.K1 - INFO - Setting default settings.
+2025-02-04 15:58:56.050 - pandora.keysight.K1 - INFO - Setting mode to CURR.
+2025-02-04 15:58:56.050 - pandora.keysight.K1 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:58:56.050 - pandora.keysight.K1 - INFO - Setting range to AUTO.
+2025-02-04 15:58:56.050 - pandora.keysight.K1 - INFO - Setting delay to 0.0.
+2025-02-04 15:58:56.050 - pandora.keysight.K1 - INFO - Setting interval to 0.002.
+2025-02-04 15:58:56.050 - pandora.keysight.K1 - INFO - Setting number of samples to 10.
+2025-02-04 15:58:56.050 - pandora.keysight.K1 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:58:56.050 - pandora.keysight.K1 - INFO - Getting power reading from Keysight.
+2025-02-04 15:58:56.112 - pandora.keysight.K1 - INFO - Getting current mode from Keysight.
+2025-02-04 15:58:56.114 - pandora.keysight.K1 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:58:56.116 - pandora.keysight.K1 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:58:56.117 - pandora.keysight.K1 - INFO - Getting range setting from Keysight.
+2025-02-04 15:58:56.119 - pandora.keysight.K1 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:58:56.120 - pandora.keysight.K1 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:58:56.123 - pandora.keysight.K1 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:58:56.124 - pandora.keysight.K1 - INFO - Acquisition time defined to be 0.220 sec.
+2025-02-04 15:58:56.124 - pandora.keysight.K2 - INFO - Initializing Keysight State.
+2025-02-04 15:58:56.141 - pandora.keysight.K2 - INFO - Connected to Keysight device at 169.254.124.255
+2025-02-04 15:58:56.141 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:58:56.141 - pandora.keysight.K2 - INFO - Setting default settings.
+2025-02-04 15:58:56.141 - pandora.keysight.K2 - INFO - Setting mode to CURR.
+2025-02-04 15:58:56.141 - pandora.keysight.K2 - INFO - Setting NPLC to 1.0.
+2025-02-04 15:58:56.142 - pandora.keysight.K2 - INFO - Setting range to AUTO.
+2025-02-04 15:58:56.142 - pandora.keysight.K2 - INFO - Setting delay to 0.0.
+2025-02-04 15:58:56.142 - pandora.keysight.K2 - INFO - Setting interval to 0.002.
+2025-02-04 15:58:56.142 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:58:56.142 - pandora.keysight.K2 - INFO - Getting current parameters from Keysight.
+2025-02-04 15:58:56.142 - pandora.keysight.K2 - INFO - Getting power reading from Keysight.
+2025-02-04 15:58:56.213 - pandora.keysight.K2 - INFO - Getting current mode from Keysight.
+2025-02-04 15:58:56.214 - pandora.keysight.K2 - INFO - Getting aperture setting from Keysight.
+2025-02-04 15:58:56.216 - pandora.keysight.K2 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 15:58:56.218 - pandora.keysight.K2 - INFO - Getting range setting from Keysight.
+2025-02-04 15:58:56.219 - pandora.keysight.K2 - INFO - Getting delay setting from Keysight.
+2025-02-04 15:58:56.221 - pandora.keysight.K2 - INFO - Getting interval setting from Keysight.
+2025-02-04 15:58:56.223 - pandora.keysight.K2 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 15:58:56.224 - pandora.keysight.K2 - INFO - Acquisition time defined to be 1.100 sec.
+2025-02-04 15:58:57.275 - pandora.zaber - INFO - Connected to Zaber device on 169.254.47.12 with speed 25 mm/s.
+2025-02-04 15:58:57.278 - pandora.controller - INFO - All subsystems have been initialized.
+2025-02-04 15:58:57.788 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 15:58:57.788 - pandora.monochromator - INFO - Sent GOTO command to move to 400 nm.
+2025-02-04 15:58:57.808 - pandora.monochromator - INFO - Monochromator successfully moved to 400 nm.
+2025-02-04 15:58:59.314 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 15:58:59.314 - pandora.zaber - INFO - Zaber stage set to move to slot CLEAR
+2025-02-04 15:59:00.039 - pandora.zaber - INFO - Moved to mask slot CLEAR at 148.77 mm.
+2025-02-04 15:59:00.039 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 15:59:00.040 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 15:59:00.040 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 15:59:00.040 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 15:59:00.040 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 15:59:00.040 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 15:59:00.041 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 15:59:00.041 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 15:59:00.042 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 15:59:00.042 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 15:59:01.007 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 15:59:01.009 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 15:59:01.096 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 15:59:01.098 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 15:59:01.106 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 15:59:01.106 - pandora.controller - INFO - Exposure ended after 1.0651400089263916 seconds.
+2025-02-04 15:59:02.624 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 15:59:02.629 - pandora.monochromator - INFO - Current wavelength is: 400.0 nm.
+2025-02-04 15:59:02.645 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 15:59:04.151 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:00:13.580 - pandora.shutter.FIO00 - INFO - Initializing ShutterState FIO00.
+2025-02-04 16:00:13.581 - pandora.shutter.FIO00 - INFO - The shutter state is on
+2025-02-04 16:00:13.581 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:00:13.581 - pandora.flipmount.FIO1 - INFO - Initializing FlipMount FIO1.
+2025-02-04 16:00:13.582 - pandora.flipmount.FIO1 - INFO - FlipMount state is off
+2025-02-04 16:00:13.582 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 16:00:13.582 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 16:00:13.583 - pandora.flipmount.FIO2 - INFO - Initializing FlipMount FIO2.
+2025-02-04 16:00:13.583 - pandora.flipmount.FIO2 - INFO - FlipMount state is off
+2025-02-04 16:00:13.583 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 16:00:13.583 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 16:00:13.583 - pandora.flipmount.FIO3 - INFO - Initializing FlipMount FIO3.
+2025-02-04 16:00:13.584 - pandora.flipmount.FIO3 - INFO - FlipMount state is off
+2025-02-04 16:00:13.584 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 16:00:13.584 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 16:00:13.584 - pandora.keysight.K1 - INFO - Initializing Keysight State.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Connected to Keysight device at 169.254.5.2
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Setting default settings.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Setting mode to CURR.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Setting NPLC to 1.0.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Setting range to AUTO.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Setting delay to 0.0.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Setting interval to 2e-3.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Setting number of samples to 10.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Getting current parameters from Keysight.
+2025-02-04 16:00:13.649 - pandora.keysight.K1 - INFO - Getting power reading from Keysight.
+2025-02-04 16:00:13.708 - pandora.keysight.K1 - INFO - Getting current mode from Keysight.
+2025-02-04 16:00:13.709 - pandora.keysight.K1 - INFO - Getting aperture setting from Keysight.
+2025-02-04 16:00:13.711 - pandora.keysight.K1 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 16:00:13.712 - pandora.keysight.K1 - INFO - Getting range setting from Keysight.
+2025-02-04 16:00:13.713 - pandora.keysight.K1 - INFO - Getting delay setting from Keysight.
+2025-02-04 16:00:13.715 - pandora.keysight.K1 - INFO - Getting interval setting from Keysight.
+2025-02-04 16:00:13.716 - pandora.keysight.K1 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 16:00:13.718 - pandora.keysight.K1 - INFO - Acquisition time defined to be 0.220 sec.
+2025-02-04 16:00:13.718 - pandora.keysight.K2 - INFO - Initializing Keysight State.
+2025-02-04 16:00:13.865 - pandora.keysight.K2 - INFO - Connected to Keysight device at 169.254.124.255
+2025-02-04 16:00:13.865 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:13.865 - pandora.keysight.K2 - INFO - Setting default settings.
+2025-02-04 16:00:13.865 - pandora.keysight.K2 - INFO - Setting mode to CURR.
+2025-02-04 16:00:13.865 - pandora.keysight.K2 - INFO - Setting NPLC to 1.0.
+2025-02-04 16:00:13.866 - pandora.keysight.K2 - INFO - Setting range to AUTO.
+2025-02-04 16:00:13.866 - pandora.keysight.K2 - INFO - Setting delay to 0.0.
+2025-02-04 16:00:13.866 - pandora.keysight.K2 - INFO - Setting interval to 2e-3.
+2025-02-04 16:00:13.866 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:13.866 - pandora.keysight.K2 - INFO - Getting current parameters from Keysight.
+2025-02-04 16:00:13.866 - pandora.keysight.K2 - INFO - Getting power reading from Keysight.
+2025-02-04 16:00:13.935 - pandora.keysight.K2 - INFO - Getting current mode from Keysight.
+2025-02-04 16:00:13.936 - pandora.keysight.K2 - INFO - Getting aperture setting from Keysight.
+2025-02-04 16:00:14.856 - pandora.keysight.K2 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 16:00:14.857 - pandora.keysight.K2 - INFO - Getting range setting from Keysight.
+2025-02-04 16:00:14.859 - pandora.keysight.K2 - INFO - Getting delay setting from Keysight.
+2025-02-04 16:00:14.861 - pandora.keysight.K2 - INFO - Getting interval setting from Keysight.
+2025-02-04 16:00:14.863 - pandora.keysight.K2 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 16:00:14.864 - pandora.keysight.K2 - INFO - Acquisition time defined to be 1.100 sec.
+2025-02-04 16:00:15.920 - pandora.zaber - INFO - Connected to Zaber device on 169.254.47.12 with speed 25 mm/s.
+2025-02-04 16:00:15.923 - pandora.controller - INFO - All subsystems have been initialized.
+2025-02-04 16:00:15.923 - pandora.controller - INFO - Initializing database connection...
+2025-02-04 16:00:15.924 - pandora.database - INFO - Root path: /Users/pandora_ctrl/Desktop
+2025-02-04 16:00:15.924 - pandora.database - INFO - Generating new run_id for date 20250204
+2025-02-04 16:00:15.924 - pandora.database - INFO - Set run_id to 20250204007
+2025-02-04 16:00:15.924 - pandora.database - INFO - Initializing paths for run_id=20250204007
+2025-02-04 16:00:15.932 - pandora.database - INFO - Run database is empty, starting with expid=0
+2025-02-04 16:00:15.932 - pandora.database - INFO - Set expid to 0
+2025-02-04 16:00:15.932 - pandora.shutter.FIO00 - INFO - Initializing ShutterState FIO00.
+2025-02-04 16:00:15.933 - pandora.shutter.FIO00 - INFO - The shutter state is on
+2025-02-04 16:00:15.933 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:00:15.933 - pandora.flipmount.FIO1 - INFO - Initializing FlipMount FIO1.
+2025-02-04 16:00:15.934 - pandora.flipmount.FIO1 - INFO - FlipMount state is off
+2025-02-04 16:00:15.934 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 16:00:15.934 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 16:00:15.934 - pandora.flipmount.FIO2 - INFO - Initializing FlipMount FIO2.
+2025-02-04 16:00:15.934 - pandora.flipmount.FIO2 - INFO - FlipMount state is off
+2025-02-04 16:00:15.934 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 16:00:15.934 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 16:00:15.934 - pandora.flipmount.FIO3 - INFO - Initializing FlipMount FIO3.
+2025-02-04 16:00:15.935 - pandora.flipmount.FIO3 - INFO - FlipMount state is off
+2025-02-04 16:00:15.935 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 16:00:15.935 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 16:00:15.935 - pandora.keysight.K1 - INFO - Initializing Keysight State.
+2025-02-04 16:00:15.963 - pandora.keysight.K1 - INFO - Connected to Keysight device at 169.254.5.2
+2025-02-04 16:00:15.963 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:15.963 - pandora.keysight.K1 - INFO - Setting default settings.
+2025-02-04 16:00:15.963 - pandora.keysight.K1 - INFO - Setting mode to CURR.
+2025-02-04 16:00:15.963 - pandora.keysight.K1 - INFO - Setting NPLC to 1.0.
+2025-02-04 16:00:15.964 - pandora.keysight.K1 - INFO - Setting range to AUTO.
+2025-02-04 16:00:15.964 - pandora.keysight.K1 - INFO - Setting delay to 0.0.
+2025-02-04 16:00:15.964 - pandora.keysight.K1 - INFO - Setting interval to 0.002.
+2025-02-04 16:00:15.964 - pandora.keysight.K1 - INFO - Setting number of samples to 10.
+2025-02-04 16:00:15.964 - pandora.keysight.K1 - INFO - Getting current parameters from Keysight.
+2025-02-04 16:00:15.964 - pandora.keysight.K1 - INFO - Getting power reading from Keysight.
+2025-02-04 16:00:16.022 - pandora.keysight.K1 - INFO - Getting current mode from Keysight.
+2025-02-04 16:00:16.024 - pandora.keysight.K1 - INFO - Getting aperture setting from Keysight.
+2025-02-04 16:00:16.026 - pandora.keysight.K1 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 16:00:16.028 - pandora.keysight.K1 - INFO - Getting range setting from Keysight.
+2025-02-04 16:00:16.029 - pandora.keysight.K1 - INFO - Getting delay setting from Keysight.
+2025-02-04 16:00:16.031 - pandora.keysight.K1 - INFO - Getting interval setting from Keysight.
+2025-02-04 16:00:16.033 - pandora.keysight.K1 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 16:00:16.034 - pandora.keysight.K1 - INFO - Acquisition time defined to be 0.220 sec.
+2025-02-04 16:00:16.034 - pandora.keysight.K2 - INFO - Initializing Keysight State.
+2025-02-04 16:00:16.052 - pandora.keysight.K2 - INFO - Connected to Keysight device at 169.254.124.255
+2025-02-04 16:00:16.052 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:16.052 - pandora.keysight.K2 - INFO - Setting default settings.
+2025-02-04 16:00:16.053 - pandora.keysight.K2 - INFO - Setting mode to CURR.
+2025-02-04 16:00:16.053 - pandora.keysight.K2 - INFO - Setting NPLC to 1.0.
+2025-02-04 16:00:16.053 - pandora.keysight.K2 - INFO - Setting range to AUTO.
+2025-02-04 16:00:16.053 - pandora.keysight.K2 - INFO - Setting delay to 0.0.
+2025-02-04 16:00:16.053 - pandora.keysight.K2 - INFO - Setting interval to 0.002.
+2025-02-04 16:00:16.054 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:16.054 - pandora.keysight.K2 - INFO - Getting current parameters from Keysight.
+2025-02-04 16:00:16.054 - pandora.keysight.K2 - INFO - Getting power reading from Keysight.
+2025-02-04 16:00:16.123 - pandora.keysight.K2 - INFO - Getting current mode from Keysight.
+2025-02-04 16:00:16.125 - pandora.keysight.K2 - INFO - Getting aperture setting from Keysight.
+2025-02-04 16:00:16.127 - pandora.keysight.K2 - INFO - Getting NPLC setting from Keysight.
+2025-02-04 16:00:16.129 - pandora.keysight.K2 - INFO - Getting range setting from Keysight.
+2025-02-04 16:00:16.130 - pandora.keysight.K2 - INFO - Getting delay setting from Keysight.
+2025-02-04 16:00:16.132 - pandora.keysight.K2 - INFO - Getting interval setting from Keysight.
+2025-02-04 16:00:16.134 - pandora.keysight.K2 - INFO - Getting number of samples setting from Keysight.
+2025-02-04 16:00:16.135 - pandora.keysight.K2 - INFO - Acquisition time defined to be 1.100 sec.
+2025-02-04 16:00:17.187 - pandora.zaber - INFO - Connected to Zaber device on 169.254.47.12 with speed 25 mm/s.
+2025-02-04 16:00:17.189 - pandora.controller - INFO - All subsystems have been initialized.
+2025-02-04 16:00:17.700 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:00:17.701 - pandora.monochromator - INFO - Sent GOTO command to move to 400 nm.
+2025-02-04 16:00:17.720 - pandora.monochromator - INFO - Monochromator successfully moved to 400 nm.
+2025-02-04 16:00:19.227 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:00:19.227 - pandora.zaber - INFO - Zaber stage set to move to slot CLEAR
+2025-02-04 16:00:19.953 - pandora.zaber - INFO - Moved to mask slot CLEAR at 148.77 mm.
+2025-02-04 16:00:19.954 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:19.954 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:19.954 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:00:19.954 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:19.954 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:00:19.954 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:19.954 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:00:19.955 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:00:19.955 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:00:19.955 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:00:20.919 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:00:20.921 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:00:21.150 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:00:21.152 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:00:21.858 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:00:21.859 - pandora.controller - INFO - Exposure ended after 1.90389084815979 seconds.
+2025-02-04 16:00:23.372 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:00:23.377 - pandora.monochromator - INFO - Current wavelength is: 400.0 nm.
+2025-02-04 16:00:23.393 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:00:24.900 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:00:24.901 - pandora.database - INFO - Saved lightcurve for expid=0 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_000
+2025-02-04 16:00:24.902 - pandora.database - INFO - Saved lightcurve for expid=0 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_000
+2025-02-04 16:00:24.907 - pandora.database - INFO - Wrote exposure expid=1 to run_id=20250204007
+2025-02-04 16:00:24.907 - pandora.zaber - INFO - Zaber stage set to move to slot OD20
+2025-02-04 16:00:30.900 - pandora.zaber - INFO - Moved to mask slot OD20 at 113.57 mm.
+2025-02-04 16:00:30.900 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:30.900 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:30.900 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:00:30.901 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:30.901 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:00:30.901 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:30.901 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:00:30.902 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:00:30.902 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:00:30.902 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:00:31.867 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:00:31.869 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:00:31.878 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:00:31.879 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:00:31.887 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:00:31.888 - pandora.controller - INFO - Exposure ended after 0.9861690998077393 seconds.
+2025-02-04 16:00:33.400 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:00:33.405 - pandora.monochromator - INFO - Current wavelength is: 400.0 nm.
+2025-02-04 16:00:33.421 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:00:34.927 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:00:34.929 - pandora.database - INFO - Saved lightcurve for expid=1 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_001
+2025-02-04 16:00:34.930 - pandora.database - INFO - Saved lightcurve for expid=1 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_001
+2025-02-04 16:00:34.934 - pandora.database - INFO - Wrote exposure expid=2 to run_id=20250204007
+2025-02-04 16:00:34.934 - pandora.zaber - INFO - Zaber stage set to move to slot OD15
+2025-02-04 16:00:40.716 - pandora.zaber - INFO - Moved to mask slot OD15 at 79.57 mm.
+2025-02-04 16:00:40.716 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:40.716 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:40.716 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:00:40.716 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:40.716 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:00:40.716 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:40.717 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:00:40.717 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:00:40.718 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:00:40.718 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:00:41.681 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:00:41.683 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:00:41.826 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:00:41.827 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:00:41.835 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:00:41.836 - pandora.controller - INFO - Exposure ended after 1.1187782287597656 seconds.
+2025-02-04 16:00:43.353 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:00:43.358 - pandora.monochromator - INFO - Current wavelength is: 400.0 nm.
+2025-02-04 16:00:43.374 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:00:44.881 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:00:44.882 - pandora.database - INFO - Saved lightcurve for expid=2 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_002
+2025-02-04 16:00:44.883 - pandora.database - INFO - Saved lightcurve for expid=2 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_002
+2025-02-04 16:00:44.886 - pandora.database - INFO - Wrote exposure expid=3 to run_id=20250204007
+2025-02-04 16:00:44.886 - pandora.zaber - INFO - Zaber stage set to move to slot OD10
+2025-02-04 16:00:50.571 - pandora.zaber - INFO - Moved to mask slot OD10 at 46.37 mm.
+2025-02-04 16:00:50.571 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:50.572 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:00:50.572 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:00:50.572 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:50.572 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:00:50.572 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:00:50.573 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:00:50.574 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:00:50.574 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:00:50.574 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:00:51.539 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:00:51.541 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:00:51.550 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:00:51.551 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:00:51.685 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:00:51.685 - pandora.controller - INFO - Exposure ended after 1.1118147373199463 seconds.
+2025-02-04 16:00:53.201 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:00:53.207 - pandora.monochromator - INFO - Current wavelength is: 400.0 nm.
+2025-02-04 16:00:53.222 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:00:54.729 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:00:54.731 - pandora.database - INFO - Saved lightcurve for expid=3 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_003
+2025-02-04 16:00:54.731 - pandora.database - INFO - Saved lightcurve for expid=3 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_003
+2025-02-04 16:00:54.734 - pandora.database - INFO - Wrote exposure expid=4 to run_id=20250204007
+2025-02-04 16:00:54.735 - pandora.zaber - INFO - Zaber stage set to move to slot OD05
+2025-02-04 16:01:01.448 - pandora.zaber - INFO - Moved to mask slot OD05 at 7.00 mm.
+2025-02-04 16:01:01.449 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:01:01.449 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:01:01.449 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:01:01.449 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:01:01.449 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:01:01.449 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:01:01.449 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:01:01.450 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:01:01.450 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:01:01.450 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:01:02.414 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:01:02.416 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:01:02.424 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:01:02.426 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:01:02.733 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:01:02.734 - pandora.controller - INFO - Exposure ended after 1.2837090492248535 seconds.
+2025-02-04 16:01:04.251 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:01:04.256 - pandora.monochromator - INFO - Current wavelength is: 400.0 nm.
+2025-02-04 16:01:04.272 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:01:05.779 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:01:05.781 - pandora.database - INFO - Saved lightcurve for expid=4 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_004
+2025-02-04 16:01:05.781 - pandora.database - INFO - Saved lightcurve for expid=4 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_004
+2025-02-04 16:01:05.786 - pandora.database - INFO - Wrote exposure expid=5 to run_id=20250204007
+2025-02-04 16:01:06.299 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:01:06.299 - pandora.monochromator - INFO - Sent GOTO command to move to 500 nm.
+2025-02-04 16:01:06.438 - pandora.monochromator - INFO - Monochromator successfully moved to 500 nm.
+2025-02-04 16:01:07.944 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:01:07.945 - pandora.zaber - INFO - Zaber stage set to move to slot CLEAR
+2025-02-04 16:01:31.677 - pandora.zaber - INFO - Moved to mask slot CLEAR at 148.77 mm.
+2025-02-04 16:01:31.677 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:01:31.677 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:01:31.678 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:01:31.678 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:01:31.678 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:01:31.678 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:01:31.678 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:01:31.679 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:01:31.679 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:01:31.679 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:01:32.641 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:01:32.643 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:01:32.765 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:01:32.767 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:01:32.775 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:01:32.776 - pandora.controller - INFO - Exposure ended after 1.0975708961486816 seconds.
+2025-02-04 16:01:34.291 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:01:34.296 - pandora.monochromator - INFO - Current wavelength is: 500.0 nm.
+2025-02-04 16:01:34.312 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:01:35.818 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:01:35.819 - pandora.database - INFO - Saved lightcurve for expid=5 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_005
+2025-02-04 16:01:35.820 - pandora.database - INFO - Saved lightcurve for expid=5 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_005
+2025-02-04 16:01:35.823 - pandora.database - INFO - Wrote exposure expid=6 to run_id=20250204007
+2025-02-04 16:01:35.823 - pandora.zaber - INFO - Zaber stage set to move to slot OD20
+2025-02-04 16:01:41.808 - pandora.zaber - INFO - Moved to mask slot OD20 at 113.57 mm.
+2025-02-04 16:01:41.808 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:01:41.808 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:01:41.809 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:01:41.809 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:01:41.809 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:01:41.809 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:01:41.809 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:01:41.810 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:01:41.811 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:01:41.811 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:01:42.773 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:01:42.775 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:01:42.846 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:01:42.847 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:01:43.062 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:01:43.064 - pandora.controller - INFO - Exposure ended after 1.253235101699829 seconds.
+2025-02-04 16:01:44.579 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:01:44.584 - pandora.monochromator - INFO - Current wavelength is: 500.0 nm.
+2025-02-04 16:01:44.599 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:01:46.105 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:01:46.107 - pandora.database - INFO - Saved lightcurve for expid=6 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_006
+2025-02-04 16:01:46.108 - pandora.database - INFO - Saved lightcurve for expid=6 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_006
+2025-02-04 16:01:46.114 - pandora.database - INFO - Wrote exposure expid=7 to run_id=20250204007
+2025-02-04 16:01:46.114 - pandora.zaber - INFO - Zaber stage set to move to slot OD15
+2025-02-04 16:01:51.892 - pandora.zaber - INFO - Moved to mask slot OD15 at 79.57 mm.
+2025-02-04 16:01:51.892 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:01:51.893 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:01:51.893 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:01:51.893 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:01:51.893 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:01:51.893 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:01:51.893 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:01:51.894 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:01:51.894 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:01:51.894 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:01:52.855 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:01:52.857 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:01:52.866 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:01:52.867 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:01:52.876 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:01:52.877 - pandora.controller - INFO - Exposure ended after 0.9827179908752441 seconds.
+2025-02-04 16:01:54.393 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:01:54.398 - pandora.monochromator - INFO - Current wavelength is: 500.0 nm.
+2025-02-04 16:01:54.415 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:01:55.921 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:01:55.923 - pandora.database - INFO - Saved lightcurve for expid=7 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_007
+2025-02-04 16:01:55.925 - pandora.database - INFO - Saved lightcurve for expid=7 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_007
+2025-02-04 16:01:55.929 - pandora.database - INFO - Wrote exposure expid=8 to run_id=20250204007
+2025-02-04 16:01:55.930 - pandora.zaber - INFO - Zaber stage set to move to slot OD10
+2025-02-04 16:02:01.607 - pandora.zaber - INFO - Moved to mask slot OD10 at 46.37 mm.
+2025-02-04 16:02:01.607 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:02:01.608 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:02:01.608 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:02:01.608 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:02:01.608 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:02:01.608 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:02:01.609 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:02:01.609 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:02:01.610 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:02:01.610 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:02:02.572 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:02:02.574 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:02:02.582 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:02:02.584 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:02:02.767 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:02:02.768 - pandora.controller - INFO - Exposure ended after 1.1586079597473145 seconds.
+2025-02-04 16:02:04.282 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:02:04.287 - pandora.monochromator - INFO - Current wavelength is: 500.0 nm.
+2025-02-04 16:02:04.303 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:02:05.810 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:02:05.811 - pandora.database - INFO - Saved lightcurve for expid=8 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_008
+2025-02-04 16:02:05.811 - pandora.database - INFO - Saved lightcurve for expid=8 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_008
+2025-02-04 16:02:05.814 - pandora.database - INFO - Wrote exposure expid=9 to run_id=20250204007
+2025-02-04 16:02:05.814 - pandora.zaber - INFO - Zaber stage set to move to slot OD05
+2025-02-04 16:02:12.521 - pandora.zaber - INFO - Moved to mask slot OD05 at 7.00 mm.
+2025-02-04 16:02:12.521 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:02:12.521 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:02:12.522 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:02:12.522 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:02:12.522 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:02:12.522 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:02:12.522 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:02:12.523 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:02:12.523 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:02:12.523 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:02:13.487 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:02:13.489 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:02:13.497 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:02:13.498 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:02:13.506 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:02:13.507 - pandora.controller - INFO - Exposure ended after 0.9846041202545166 seconds.
+2025-02-04 16:02:15.024 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:02:15.029 - pandora.monochromator - INFO - Current wavelength is: 500.0 nm.
+2025-02-04 16:02:15.045 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:02:16.551 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:02:16.552 - pandora.database - INFO - Saved lightcurve for expid=9 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_009
+2025-02-04 16:02:16.553 - pandora.database - INFO - Saved lightcurve for expid=9 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_009
+2025-02-04 16:02:16.555 - pandora.database - INFO - Wrote exposure expid=10 to run_id=20250204007
+2025-02-04 16:02:17.066 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:02:17.066 - pandora.monochromator - INFO - Sent GOTO command to move to 600 nm.
+2025-02-04 16:02:17.206 - pandora.monochromator - INFO - Monochromator successfully moved to 600 nm.
+2025-02-04 16:02:18.712 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:02:18.712 - pandora.zaber - INFO - Zaber stage set to move to slot CLEAR
+2025-02-04 16:02:42.461 - pandora.zaber - INFO - Moved to mask slot CLEAR at 148.77 mm.
+2025-02-04 16:02:42.462 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:02:42.462 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:02:42.462 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:02:42.462 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:02:42.462 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:02:42.462 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:02:42.463 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:02:42.463 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:02:42.464 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:02:42.464 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:02:43.429 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:02:43.431 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:02:43.439 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:02:43.441 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:02:43.590 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:02:43.591 - pandora.controller - INFO - Exposure ended after 1.1278340816497803 seconds.
+2025-02-04 16:02:45.109 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:02:45.114 - pandora.monochromator - INFO - Current wavelength is: 600.0 nm.
+2025-02-04 16:02:45.129 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:02:46.637 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:02:46.638 - pandora.database - INFO - Saved lightcurve for expid=10 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_010
+2025-02-04 16:02:46.639 - pandora.database - INFO - Saved lightcurve for expid=10 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_010
+2025-02-04 16:02:46.642 - pandora.database - INFO - Wrote exposure expid=11 to run_id=20250204007
+2025-02-04 16:02:46.642 - pandora.zaber - INFO - Zaber stage set to move to slot OD20
+2025-02-04 16:02:52.637 - pandora.zaber - INFO - Moved to mask slot OD20 at 113.57 mm.
+2025-02-04 16:02:52.637 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:02:52.637 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:02:52.638 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:02:52.638 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:02:52.638 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:02:52.638 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:02:52.638 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:02:52.639 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:02:52.639 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:02:52.639 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:02:53.604 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:02:53.606 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:02:53.614 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:02:53.615 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:02:53.623 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:02:53.624 - pandora.controller - INFO - Exposure ended after 0.9851408004760742 seconds.
+2025-02-04 16:02:55.140 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:02:55.145 - pandora.monochromator - INFO - Current wavelength is: 600.0 nm.
+2025-02-04 16:02:55.161 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:02:56.668 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:02:56.670 - pandora.database - INFO - Saved lightcurve for expid=11 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_011
+2025-02-04 16:02:56.671 - pandora.database - INFO - Saved lightcurve for expid=11 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_011
+2025-02-04 16:02:56.674 - pandora.database - INFO - Wrote exposure expid=12 to run_id=20250204007
+2025-02-04 16:02:56.674 - pandora.zaber - INFO - Zaber stage set to move to slot OD15
+2025-02-04 16:03:02.460 - pandora.zaber - INFO - Moved to mask slot OD15 at 79.57 mm.
+2025-02-04 16:03:02.460 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:03:02.460 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:03:02.460 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:03:02.460 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:03:02.460 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:03:02.461 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:03:02.461 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:03:02.461 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:03:02.462 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:03:02.462 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:03:03.427 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:03:03.429 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:03:03.437 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:03:03.438 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:03:03.446 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:03:03.447 - pandora.controller - INFO - Exposure ended after 0.9854929447174072 seconds.
+2025-02-04 16:03:04.961 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:03:04.966 - pandora.monochromator - INFO - Current wavelength is: 600.0 nm.
+2025-02-04 16:03:04.982 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:03:06.489 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:03:06.490 - pandora.database - INFO - Saved lightcurve for expid=12 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_012
+2025-02-04 16:03:06.491 - pandora.database - INFO - Saved lightcurve for expid=12 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_012
+2025-02-04 16:03:06.494 - pandora.database - INFO - Wrote exposure expid=13 to run_id=20250204007
+2025-02-04 16:03:06.494 - pandora.zaber - INFO - Zaber stage set to move to slot OD10
+2025-02-04 16:03:12.174 - pandora.zaber - INFO - Moved to mask slot OD10 at 46.37 mm.
+2025-02-04 16:03:12.174 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:03:12.174 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:03:12.174 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:03:12.175 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:03:12.175 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:03:12.175 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:03:12.175 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:03:12.176 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:03:12.176 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:03:12.176 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:03:13.140 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:03:13.142 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:03:13.151 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:03:13.152 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:03:13.276 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:03:13.277 - pandora.controller - INFO - Exposure ended after 1.1010241508483887 seconds.
+2025-02-04 16:03:14.794 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:03:14.799 - pandora.monochromator - INFO - Current wavelength is: 600.0 nm.
+2025-02-04 16:03:14.815 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:03:16.321 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:03:16.323 - pandora.database - INFO - Saved lightcurve for expid=13 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_013
+2025-02-04 16:03:16.324 - pandora.database - INFO - Saved lightcurve for expid=13 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_013
+2025-02-04 16:03:16.329 - pandora.database - INFO - Wrote exposure expid=14 to run_id=20250204007
+2025-02-04 16:03:16.329 - pandora.zaber - INFO - Zaber stage set to move to slot OD05
+2025-02-04 16:03:23.044 - pandora.zaber - INFO - Moved to mask slot OD05 at 7.00 mm.
+2025-02-04 16:03:23.044 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:03:23.044 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:03:23.044 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:03:23.044 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:03:23.045 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:03:23.045 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:03:23.045 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:03:23.045 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:03:23.046 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:03:23.046 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:03:24.008 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:03:24.010 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:03:24.018 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:03:24.020 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:03:24.158 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:03:24.159 - pandora.controller - INFO - Exposure ended after 1.1140260696411133 seconds.
+2025-02-04 16:03:25.676 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:03:25.681 - pandora.monochromator - INFO - Current wavelength is: 600.0 nm.
+2025-02-04 16:03:25.697 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:03:27.204 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:03:27.206 - pandora.database - INFO - Saved lightcurve for expid=14 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_014
+2025-02-04 16:03:27.207 - pandora.database - INFO - Saved lightcurve for expid=14 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_014
+2025-02-04 16:03:27.212 - pandora.database - INFO - Wrote exposure expid=15 to run_id=20250204007
+2025-02-04 16:03:27.723 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:03:27.723 - pandora.monochromator - INFO - Sent GOTO command to move to 700 nm.
+2025-02-04 16:03:27.864 - pandora.monochromator - INFO - Monochromator successfully moved to 700 nm.
+2025-02-04 16:03:29.370 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:03:29.370 - pandora.zaber - INFO - Zaber stage set to move to slot CLEAR
+2025-02-04 16:03:53.123 - pandora.zaber - INFO - Moved to mask slot CLEAR at 148.77 mm.
+2025-02-04 16:03:53.124 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:03:53.124 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:03:53.124 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:03:53.124 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:03:53.124 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:03:53.124 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:03:53.124 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:03:53.125 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:03:53.125 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:03:53.125 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:03:54.089 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:03:54.091 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:03:54.098 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:03:54.100 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:03:54.109 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:03:54.110 - pandora.controller - INFO - Exposure ended after 0.9848759174346924 seconds.
+2025-02-04 16:03:55.625 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:03:55.630 - pandora.monochromator - INFO - Current wavelength is: 700.0 nm.
+2025-02-04 16:03:55.646 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:03:57.153 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:03:57.154 - pandora.database - INFO - Saved lightcurve for expid=15 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_015
+2025-02-04 16:03:57.154 - pandora.database - INFO - Saved lightcurve for expid=15 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_015
+2025-02-04 16:03:57.158 - pandora.database - INFO - Wrote exposure expid=16 to run_id=20250204007
+2025-02-04 16:03:57.158 - pandora.zaber - INFO - Zaber stage set to move to slot OD20
+2025-02-04 16:04:03.149 - pandora.zaber - INFO - Moved to mask slot OD20 at 113.57 mm.
+2025-02-04 16:04:03.150 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:04:03.150 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:04:03.150 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:04:03.150 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:04:03.151 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:04:03.151 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:04:03.151 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:04:03.152 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:04:03.152 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:04:03.152 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:04:04.117 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:04:04.119 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:04:04.127 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:04:04.128 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:04:04.137 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:04:04.138 - pandora.controller - INFO - Exposure ended after 0.9863369464874268 seconds.
+2025-02-04 16:04:05.650 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:04:05.655 - pandora.monochromator - INFO - Current wavelength is: 700.0 nm.
+2025-02-04 16:04:05.671 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:04:07.178 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:04:07.180 - pandora.database - INFO - Saved lightcurve for expid=16 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_016
+2025-02-04 16:04:07.180 - pandora.database - INFO - Saved lightcurve for expid=16 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_016
+2025-02-04 16:04:07.186 - pandora.database - INFO - Wrote exposure expid=17 to run_id=20250204007
+2025-02-04 16:04:07.187 - pandora.zaber - INFO - Zaber stage set to move to slot OD15
+2025-02-04 16:04:12.970 - pandora.zaber - INFO - Moved to mask slot OD15 at 79.57 mm.
+2025-02-04 16:04:12.970 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:04:12.970 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:04:12.970 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:04:12.970 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:04:12.971 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:04:12.971 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:04:12.971 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:04:12.972 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:04:12.972 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:04:12.972 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:04:13.937 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:04:13.939 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:04:13.947 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:04:13.949 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:04:13.957 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:04:13.958 - pandora.controller - INFO - Exposure ended after 0.9866721630096436 seconds.
+2025-02-04 16:04:15.472 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:04:15.477 - pandora.monochromator - INFO - Current wavelength is: 700.0 nm.
+2025-02-04 16:04:15.492 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:04:16.999 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:04:17.001 - pandora.database - INFO - Saved lightcurve for expid=17 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_017
+2025-02-04 16:04:17.002 - pandora.database - INFO - Saved lightcurve for expid=17 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_017
+2025-02-04 16:04:17.008 - pandora.database - INFO - Wrote exposure expid=18 to run_id=20250204007
+2025-02-04 16:04:17.008 - pandora.zaber - INFO - Zaber stage set to move to slot OD10
+2025-02-04 16:04:22.686 - pandora.zaber - INFO - Moved to mask slot OD10 at 46.37 mm.
+2025-02-04 16:04:22.686 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:04:22.686 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:04:22.687 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:04:22.687 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:04:22.687 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:04:22.687 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:04:22.687 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:04:22.687 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:04:22.687 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:04:22.687 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:04:23.650 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:04:23.652 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:04:23.660 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:04:23.662 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:04:23.777 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:04:23.778 - pandora.controller - INFO - Exposure ended after 1.0903820991516113 seconds.
+2025-02-04 16:04:25.293 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:04:25.298 - pandora.monochromator - INFO - Current wavelength is: 700.0 nm.
+2025-02-04 16:04:25.313 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:04:26.819 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:04:26.821 - pandora.database - INFO - Saved lightcurve for expid=18 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_018
+2025-02-04 16:04:26.821 - pandora.database - INFO - Saved lightcurve for expid=18 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_018
+2025-02-04 16:04:26.826 - pandora.database - INFO - Wrote exposure expid=19 to run_id=20250204007
+2025-02-04 16:04:26.826 - pandora.zaber - INFO - Zaber stage set to move to slot OD05
+2025-02-04 16:04:33.537 - pandora.zaber - INFO - Moved to mask slot OD05 at 7.00 mm.
+2025-02-04 16:04:33.537 - pandora.keysight.K1 - INFO - Turning Keysight input ON.
+2025-02-04 16:04:33.538 - pandora.keysight.K2 - INFO - Turning Keysight input ON.
+2025-02-04 16:04:33.538 - pandora.keysight.K1 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:04:33.538 - pandora.keysight.K1 - INFO - Setting number of samples to 50.
+2025-02-04 16:04:33.538 - pandora.keysight.K2 - INFO - Setting acquisition time to 1.0 seconds.
+2025-02-04 16:04:33.538 - pandora.keysight.K2 - INFO - Setting number of samples to 50.
+2025-02-04 16:04:33.538 - pandora.shutter.FIO00 - INFO - Deactivating Shutter FIO00.
+2025-02-04 16:04:33.539 - pandora.keysight.K1 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:04:33.539 - pandora.keysight.K2 - INFO - Acquiring data for 1.000 sec.
+2025-02-04 16:04:33.540 - pandora.controller - INFO - Exposure is set last 1.000 seconds.
+2025-02-04 16:04:34.505 - pandora.keysight.K1 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:04:34.507 - pandora.keysight.K1 - INFO - Reading data from exposure.
+2025-02-04 16:04:34.515 - pandora.keysight.K2 - INFO - Waiting for acquisition to complete.
+2025-02-04 16:04:34.516 - pandora.keysight.K2 - INFO - Reading data from exposure.
+2025-02-04 16:04:34.524 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:04:34.525 - pandora.controller - INFO - Exposure ended after 0.9856698513031006 seconds.
+2025-02-04 16:04:36.040 - pandora.monochromator - INFO - Connected to monochromator on port /dev/tty.usbserial-FTDI1CB2.
+2025-02-04 16:04:36.045 - pandora.monochromator - INFO - Current wavelength is: 700.0 nm.
+2025-02-04 16:04:36.060 - pandora.monochromator - WARNING - Warning: Did not receive final confirmation byte after query.
+2025-02-04 16:04:37.567 - pandora.monochromator - INFO - Serial connection closed.
+2025-02-04 16:04:37.569 - pandora.database - INFO - Saved lightcurve for expid=19 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoInput_019
+2025-02-04 16:04:37.569 - pandora.database - INFO - Saved lightcurve for expid=19 to /Users/pandora_ctrl/Desktop/lightcurves/20250204007/photoOutput_019
+2025-02-04 16:04:37.574 - pandora.database - INFO - Wrote exposure expid=20 to run_id=20250204007
+2025-02-04 16:04:37.575 - pandora.controller - INFO - Closing all device connections...
+2025-02-04 16:04:37.575 - pandora.controller - INFO - Closing monochromator connection.
+2025-02-04 16:04:37.575 - pandora.controller - INFO - Closing shutter connection.
+2025-02-04 16:04:37.575 - pandora.shutter.FIO00 - INFO - Closing Shutter FIO00.
+2025-02-04 16:04:37.575 - pandora.shutter.FIO00 - INFO - Activating Shutter FIO00.
+2025-02-04 16:04:37.575 - pandora.shutter.FIO00 - INFO - The shutter state is uninitialized
+2025-02-04 16:04:37.575 - pandora.controller - INFO - Closing flip mount f1 connection.
+2025-02-04 16:04:37.575 - pandora.flipmount.FIO1 - INFO - Closing Flip Mount FIO1.
+2025-02-04 16:04:37.575 - pandora.flipmount.FIO1 - INFO - Deactivating FlipMount FIO1.
+2025-02-04 16:04:37.575 - pandora.flipmount.FIO1 - INFO - Flip Mount is already deactivated FIO1.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO1 - INFO - FlipMount state is uninitialized
+2025-02-04 16:04:37.576 - pandora.controller - INFO - Closing flip mount f2 connection.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO2 - INFO - Closing Flip Mount FIO2.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO2 - INFO - Deactivating FlipMount FIO2.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO2 - INFO - Flip Mount is already deactivated FIO2.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO2 - INFO - FlipMount state is uninitialized
+2025-02-04 16:04:37.576 - pandora.controller - INFO - Closing flip mount f3 connection.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO3 - INFO - Closing Flip Mount FIO3.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO3 - INFO - Deactivating FlipMount FIO3.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO3 - INFO - Flip Mount is already deactivated FIO3.
+2025-02-04 16:04:37.576 - pandora.flipmount.FIO3 - INFO - FlipMount state is uninitialized
+2025-02-04 16:04:37.576 - pandora.controller - INFO - Closing keysight k1 connection.
+2025-02-04 16:04:37.577 - pandora.keysight.K1 - INFO - Closing Keysight connection.
+2025-02-04 16:04:37.577 - pandora.controller - INFO - Closing keysight k2 connection.
+2025-02-04 16:04:37.577 - pandora.keysight.K2 - INFO - Closing Keysight connection.
+2025-02-04 16:04:37.577 - pandora.controller - INFO - Closing zaber stage z1 connection.
+2025-02-04 16:04:37.578 - pandora.zaber - INFO - Zaber connection closed.
+2025-02-04 16:04:37.578 - pandora.controller - INFO - Closing LabJack connection.
+2025-02-04 16:04:37.578 - pandora.controller - INFO - All device connections have been closed.
