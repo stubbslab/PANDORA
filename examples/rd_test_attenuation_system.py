@@ -28,10 +28,10 @@ for wav in [400, 500, 600, 700]:
     # Move monochromator to 400 nm
     pandora_box.set_wavelength(wav)
 
-    # Loops over OD05, OD10, OD15, OD20
-    ods = ["CLEAR", "OD20", "OD15", "OD10", "OD05"]
-    for od in ods:
-        pandora_box.zaber.z1.move_to_slot(od)
+    # Loops over ND05, ND10, ND15, ND20
+    NDs = ["CLEAR", "ND20", "ND15", "ND10", "ND05"]
+    for ND in NDs:
+        pandora_box.move_to_nd_filter(ND)
         pandora_box.take_exposure(expTime)
         # pandora_box.take_dark(expTimeDark)
 
