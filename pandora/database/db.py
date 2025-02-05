@@ -220,7 +220,7 @@ class PandoraDatabase:
         expid = self.current_expid
         lc_path = os.path.join(self.lightcurves_dir, f"{tag}_{expid:03d}")
         # print(lc_path)
-        np.save(lc_path, lc_path)
+        np.save(lc_path, data)
         self.logger.info(f"Saved lightcurve for expid={expid} to {lc_path}")
 
     def _latest_run_id_for_date(self, date_str: str) -> str:

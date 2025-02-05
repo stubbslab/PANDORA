@@ -2,4 +2,4 @@
 from .columns_map import COLUMN_DEFINITIONS, DEFAULT_VALUES
 from .db import PandoraDatabase
 
-__all__ = ["COLUMN_DEFINITIONS", "DEFAULT_VALUES", "Database"]
+__all__ = ["COLUMN_DEFINITIONS", "DEFAULT_VALUES", "PandoraDatabase"]
