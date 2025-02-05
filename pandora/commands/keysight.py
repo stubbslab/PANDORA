@@ -306,6 +306,31 @@ class KeysightState():
         self.logger.info(f"Getting power line frequency setting from Keysight.")
         return float(self.read(':SYST:POWE:FREQ?'))
 
+    def auto_scale(self, verbose=False, rang0=20e-4):
+        self.logger.info(f"Starting auto scale with initial value {rang0}")
+        self.set_acquisition_time(0.1)
+
+        rang = rang0 # 20 microA
+        for i in range(9):
+            self.set_rang(rang)
+            self.acquire()
+            d = self.read_data()
+            value = np.abs(np.mean(d[self.params['mode']]))
+            self.logger.info(f"Range: {rang:e}, Value: {value:.2e}")
+
+            if np.log10(np.abs(value))>15:
+                # print("")
+                # print(f"Optimal range is {rang*10:e}")
+                self.set_rang(rang*100)
+                self.logger.info(f"Range is set to {100*rang}")
+                break
+            else:
+                rang /= 10
+            
+            if rang < 1e-15:
+                self.logger.warning("Range is beyond the limit")
+                break
+    
         
 if __name__ == "__main__":
     settings = {
