@@ -6,7 +6,7 @@ from datetime import datetime
 COLUMN_DEFINITIONS = {
     "expid": int,
     "exptime": float,
-    "eff_exptime": float,
+    "effective_exptime": float,
     "timestamp": str,      # ISO formatted datetime string
     "photoInput": float,
     "photoInputErr": float,
@@ -17,13 +17,13 @@ COLUMN_DEFINITIONS = {
     "wavelength": float,
     "alt": float,
     "az": float,
-    "FM1": bool,
-    "FM2": bool,
-    "FM3": bool,
-    "zarber": str,
+    "FM1": str,
+    "FM2": str,
+    "FM3": str,
+    "zaber": str,
     "maskSlot": str,
     "shutter_opened": bool,
-    "description": str
+    "Description": str
 }
 
 # External dictionary defining default values for columns
@@ -35,9 +35,9 @@ DEFAULT_VALUES = {
     "photoOutputErr": np.nan,
     "solarCell": np.nan,
     "solarCellErr": np.nan,
-    "FM1": False,
-    "FM2": False,
-    "FM3": False,
+    "FM1": 'OFF',
+    "FM2": 'OFF',
+    "FM3": 'OFF',
     "zarber": "",
     "maskSlot": "",
     "shutter": False,

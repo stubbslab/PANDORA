@@ -5,7 +5,7 @@ import numpy as np
 from datetime import datetime
 import logging
 
-from columns_map import COLUMN_DEFINITIONS, DEFAULT_VALUES
+from .columns_map import COLUMN_DEFINITIONS, DEFAULT_VALUES
 
 class PandoraDatabase:
     """
@@ -219,7 +219,8 @@ class PandoraDatabase:
         """
         expid = self.current_expid
         lc_path = os.path.join(self.lightcurves_dir, f"{tag}_{expid:03d}")
-        np.save(data, lc_path)
+        # print(lc_path)
+        np.save(lc_path, lc_path)
         self.logger.info(f"Saved lightcurve for expid={expid} to {lc_path}")
 
     def _latest_run_id_for_date(self, date_str: str) -> str:
