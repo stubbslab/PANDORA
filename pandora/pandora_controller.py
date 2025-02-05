@@ -6,7 +6,7 @@ import numpy as np
 ## Make Pandora Class
 from states.flipmount_state import FlipMountState
 from states.shutter_state import ShutterState
-from pandora.commands.keysight import KeysightState
+from commands.keysight import KeysightState
 from commands.monochromator import MonochromatorController
 from commands.zaberstages import ZaberController
 from states.labjack_handler import LabJack
@@ -32,12 +32,12 @@ class PandoraBox:
     - Validating that each subsystem is ready (e.g. in IDLE state)
     - Providing a unified interface to configure and operate the entire system
     """
-    def __init__(self, run_id=None, config_file='default.yaml'):
+    def __init__(self, config_file='default.yaml', run_id=None, verbose=True):
         # Load configuration (IP addresses, device IDs, calibration files, etc.)
         self.config = self._load_config(config_file)
 
         # Initialize logger
-        self._initialize_logger()
+        self._initialize_logger(verbose=verbose)
         self.logger = logging.getLogger(f"pandora.controller")
 
         # Instantiate subsystem controllers using config parameters.
@@ -53,17 +53,17 @@ class PandoraBox:
     def initialize_db(self, run_id=None):
         # Initialize the database connection
         self.logger.info("Initializing database connection...")
-        root = self.get_config_value('database', 'root')
+        root = self.get_config_value('database', 'db_path')
         self.pdb = PandoraDatabase(run_id=run_id, root_path=root)
         pass
 
     def get_db(self):
         return self.pdb.db
     
-    def _initialize_logger(self):
+    def _initialize_logger(self,verbose=True):
         # Setup and return a logger instance for the Pandora class
         logging_config = self.get_config_section('logging')
-        self.logger = initialize_central_logger(logging_config['logfile'], logging_config['level'])
+        self.logger = initialize_central_logger(logging_config['logfile'], logging_config['level'], verbose)
         pass
 
     def initialize_subsystems(self):
@@ -141,6 +141,8 @@ class PandoraBox:
     def _load_config(self, config_file):
         # Parse a config file (JSON, YAML, etc.) with device parameters
         import yaml
+        import os
+        # get current working directory
         with open(config_file, 'r') as file:
             config = yaml.safe_load(file)
         return config
@@ -370,8 +372,9 @@ class PandoraBox:
         """
         Get the current wavelength of the monochromator.
         """
+        self.monochromator.get_wavelength()
         return self.monochromator.wavelength
-    
+        
     def shutdown(self):
         """
         Gracefully shut down the system, ensuring everything returns to a safe state.
