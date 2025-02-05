@@ -6,6 +6,8 @@ from datetime import datetime
 COLUMN_DEFINITIONS = {
     "expid": int,
     "exptime": float,
+    "alt": float,
+    "az": float,
     "effective_exptime": float,
     "timestamp": str,      # ISO formatted datetime string
     "photoInput": float,
@@ -15,8 +17,6 @@ COLUMN_DEFINITIONS = {
     "solarCell": float,
     "solarCellErr": float,
     "wavelength": float,
-    "alt": float,
-    "az": float,
     "FM1": str,
     "FM2": str,
     "FM3": str,
@@ -29,6 +29,8 @@ COLUMN_DEFINITIONS = {
 # External dictionary defining default values for columns
 DEFAULT_VALUES = {
     "timestamp": datetime.now().isoformat(),
+    "expid": int,
+    "exptime": float,
     "photoInput": np.nan,
     "photoInputErr": np.nan,
     "photoOutput": np.nan,
