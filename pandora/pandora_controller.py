@@ -221,7 +221,7 @@ class PandoraBox:
         d1 = self.keysight.k1.read_data(wait=True)
         d2 = self.keysight.k2.read_data(wait=True)
 
-        self.logger.info(f"Exposure ended after {eff_exptime} seconds.")
+        self.logger.info(f"Exposure ended after {eff_exptime:.3f} seconds.")
 
         # Save the exposure data
         self._save_exposure(d1, d2, eff_exptime, not is_dark)
@@ -375,7 +375,13 @@ class PandoraBox:
         """
         self.monochromator.get_wavelength()
         return self.monochromator.wavelength
+    
+    def move_to_nd_filter(self,nd_filter_name):
+        """
         
+        """
+        self.zaber.z1.move_to_slot(nd_filter_name)
+
     def shutdown(self):
         """
         Gracefully shut down the system, ensuring everything returns to a safe state.
