@@ -1,17 +1,13 @@
 # Configuration file for the Pandora system
 # This file contains the default settings for the system components
 # and their parameters.
-# Each component is defined with its type and parameters.
 
 database:
-  type: "Database"
-  db_path: "./data/"
-  db_name: "{run_id}.csv"
-  lightcurve_name: "{run_id}_lightcurve.npy"
-
-# labjack_ip_address: &labjack_ip_address "169.254.84.89"
-
+  type: "pandora.database.db.PandoraDatabase"
+  db_path: "/Users/pandora_ctrl/Desktop"
+  
 monochromator:
+  type: "pandora.commands.monochromator.MonochromatorController"
   usb_port: "/dev/tty.usbserial-FTDI1CB2"
   baudrate: 9600
   # model: "Acton_SP2150"
@@ -25,6 +21,7 @@ labjack:
   flipmount3: "FIO3"
 
 keysights:
+  type: "pandora.commands.keysight.keysightState"
   # Each Keysight device with its own IP address
   K1:
     name: "K1"
@@ -50,11 +47,19 @@ keysights:
       interval: 2e-3
       
 zaber_stages:
+  type: "pandora.commands.zaberstages.zaberController"
   Z1:
     ip_address: "169.254.47.12"
-    slot_map: {'OD05': 7, 'OD10': 46.37, 'OD15': 79.57, 'OD20': 113.57, 'CLEAR': 148.77}
+    # ND filters map
+    # The numbers refers to the zaber position in mm
+    slot_map: {'ND05': 7, 
+               'ND10': 46.37, 
+               'ND15': 79.57, 
+               'ND20': 113.57, 
+               'CLEAR': 148.77}
     device: 0
     axis_id: 1
+    # Zaber speed in mm/sec
     speed_mm_per_sec: 25
   Z2:
     ip_address: "192.168.1.70"
