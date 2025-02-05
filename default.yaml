@@ -1,53 +1,81 @@
-# default.yaml
-labjack_ip_address: &labjack_ip_address "192.168.1.50"
+# Configuration file for the Pandora system
+# This file contains the default settings for the system components
+# and their parameters.
 
+database:
+  type: "pandora.database.db.PandoraDatabase"
+  db_path: "/Users/pandora_ctrl/Desktop"
+  
 monochromator:
-  type: "MonochromatorState"
-  usb_port: "/dev/ttyUSB0"   # or "COM3" on Windows
-  baud_rate: 9600
+  type: "pandora.commands.monochromator.MonochromatorController"
+  usb_port: "/dev/tty.usbserial-FTDI1CB2"
+  baudrate: 9600
+  # model: "Acton_SP2150"
+
+labjack:
+  ip_address: "169.254.84.89"
   timeout: 2
-  model: "Acton_SP2150"
-
-shutter:
-  type: "ShutterState"
-  labjack_ip_address: *labjack_ip_address
-  labjack_port: "FIO03"
-
-flipmounts:
-  F01:
-    type: "FlipMountState"
-    labjack_ip_address: *labjack_ip_address
-    labjack_port: "FIO01"
-  F02:
-    type: "FlipMountState"
-    labjack_ip_address: *labjack_ip_address
-    labjack_port: "FIO02"
+  shutter: "FIO00"
+  flipmount1: "FIO1"
+  flipmount2: "FIO2"
+  flipmount3: "FIO3"
 
 keysights:
+  type: "pandora.commands.keysight.keysightState"
   # Each Keysight device with its own IP address
-  K01:
-    type: "KeysightState"
+  K1:
+    name: "K1"
     keysight_ip: "169.254.5.2"
-    timeout_ms: 5000
-  K02:
-    type: "KeysightState"
-    keysight_ip: "169.254.56.239"
-    timeout_ms: 5000
-
+    timeout_ms: 25000
+    settings:
+      mode: "CURR"
+      rang: 20e-9
+      nplc: 10.
+      nsamples: 10
+      delay: 0.
+      interval: 2e-3
+  K2:
+    name: "K2"
+    keysight_ip: "169.254.124.255"
+    timeout_ms: 25000
+    settings:
+      mode: "CURR"
+      rang: 20e-9
+      nplc: 10.
+      nsamples: 50
+      delay: 0.
+      interval: 2e-3
+      
 zaber_stages:
+  type: "pandora.commands.zaberstages.zaberController"
   Z1:
-    type: "ZaberStageState"
-    zaber_ip: "192.168.1.70"
-    device_number: 1   # If relevant for your Zaber controller
+    ip_address: "169.254.47.12"
+    # ND filters map
+    # The numbers refers to the zaber position in mm
+    slot_map: {'ND20': 7, 
+               'ND15': 46.37, 
+               'ND10': 79.57, 
+               'ND05': 113.57, 
+               'CLEAR': 148.77}
+    device: 0
+    axis_id: 1
+    # Zaber speed in mm/sec
+    speed_mm_per_sec: 25
   Z2:
-    type: "ZaberStageState"
-    zaber_ip: "192.168.1.70"
-    device_number: 2
+    ip_address: "192.168.1.70"
+    device: 1
+    axis_id: 1
+    speed_mm_per_sec: 10
+  Z3:
+    ip_address: "192.168.1.70"
+    device: 2
+    axis_id: 1
+    speed_mm_per_sec: 10
 
 spectrograph:
   type: "SpectrographState"
   usb_port: "/dev/ttyUSB1"   # or "COM4"
-  baud_rate: 115200
+  baudrate: 115200
   timeout: 2
 
 # Additional system parameters
@@ -57,4 +85,4 @@ calibration:
 
 logging:
   level: "INFO"
-  logfile: "/path/to/pandora.log"
+  logfile: "./pandora.log"
