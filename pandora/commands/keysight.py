@@ -255,7 +255,7 @@ class KeysightState():
 
     def set_acquisition_time(self, time, freq=50):
         self.logger.info(f"Setting acquisition time to {time} seconds.")
-        nsamples = int(time * freq / float(self.params['nplc']))
+        nsamples = int(time / float(self.params['interval'])) + 1
         self.set_nsamples(nsamples)
         self.t_acq = time
         # print(f"Acquisition time set to {time:0.3f} sec with nsamples {self.params['nsamples']} and {self.params['nplc']}")
