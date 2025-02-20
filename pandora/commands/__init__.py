@@ -1,6 +1,11 @@
 # pandora/commands/__init__.py
 
+from .keysight import KeysightController
 from .monochromator import MonochromatorController
-# from .monochromator_script import run_monochromator_test  # example function
+from .zaberstages import ZaberController
 
-__all__ = ["MonochromatorState"]
+__all__ = [
+    'KeysightController',
+    'MonochromatorController',
+    'ZaberController',
+]
