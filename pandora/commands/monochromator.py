@@ -195,7 +195,7 @@ class MonochromatorController:
                 if final_status and final_status[0] == 24:
                     self.logger.info(f"Monochromator successfully moved to {wavelength_nm} nm.")
                 else:
-                    self.logger.warning("Warning: Did not receive final confirmation byte after moving to wavelength.")
+                    self.logger.debug("Warning: Did not receive final confirmation byte after moving to wavelength.")
             else:
                 self._handle_status_byte(status)
         else:

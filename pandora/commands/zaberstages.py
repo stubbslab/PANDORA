@@ -12,10 +12,10 @@ The distances units reported here are all in milimiters.
 
 """
 
-MASK_MAP = {'OD05': 7,
-            'OD10': 7+39.37,
-            'OD15': 7+39.37+33.20,
-            'OD20': 7+39.37+33.20+34,
+MASK_MAP = {'ND05': 7,
+            'ND10': 7+39.37,
+            'ND15': 7+39.37+33.20,
+            'ND20': 7+39.37+33.20+34,
             'CLEAR': 7+39.37+33.20+34+35.20,
             }
 

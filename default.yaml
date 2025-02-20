@@ -30,8 +30,8 @@ keysights:
     settings:
       mode: "CURR"
       rang: 'AUTO'
-      nplc: 1.
-      nsamples: 10
+      nplc: 10.
+      nsamples: 50
       delay: 0.
       interval: 2e-3
   K2:
@@ -41,7 +41,7 @@ keysights:
     settings:
       mode: "CURR"
       rang: 'AUTO'
-      nplc: 1.
+      nplc: 10.
       nsamples: 50
       delay: 0.
       interval: 2e-3

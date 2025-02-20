@@ -70,9 +70,10 @@ class PandoraBox:
 
     def initialize_subsystems(self):
         """
-        Create and initialize all subsystem objects. This may call constructors and 
-        run initial setup routines for each device. After this call, we should have
-        objects ready to connect.
+        Create and initialize all subsystem objects. 
+        
+        This may call constructors and run initial setup routines for each device. 
+        After this call, we should have objects ready to connect.
         """
         # Query the config for IP addresses and other parameters
         mono_config = self.get_config_section('monochromator')
@@ -190,6 +191,7 @@ class PandoraBox:
 
         Args:
             exptime (float): Exposure time in seconds.
+            is_dark (bool): If True, the exposure is a dark frame. 
 
         """
         self.keysight.k1.on()  # Keysight 1 ON
