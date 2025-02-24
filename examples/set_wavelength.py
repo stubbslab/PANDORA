@@ -1,6 +1,6 @@
 import sys
 sys.path.append("/Users/pandora_ctrl/Documents/dev/versions/v1.0/PANDORA")
-from pandora.commands.monochromator import MonochromatorController
+from pandora.controller.monochromator import MonochromatorController
 from pandora.utils.logger import initialize_central_logger  
 
 new_wavelength = int(input("Enter the wavelength: "))
