@@ -12,6 +12,7 @@ Pandora
 
    examples
    controlling_subsystems
+   configuration_file
    database_access
    api/modules
    # other pages, such as installation, API, etc.
