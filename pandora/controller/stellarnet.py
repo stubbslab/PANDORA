@@ -1,7 +1,14 @@
 import logging
 import time
 """
-This scripts provides a class to control the stellar net spectrometer.
+This scripts provides a class to control the StellarNet Black Comet spectrometer.
+
+Needs to install:
+    Python SDK Stellarnet_driver3
+
+Installation instructions:
+    https://harvardwiki.atlassian.net/wiki/spaces/hufasstubbsgroup/pages/192447174/StellarNet+Spectrometer+Setup
+    https://drive.google.com/file/d/1-irqmjaDd0maluRi3hEQq3wDTrWFC3lP/view?usp=sharing
 
 """
 import stellarnet_driver3 as sn 
@@ -17,10 +24,6 @@ class spectrometerController:
             smooth (int): Smoothing size.
             type (str): Place holder for the config file.
         
-        StellarNet installation on:
-            https://harvardwiki.atlassian.net/wiki/spaces/hufasstubbsgroup/pages/192447174/StellarNet+Spectrometer+Setup
-            https://drive.google.com/file/d/1-irqmjaDd0maluRi3hEQq3wDTrWFC3lP/view?usp=sharing
-
         Example:
             from pandora.controller.stellarnet import spectrometerController
             spectrometer = spectrometerController()
