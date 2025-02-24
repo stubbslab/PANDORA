@@ -7,7 +7,7 @@ database:
   db_path: "/Users/pandora_ctrl/Desktop"
   
 monochromator:
-  type: "pandora.commands.monochromator.MonochromatorController"
+  type: "pandora.controller.monochromator.MonochromatorController"
   usb_port: "/dev/tty.usbserial-FTDI1CB2"
   baudrate: 9600
   # model: "Acton_SP2150"
@@ -21,7 +21,7 @@ labjack:
   flipmount3: "FIO3"
 
 keysights:
-  type: "pandora.commands.keysight.keysightState"
+  type: "pandora.controller.keysight.KeysightController"
   # Each Keysight device with its own IP address
   K1:
     name: "K1"
@@ -45,9 +45,20 @@ keysights:
       nsamples: 50
       delay: 0.
       interval: 2e-3
+  solarCell:
+    name: "solarCell"
+    keysight_ip: "169.254.124.XXX"
+    timeout_ms: 5000
+    settings:
+      mode: "CURR"
+      rang: 'AUTO'
+      nplc: 10.
+      nsamples: 50
+      delay: 0.
+      interval: 2e-3
       
 zaber_stages:
-  type: "pandora.commands.zaberstages.zaberController"
+  type: "pandora.controller.zaberstages.zaberController"
   Z1:
     ip_address: "169.254.47.12"
     # ND filters map

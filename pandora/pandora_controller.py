@@ -6,9 +6,9 @@ import numpy as np
 ## Make Pandora Class
 from states.flipmount_state import FlipMountState
 from states.shutter_state import ShutterState
-from commands.keysight import KeysightState
-from commands.monochromator import MonochromatorController
-from commands.zaberstages import ZaberController
+from controller.keysight import KeysightController
+from controller.monochromator import MonochromatorController
+from controller.zaberstages import ZaberController
 from states.labjack_handler import LabJack
 from states.states_map import State
 from utils.logger import initialize_central_logger
@@ -34,7 +34,7 @@ class PandoraBox:
     - Validating that each subsystem is ready (e.g. in IDLE state)
     - Providing a unified interface to configure and operate the entire system
     """
-    def __init__(self, config_file='default.yaml', run_id=None, verbose=True):
+    def __init__(self, config_file='../default.yaml', run_id=None, verbose=True):
         # Load configuration (IP addresses, device IDs, calibration files, etc.)
         self.config = self._load_config(config_file)
 
@@ -93,6 +93,8 @@ class PandoraBox:
         # Ethernet connections with ip_addresses
         k1_config = self.get_config_section('K1', config=ks_config)
         k2_config = self.get_config_section('K2', config=ks_config)
+        sc_config = self.get_config_section('solarCell', config=ks_config)
+
         z1_config = self.get_config_section('Z1', config=zb_config)
         z2_config = self.get_config_section('Z2', config=zb_config)
         z3_config = self.get_config_section('Z3', config=zb_config)
@@ -114,9 +116,11 @@ class PandoraBox:
         # Keysights
         self.keysight = type('KeysightContainer', (), {})()
         self.keysight.deviceNames = list(ks_config.keys())
+
         # print(k1_config['settings'])
-        self.keysight.k1 = KeysightState(**k1_config)
-        self.keysight.k2 = KeysightState(**k2_config)
+        self.keysight.k1 = KeysightController(**k1_config)
+        self.keysight.k2 = KeysightController(**k2_config)
+        # self.solar_cell = KeysightController(**sc_config)
         # Add more Keysights as needed...
 
         # Zaber Stages
@@ -261,6 +265,48 @@ class PandoraBox:
         self.take_exposure(exptime, observation_type=observation_type, is_dark=True)
         pass
         
+    def wavelength_scan(self, start, end, step, exptime, observation_type="acq", range1=None, range2=None):
+        """
+        Wavelength scan with measurements from start to end with a given step size.
+
+        The measurements sequence is one dark, one light, and one dark.
+
+        Args:
+            start (float): Start wavelength in nm.
+            end (float): End wavelength in nm.
+            step (float): Step size in nm.
+            exptime (float): Exposure time in seconds.
+            range1 (float, optional): Range for Keysight 1.
+            range2 (float, optional): Range for Keysight 2.
+
+        """
+        self.logger.info(f"Starting wavelength-scan from {start:.1f} nm to {end:.1f} nm with step {step:.1f} nm...")
+
+        ##### Wavelength Scan Setup
+        wavelengthScan = np.arange(start,end+step, step)
+
+        ##### Keysight Fine-Tunning
+        if range1 is None: range1 = 200e-9 # B2987B
+        if range2 is None: range2 = 2e-9 # B2983B
+
+        # Flip the wavelength ordering filter
+        # self.flipMount.f1.activate()
+        
+        for wav in wavelengthScan:
+            self.logger.info(f"wavelength-scan: start exposure of lambda = {wav:0.1f} nm")
+            self.set_wavelength(wav)
+            self.keysight.k1.set_rang(range1)
+            self.keysight.k2.set_rang(range2)
+
+            self.take_dark(exptime)
+            self.take_exposure(exptime, observation_type=observation_type)
+            self.take_dark(exptime)
+
+            self.logger.info(f"wavelength-scan: finished exposure of lambda = {wav:0.1f} nm")
+
+        self.close_all_connections()
+        self.logger.info("wavelength-scan measurement cycle completed.")
+        self.logger.info("wavelength-scan saved on {self.pdb.run_data_file}")
 
     def write_exposure(self):
         """
