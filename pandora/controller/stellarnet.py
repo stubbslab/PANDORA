@@ -199,3 +199,22 @@ class spectrometerController:
         plt.ylabel('Counts')
         plt.title('Spectrum')
         plt.show()
+
+if __name__ == "__main__":
+    
+    spectrometer = spectrometerController()
+    
+    # 10ms integration time
+    spectrometer.set_integration_time(10)
+    
+    # 100 average scans
+    spectrometer.set_scan_avg(100)
+    
+    # Get spectrum
+    wav, counts = spectrometer.get_spectrum()
+
+    # Plot spectrum
+    spectrometer.plot_spectrum(wav, counts)
+    
+    # Close the spectrometer
+    spectrometer.close()
