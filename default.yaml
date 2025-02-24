@@ -84,10 +84,11 @@ zaber_stages:
     speed_mm_per_sec: 10
 
 spectrograph:
-  type: "SpectrographState"
-  usb_port: "/dev/ttyUSB1"   # or "COM4"
-  baudrate: 115200
-  timeout: 2
+  type: "pandora.controller.stellarnet.SpectrographController"
+  inttime: 1 # ms
+  scan_avg: 10
+  xtiming: 1 # 1/2 or 3 (low/mid or high resolution) 
+  smooth: 1
 
 # Additional system parameters
 calibration:

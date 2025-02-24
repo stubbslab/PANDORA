@@ -1,10 +1,52 @@
 import logging
 import time
 """
-This scripts provides a class to control the StellarNet Black Comet spectrometer.
+This scripts provides a class to control the StellarNet Black Comet (BLACK CXR-SR-100) spectrometer.
 
 Needs to install:
     Python SDK Stellarnet_driver3
+
+
+Paramaters, Detailed Description:
+    Detector integration time:
+    This should be adjusted for each experiment to maximize the detector output and
+    signal to noise ratio. The input is given in miliseconds, the minimum is 1.
+
+    XTiming resolution control: 1/2/3
+    This feature provides increased optical resolutions. Selection 1 is the lowest optical
+    resolution and is synchronized with the selected detector integration. In general, if
+    your requirements for optical resolution are greater than 1nm, then selection 1 is ok.
+    Selection 2 or 3 slows the digitizer & detector clock by a factor of 2 and 4
+    respectively. With XT levels 2 & 3 you will be able to observe increasingly higher
+    resolutions. The detectors signal amplifier improves with slower throughput. When
+    selecting XT level 2/3 the detector integration time must be increased to 30ms or
+    longer to avoid sync delays.
+
+    Smoothing level 0, 1, 2, 3, or 4
+    This performs data smoothing by applying a moving average of adjacent pixels to the
+    data arrays. For example, a Pixel Boxcar setting of 1 would average 5 total pixels: 2
+    pixels on the left, 2 pixels on the right, and one in the center. 0 performs NO data
+    smoothing.
+    Smoothing/Total pixels averaged
+            0/0
+            1/5
+            2/9
+            3/17
+            4/33
+
+    Number of scans to average: (1…)
+    Sets the number of spectra to signal average. Please note that the real-time display is
+    updated AFTER these numbers of spectra have been acquired. This option provides a
+    smoothing in the Y-axis, effectively increasing the system signal to noise by the
+    square root of the number of scans being averaged. Set the averaging to the highest
+    number
+
+    Temperature: 
+    Set temperature compensation to reflect on the returned on the spectrum data. There are
+    15 “optically black” pixels on StellarNet’s SONY ILX-511b CMOS detectors which are
+    not hit by light during an acquisition. They provide a continuous measurement of the
+    average dark spectrum and can be used to adjust for baseline drift during an experiment.
+    In other words, this feature compensates for changes in the baseline due to temperature.
 
 Installation instructions:
     https://harvardwiki.atlassian.net/wiki/spaces/hufasstubbsgroup/pages/192447174/StellarNet+Spectrometer+Setup
@@ -20,7 +62,7 @@ class spectrometerController:
         Parameters:
             inttime_ms (int): Integration time in milliseconds.
             scan_avg (int): Number of scans to average.
-            xtiming (int): Timing size.
+            xtiming (int): 1/2 or 3, spectral resolution mode.
             smooth (int): Smoothing size.
             type (str): Place holder for the config file.
         
@@ -79,17 +121,20 @@ class spectrometerController:
 
     def set_integration_time(self, inttime_ms):
         """Set integration time in ms."""
+        self.device['device'].set_config(int_time=inttime_ms)
         self.params['inttime'] = inttime_ms
         self.set_params()
     
     def set_scan_avg(self, scan_avg):
         """Set number of samples to average."""
+        # self.device['device'].set_config(scans_to_avg=scan_avg)
         self.params['scan_avg'] = scan_avg
         self.set_params()
         pass
 
     def set_smooth(self, smooth):
         """Set smooth spec size."""
+        # self.device['device'].set_config(x_smooth=smooth)
         self.params['smooth'] = smooth
         self.set_params()
         pass
@@ -100,8 +145,13 @@ class spectrometerController:
         self.set_params()
         pass
 
+    def set_temperature_compensation(self, enable):
+        """Enable or disable temperature compensation."""
+        sn.temp_comp(self.device, enable)
+        pass
+
     def get_params(self):
-        for key, value in zip(self.params.keys, self.params.values):
+        for key, value in zip(self.params.keys(), self.params.values()):
             print(f"{key}: {value}")
         pass
 
@@ -116,6 +166,14 @@ class spectrometerController:
         version = sn.version()
         print(version)
         print('Spec device ID: ', self.deviceID)
+
+    def is_connected(self):
+        """ Check if the spectrometer is connected.
+        
+        Returns:
+            bool: True if the spectrometer is connected, False otherwise.
+        """
+        return sn.deviceConnectionCheck(self.device)
 
     def close(self):
         """

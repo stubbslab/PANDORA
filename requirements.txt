@@ -1,0 +1,9 @@
+# Core dependencies
+numpy>=1.21.0
+pyyaml>=5.4
+
+# Sphinx and related documentation tools
+sphinx>=4.0
+sphinxcontrib-programoutput>=0.16
+sphinx_wagtail_theme
+recommonmark

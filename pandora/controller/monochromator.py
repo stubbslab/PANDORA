@@ -323,7 +323,7 @@ class MonochromatorController:
 
 if __name__ == "__main__":
     import time
-    from utils.logger import initialize_central_logger 
+    from pandora.utils.logger import initialize_central_logger 
     # Set up logging
     initialize_central_logger("../monochromator.log", "DEBUG")
 
