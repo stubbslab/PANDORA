@@ -1,11 +1,11 @@
 # Configuration file for the Pandora system
 # This file contains the default settings for the system components
 # and their parameters.
-
 database:
   type: "pandora.database.db.PandoraDatabase"
-  db_path: "/Users/pandora_ctrl/Desktop"
-  
+  # type: "pandora.database.calib_db.PandoraCalibrationDatabase"
+  root: "/Users/pandora_ctrl/Documents/pandoraData/"
+
 monochromator:
   type: "pandora.controller.monochromator.MonochromatorController"
   usb_port: "/dev/tty.usbserial-FTDI1CB2"
@@ -89,11 +89,6 @@ spectrograph:
   scan_avg: 10
   xtiming: 1 # 1/2 or 3 (low/mid or high resolution) 
   smooth: 1
-
-# Additional system parameters
-calibration:
-  attenuation_file: "/path/to/attenuation_calibration.json"
-  pinhole_positions_file: "/path/to/pinhole_positions.json"
 
 logging:
   level: "INFO"

@@ -1,4 +1,4 @@
-from pandora._config import config_file_path
+config_file_path = '../../default.yaml'
 
 def get_config_section(section):
     import yaml

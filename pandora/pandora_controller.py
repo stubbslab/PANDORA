@@ -14,6 +14,7 @@ from states.states_map import State
 from utils.logger import initialize_central_logger
 from utils.operation_timer import OperationTimer
 from database.db import PandoraDatabase
+from database.calib_db import PandoraCalibrationDatabase
 
 ## TODOS:
 ## Add a header to the class
@@ -55,8 +56,9 @@ class PandoraBox:
     def initialize_db(self, run_id=None):
         # Initialize the database connection
         self.logger.info("Initializing database connection...")
-        root = self.get_config_value('database', 'db_path')
+        root = self.get_config_value('database', 'root')
         self.pdb = PandoraDatabase(run_id=run_id, root_path=root)
+        self.calib = PandoraCalibrationDatabase(root_path=root)
         pass
 
     def get_db(self):
@@ -265,7 +267,7 @@ class PandoraBox:
         self.take_exposure(exptime, observation_type=observation_type, is_dark=True)
         pass
         
-    def wavelength_scan(self, start, end, step, exptime, observation_type="acq", range1=None, range2=None):
+    def wavelength_scan(self, start, end, step, exptime, observation_type="acq", nrpeats=1, range1=None, range2=None):
         """
         Wavelength scan with measurements from start to end with a given step size.
 
@@ -276,6 +278,7 @@ class PandoraBox:
             end (float): End wavelength in nm.
             step (float): Step size in nm.
             exptime (float): Exposure time in seconds.
+            observation_type (str, optional): Type of observation (acq, dark, calib).
             range1 (float, optional): Range for Keysight 1.
             range2 (float, optional): Range for Keysight 2.
 
@@ -293,20 +296,92 @@ class PandoraBox:
         # self.flipMount.f1.activate()
         
         for wav in wavelengthScan:
-            self.logger.info(f"wavelength-scan: start exposure of lambda = {wav:0.1f} nm")
+            self.logger.info(f"wavelength-scan: start exposure of lambda = {wav:0.1f} nm with {nrpeats} repeats")
             self.set_wavelength(wav)
+            if wav>700:
+                # Check what is the IR filter code
+                self.enable_ir_filter()
+
             self.keysight.k1.set_rang(range1)
             self.keysight.k2.set_rang(range2)
 
-            self.take_dark(exptime)
-            self.take_exposure(exptime, observation_type=observation_type)
-            self.take_dark(exptime)
+            for _ in range(nrpeats):
+                self.take_dark(exptime)
+                self.take_exposure(exptime, observation_type=observation_type)
+                self.take_dark(exptime)
 
             self.logger.info(f"wavelength-scan: finished exposure of lambda = {wav:0.1f} nm")
 
         self.close_all_connections()
         self.logger.info("wavelength-scan measurement cycle completed.")
         self.logger.info("wavelength-scan saved on {self.pdb.run_data_file}")
+
+    def solar_cell_qe_curve(self, start, end, step, exptime, nrpeats=1, range1=None, range2=None):
+        """
+        Solar cell QE curve is a walength scan with flipping the NIST diode on and off.
+
+        The measurements sequence is 
+        1) solar cell (NIST diode out of the beam): one dark
+        2) NIST (NIST diode in the beam): one dark, one light, one dark
+        3) solar cell: one light, one dark
+
+        Args:
+            start (float): Start wavelength in nm.
+            end (float): End wavelength in nm.
+            step (float): Step size in nm.
+            exptime (float): Exposure time in seconds.
+            range1 (float, optional): Range for Keysight 1.
+            range2 (float, optional): Range for Keysight 2.
+
+        """
+        self.logger.info(f"Starting solar cell qe curve from {start:.1f} nm to {end:.1f} nm with step {step:.1f} nm...")
+
+        ##### Wavelength Scan Setup
+        wavelengthScan = np.arange(start,end+step, step)
+
+        ##### Keysight Fine-Tunning
+        if range1 is None: range1 = 200e-9 # B2987B
+        if range2 is None: range2 = 2e-9 # B2983B
+    
+        for wav in wavelengthScan:
+            self.logger.info(f"solar-cell-qe-curve: start exposure of lambda = {wav:0.1f} nm with {nrpeats} repeats")
+            self.set_wavelength(wav)
+            if wav>700:
+                # Check what is the IR filter code
+                self.enable_ir_filter()
+
+            self.keysight.k1.set_rang(range1)
+            self.keysight.k2.set_rang(range2)
+
+            # make sure NIST diode is out of the beam
+            self.flipMount.nist.deactivate()
+            for _ in range(nrpeats):
+                self.take_dark(exptime, observation_type="dark")
+                
+                # put NIST diode in the beam
+                self.flipMount.nist.activate()
+                self.take_dark(exptime, observation_type="dark")
+                self.take_exposure(exptime, observation_type="solarcell")
+                self.take_dark(exptime, observation_type="dark")
+
+                # put NIST diode out of the beam
+                self.flipMount.nist.deactivate()
+                self.take_exposure(exptime, observation_type="solarcell")
+                self.take_dark(exptime, observation_type="dark")
+
+            self.logger.info(f"solar-cell-qe-curve: finished exposure of lambda = {wav:0.1f} nm")
+
+        self.close_all_connections()
+        self.logger.info("solar-cell-qe-curve measurement cycle completed.")
+        self.logger.info("solar-cell-qe-curve saved on {self.pdb.run_data_file}")
+
+    # TODO: Check what is the IR filter code
+    def enable_ir_filter(self):
+        """
+        Put the IR filter on the optical path.
+        """
+        self.flipMount.f1.activate()
+        pass
 
     def write_exposure(self):
         """
@@ -315,6 +390,62 @@ class PandoraBox:
         self.pdb.write_exposure()
         pass
 
+    def write_calibration(self, data, tag="calibration"):
+        """
+        Write the calibration data to the database (root/calib/).
+        
+        Parameters
+        ----------
+        data : pd.DataFrame
+            The calibration data to save.
+        tag : str, optional
+            A tag to append to the filename.
+        """
+        self.pdb.write_calibration(data, tag)
+        pass
+
+    def load_pandora_throughput(self, fname=None):
+        """
+        Load the throughput calibration data for the PANDORA system.
+
+        Parameters
+        ----------
+        fname : str, optional
+            The filename of the throughput calibration data. If none, the default file is loaded.
+
+        """
+        if fname is None:
+            return self.calib.get_calibration_file(fname)
+        else:
+            return self.calib.get_default_calibration("throughput")
+    
+    def get_qe_solarcell(self, fname=None):
+        """
+        Get the quantum efficiency curve for the solar cell.
+
+        Parameters
+        ----------
+        fname : str, optional
+            The filename of the QE curve data. If none, the default file is loaded.
+
+        Returns
+        -------
+        qeCurve : function
+            The quantum efficiency curve function.
+        """
+        from scipy.interpolate import interp1d
+
+        if fname is None:
+            df = self.calib.get_calibration_file(fname)
+        else:
+            df = self.calib.get_default_calibration("qe_solarcell")
+
+        # Interpolate the QE curve
+        qeCurve = interp1d(df['wavelength'], df['qe'], kind='cubic',
+                         fill_value=np.nan, bounds_error=False)
+        
+        return qeCurve
+        
     def close_all_connections(self):
         """
         Close all connections to devices in a controlled manner.
