@@ -20,7 +20,7 @@ class PandoraDatabase:
     
     def __init__(self, 
                  date: str = None,     # expected format 'YYYYMMDD'
-                 root_path: str = "~/",
+                 root: str = "~/",
                  run_id: str = None,
                  writing_mode: bool = True):
         """
@@ -28,7 +28,7 @@ class PandoraDatabase:
         ----------
         date : str, optional
             A date string in the format YYYYMMDD. If None, today's date is used.
-        root_path : str, optional
+        root : str, optional
             The root folder where the data structure will be created. Default is "./".
         run_id : str, optional
             If provided, this exact run_id is used (if valid). Otherwise, we generate/find one.
@@ -45,11 +45,11 @@ class PandoraDatabase:
         self.date_str = date
         
         # Root path
-        self.logger.info(f"Root path: {root_path}")
-        self.root_path = os.path.abspath(root_path)
+        self.logger.info(f"Root path: {root}")
+        self.root = os.path.abspath(root)
         
         # Path to hidden cache of run_ids
-        self.cache_file = os.path.join(self.root_path, ".run_cache.csv")
+        self.cache_file = os.path.join(self.root, ".run_cache.csv")
         
         # Initialize or set run_id
         self.set_run_id(run_id=run_id, writing_mode=writing_mode)
@@ -74,19 +74,19 @@ class PandoraDatabase:
         """
         self.logger.info(f"Initializing paths for run_id={self.run_id}")
         # Directories
-        self.data_path = os.path.join(self.root_path, "data")
-        self.lightcurves_dir = os.path.join(self.root_path, "lightcurves", self.run_id)
+        self.data_path = os.path.join(self.root, "data")
+        self.lightcurves_dir = os.path.join(self.root, "lightcurves", self.run_id)
         
         # Files
         self.run_data_file = os.path.join(self.data_path, f"{self.run_id}.csv")
         
         # Create directories if they don't exist
-        os.makedirs(self.root_path, exist_ok=True)
+        os.makedirs(self.root, exist_ok=True)
         os.makedirs(self.data_path, exist_ok=True)
         os.makedirs(self.lightcurves_dir, exist_ok=True)
 
         self.logger.debug(f"Paths initialized: {self.data_path}, {self.lightcurves_dir}")
-        self.logger.debug(f"Directories created: {self.root_path}, {self.data_path}, {self.lightcurves_dir}")
+        self.logger.debug(f"Directories created: {self.root}, {self.data_path}, {self.lightcurves_dir}")
 
     def add(self, key: str, value):
         """
@@ -274,7 +274,7 @@ class PandoraDatabase:
             else:
                 dtype_map[col] = 'object'
         return dtype_map
-
+        
     def save(self):
         """Saves the in-memory DataFrame to the main run CSV file."""
         self.run_db.to_csv(self.run_data_file, index=False)
@@ -353,7 +353,7 @@ if __name__ == "__main__":
     initialize_central_logger("../database.log", "INFO", verbose=True)
 
     # Instantiate (in writing mode, no run_id => auto-generate)
-    pdb = PandoraDatabase(root_path="/Users/pandora_ctrl/Desktop", writing_mode=True)
+    pdb = PandoraDatabase(root="/Users/pandora_ctrl/Desktop", writing_mode=True)
         
     # Add properties one by one
     pdb.add("timestamp", datetime.now())
