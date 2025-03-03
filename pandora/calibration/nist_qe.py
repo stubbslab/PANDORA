@@ -19,7 +19,7 @@ def getNISTQE():
         fname: pandora/calibration/7J048_292819_hamatsu_qe.csv
     """
     # Load the NIST QE data
-    qe_data = pd.read_csv("7J048_292819_hamatsu_qe.csv")
+    qe_data = pd.read_csv("./data/7J048_292819_hamatsu_qe.csv")
     wav = qe_data['Wavelength (nm)'].values
     qe = qe_data['QE'].values
 
@@ -42,9 +42,13 @@ def plotNISTQE(ax=None, **kwargs):
     qe = getNISTQE()
 
     wav = np.arange(300, 1100+5, 5)
-    ax.plot(wav, qe(wav))
+    ax.plot(wav, qe(wav), 'k', **kwargs)
     ax.set_xlabel("Wavelength (nm)")
     ax.set_ylabel("Quantum Efficiency")
     ax.set_title("Quantum Efficiency of the NIST Photodiode")
     ax.grid()
     return ax
+
+if __name__ == "__main__":
+    plotNISTQE()
+    plt.show()
