@@ -303,11 +303,13 @@ class MonochromatorController:
                     self.logger.info(f"Successfully changed units to {unit}.")
                     return True
                 elif status_byte == 34:  # Handle 0x22
-                    self.logger.warning("Warning: Received status byte 34 (Possible intermediate response).")
-                    return False
+                    self.logger.info("Warning: Received status byte 34. Possible intermediate response, waiting...")
+                    time.sleep(0.5)  # 🚀 Wait and check again
+                    continue
                 else:
                     self.logger.error(f"Unknown response received: {response} (decimal: {status_byte})")
                     return False
+                
             time.sleep(self.timeout/10)  # Wait briefly before retrying
 
     # Internal helper methods
