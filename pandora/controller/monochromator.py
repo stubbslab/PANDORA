@@ -35,6 +35,8 @@ class MonochromatorController:
         self.wavelength = None
         self.timeout = 1 # seconds
 
+        self.get_wavelength()
+
     def initialize(self):
         """
         Initialize the monochromator by connecting to the serial port.
@@ -133,9 +135,9 @@ class MonochromatorController:
         self.close()
 
         # Make a delay to avoid error
-        self.get_wavelength(sleep=self.timeout)
+        self.get_wavelength(sleep=timeout)
 
-    def get_wavelength(self, sleep=1):
+    def get_wavelength(self, sleep=0.05):
         """
         Get the current wavelength setting of the monochromator.
 
@@ -292,6 +294,7 @@ class MonochromatorController:
         is_finished = self.query_confirmation_bytes()
         if is_finished:
             self.logger.info(f"Monochromator successfully switched to {unit}.")
+        self.close()
         pass
     
     def get_grating_gmm(self):
@@ -318,9 +321,11 @@ class MonochromatorController:
             high_byte, low_byte = response[0], response[1]
             grating_gmm = (high_byte * 256) + low_byte  # Convert to integer
             self.logger.info(f"Current grating has {grating_gmm} grooves/mm.")
+            self.close()
             return grating_gmm
         else:
             self.logger.warning("No valid response received for grating query.")
+            self.close()
             return None
 
     def change_order(self, order):
@@ -375,7 +380,7 @@ class MonochromatorController:
             response = self._read(1)  # Try to read one byte
             if response:
                 status_byte = response[0]
-                self.logger.debug(f"DEBUG: Raw response byte: {response} (decimal: {status_byte}, hex: {response.hex()})")
+                self.logger.debug(f"Raw response byte: {response} (decimal: {status_byte}, hex: {response.hex()})")
 
                 if status_byte == expected_byte:
                     self.logger.debug("Successfully received confirmation byte.")
@@ -384,8 +389,8 @@ class MonochromatorController:
                     self.logger.debug("Received intermediate response. Waiting for final confirmation...")
                     continue  # Keep waiting for the final confirmation byte
                 else:
-                    self.logger.error(f"Unexpected response: {response} (decimal: {status_byte})")
-                    return False
+                    # self.logger.debug(f"Unexpected response: {response} (decimal: {status_byte})")
+                    continue
 
             time.sleep(self.timeout / num_attempts)  # Wait briefly before retrying
 

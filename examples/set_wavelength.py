@@ -16,6 +16,8 @@ mono = MonochromatorController(SERIAL_PORT)
 gmm = mono.get_grating_gmm()
 print(f"Current grating: {gmm} g/mm")
 
+mono.change_order("clockwise")
+
 # # Make sure the units are angstroms
 # mono.set_units("angstroms")
 
