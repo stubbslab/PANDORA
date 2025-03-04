@@ -391,6 +391,35 @@ class MonochromatorController:
             self.close()
             return None
 
+    def get_number_of_grattings(self):
+        """
+        Get the number of gratings.
+        """
+        self.connect()
+        if not self.ser:
+            self.logger.error("Error: Could not establish connection to monochromator.")
+            return None
+
+        # Construct command: <56> D <02> D  (QUERY GROOVES/MM)
+        command = bytes([56, 13])
+        self.ser.write(command)
+        self.logger.info("Sent QUERY command to get the number of gratings.")
+
+        # Wait for response (2 bytes expected: High Byte + Low Byte)
+        response = self.ser.read(2)
+        if len(response) == 2:
+            high_byte, low_byte = response[0], response[1]
+            num_grating = low_byte  # Convert to integer
+            is_finished = self.query_confirmation_bytes()
+            if is_finished:
+                self.logger.info(f"The number of grattings is {num_grating}")
+            self.close()
+            return num_grating
+        else:
+            self.logger.warning("No valid response received for grating query.")
+            self.close()
+            return None
+        
     def get_speed(self):
         """
         Query the current speed of the monochromator.
