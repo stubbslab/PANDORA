@@ -159,8 +159,8 @@ class MonochromatorController:
             final_status = self._read(1)
             if final_status and final_status[0] == 24:
                 self.logger.debug("Query completed successfully.")
-            else:
-                self.logger.warning("Warning: Did not receive final confirmation byte after query.")
+            # else:
+            #     self.logger.warning("Warning: Did not receive final confirmation byte after query.")
 
             self.wavelength = current_wavelength_nm
         else:
