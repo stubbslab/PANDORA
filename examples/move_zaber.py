@@ -1,6 +1,6 @@
 import sys
 sys.path.append("/Users/pandora_ctrl/Documents/dev/versions/v1.0/PANDORA")
-from pandora.commands.zaberstages import ZaberController
+from pandora.controller.zaberstages import ZaberController
 from pandora.utils.logger import initialize_central_logger  
 
 # Set up logging
