@@ -13,6 +13,10 @@ SERIAL_PORT = "/dev/tty.usbserial-FTDI1CB2"
 # Create an instance of the MonochromatorController
 mono = MonochromatorController(SERIAL_PORT)
 
+
+# Make sure the units are angstroms
+mono.set_units("angstroms")
+
 # Get the current wavelength
 mono.get_wavelength(sleep=0.0)
 

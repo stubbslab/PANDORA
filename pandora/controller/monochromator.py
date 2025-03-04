@@ -10,6 +10,15 @@ The monochromator should be powered on and connected to the computer via a seria
 """
 
 class MonochromatorController:
+    """
+    Controls Digikröm - CM110/CM112 Monochromator
+    via serial communication.
+
+    Attributes:
+    - port (str): The serial port to connect to (e.g., 'COM3' or '/dev/ttyUSB0').
+    - baudrate (int): The baud rate for the serial connection.
+    - logger (logging.Logger): The logger object for logging messages.    
+    """
     def __init__(self, usb_port, baudrate=9600, type=None):
         """
         Initialize the MonochromatorController object.
@@ -251,6 +260,44 @@ class MonochromatorController:
 
         # close the connection
         self.close()
+
+    def set_units(self, unit="angstroms"):
+        """
+        Set the monochromator's wavelength units.
+        
+        Parameters:
+        - unit (str): The desired wavelength unit. Valid options: 'microns', 'nm', 'angstroms'.
+        
+        Command format:
+        - To CM110/112: <50> D <Units Byte>
+        - Response: <Status byte> (should return <24> D if successful)
+        """
+        self.connect()
+
+        # Define the unit byte based on user selection
+        unit_mapping = {
+            "microns": 0x00,   # 00 Microns
+            "nm": 0x01,        # 01 Nanometers
+            "angstroms": 0x02  # 02 Angstroms
+        }
+
+        if unit not in unit_mapping:
+            self.logger.error(f"Invalid unit '{unit}'. Choose from: {list(unit_mapping.keys())}")
+            return False
+
+        # Construct command: <50> D <Units Byte>
+        command = bytes([50, unit_mapping[unit]])
+        self._write(command)
+        self.logger.info(f"Sent SET UNITS command to switch to {unit}.")
+
+        # Read confirmation byte
+        response = self._read(1)
+        if response and response[0] == 24:  # <24> D indicates success
+            self.logger.info(f"Successfully changed units to {unit}.")
+            return True
+        else:
+            self.logger.warning(f"Warning: No confirmation received after changing units to {unit}.")
+            return False
 
     # Internal helper methods
     def _write(self, command_bytes):
