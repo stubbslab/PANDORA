@@ -33,6 +33,7 @@ class MonochromatorController:
         self.ser = None
         self.logger = logging.getLogger(f"pandora.monochromator")
         self.wavelength = None
+        self.timeout = 1 # seconds
 
     def initialize(self):
         """
@@ -290,14 +291,18 @@ class MonochromatorController:
         self._write(command)
         self.logger.info(f"Sent SET UNITS command to switch to {unit}.")
 
-        # Read confirmation byte
-        response = self._read(1)
-        if response and response[0] == 24:  # <24> D indicates success
-            self.logger.info(f"Successfully changed units to {unit}.")
-            return True
-        else:
-            self.logger.warning(f"Warning: No confirmation received after changing units to {unit}.")
-            return False
+        # Read status byte response
+        start_time = time.time()
+        while time.time() - start_time < self.timeout:
+            response = self._read(1)  # Try to read one byte
+            if response:
+                if response[0] == 24:  # <24> D indicates success
+                    self.logger.info(f"Successfully changed units to {unit}.")
+                    return True
+                else:
+                    self.logger.warning(f"Unexpected response after SET UNITS: {response}")
+                    return False
+            time.sleep(self.timeout/10)  # Wait briefly before retrying
 
     # Internal helper methods
     def _write(self, command_bytes):
