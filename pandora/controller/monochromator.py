@@ -362,6 +362,61 @@ class MonochromatorController:
             self.logger.info(f"Monochromator successfully rotated {order}.")
         pass
 
+    def get_gratting_number(self):
+        """
+        Get the grating number.
+        """
+        self.connect()
+        if not self.ser:
+            self.logger.error("Error: Could not establish connection to monochromator.")
+            return None
+
+        # Construct command: <56> D <02> D  (QUERY GROOVES/MM)
+        command = bytes([56, 4])
+        self.ser.write(command)
+        self.logger.info("Sent QUERY command to get current gratting number.")
+
+        # Wait for response (2 bytes expected: High Byte + Low Byte)
+        response = self.ser.read(2)
+        if len(response) == 2:
+            high_byte, low_byte = response[0], response[1]
+            num_grating = low_byte  # Convert to integer
+            is_finished = self.query_confirmation_bytes()
+            if is_finished:
+                self.logger.info(f"Current gratting number is {num_grating}")
+            self.close()
+            return num_grating
+        else:
+            self.logger.warning("No valid response received for grating query.")
+            self.close()
+            return None
+
+    def get_speed(self):
+        """
+        Query the current speed of the monochromator.
+        
+        Sends the command: <56> D <05> D
+        """
+        self.connect()
+        if not self.ser:
+            self.logger.error("Not connected to the monochromator.")
+            return None
+
+        command = bytes([56, 5])
+        self.ser.write(command)
+        self.logger.info("Sent QUERY command for current speed.")
+        
+        response = self._read(2)
+        if len(response) == 2:
+            high_byte, low_byte = response[0], response[1]
+            speed = (high_byte << 8) | low_byte
+            if self.query_confirmation_bytes():
+                self.logger.info(f"Current speed is: {speed} units.")
+            return speed
+        else:
+            self.logger.error("Error: Incomplete response for speed query.")
+            return None
+    
 
     def query_confirmation_bytes(self, expected_byte=24, intermediate_byte=34, num_attempts=10):
         """
