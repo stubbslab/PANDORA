@@ -12,17 +12,16 @@ SERIAL_PORT = "/dev/tty.usbserial-FTDI1CB2"
 
 # Create an instance of the MonochromatorController
 mono = MonochromatorController(SERIAL_PORT)
+# mono.change_order("clockwise")
 
-gmm = mono.get_grating_gmm()
-print(f"Current grating: {gmm} g/mm")
-
-mono.change_order("clockwise")
+mono.get_grating_gmm()
+mono.get_speed()
 
 # # Make sure the units are angstroms
-# mono.set_units("angstroms")
+mono.set_units("angstroms")
 
 # # Get the current wavelength
-# mono.get_wavelength(sleep=0.0)
+mono.get_wavelength(sleep=0.0)
 
 # # Set the monochromator to a new wavelength
-# mono.move_to_wavelength(new_wavelength)
+mono.move_to_wavelength(new_wavelength)

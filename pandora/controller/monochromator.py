@@ -113,7 +113,7 @@ class MonochromatorController:
                 attempts = 0
                 while attempts < max_attempts:
                     # Wait for response
-                    is_finished = self.query_confirmation_bytes()
+                    is_finished = self._query_confirmation_bytes()
                     
                     if is_finished:
                         self.logger.info(f"Monochromator successfully returned to home position.")
@@ -159,7 +159,7 @@ class MonochromatorController:
             self.logger.info(f"Current wavelength is: {current_wavelength_nm} nm.")
 
             # Wait for response
-            is_finished = self.query_confirmation_bytes()
+            is_finished = self._query_confirmation_bytes()
             if not is_finished:
                 self.logger.warning("Warning: Did not receive final confirmation byte after querying wavelength.")
 
@@ -201,7 +201,7 @@ class MonochromatorController:
             status = status_byte[0]
             if status < 128:
                 # Wait for response
-                is_finished = self.query_confirmation_bytes()
+                is_finished = self._query_confirmation_bytes()
 
                 if is_finished:
                     self.logger.info(f"Monochromator successfully moved to {wavelength_nm} nm.")
@@ -250,7 +250,7 @@ class MonochromatorController:
             status = status_byte[0]
             if status < 128:
                 # Wait for response
-                is_finished = self.query_confirmation_bytes()
+                is_finished = self._query_confirmation_bytes()
                 if is_finished:
                         self.logger.info(f"Monochromator successfully scanned from {start_nm} nm to {end_nm} nm.")
             else:
@@ -291,7 +291,7 @@ class MonochromatorController:
         self.logger.info(f"Sent SET UNITS command to switch to {unit}.")
 
         # Wait for response
-        is_finished = self.query_confirmation_bytes()
+        is_finished = self._query_confirmation_bytes()
         if is_finished:
             self.logger.info(f"Monochromator successfully switched to {unit}.")
         self.close()
@@ -357,68 +357,12 @@ class MonochromatorController:
         self.logger.info(f"Sent ORDER command to rotate {order} (Selecting {'positive' if order == 'clockwise' else 'negative'} orders).")
 
         # Wait for response
-        is_finished = self.query_confirmation_bytes()
+        is_finished = self._query_confirmation_bytes()
         if is_finished:
             self.logger.info(f"Monochromator successfully rotated {order}.")
+
+        self.close()
         pass
-
-    def get_gratting_number(self):
-        """
-        Get the grating number.
-        """
-        self.connect()
-        if not self.ser:
-            self.logger.error("Error: Could not establish connection to monochromator.")
-            return None
-
-        # Construct command: <56> D <02> D  (QUERY GROOVES/MM)
-        command = bytes([56, 4])
-        self.ser.write(command)
-        self.logger.info("Sent QUERY command to get current gratting number.")
-
-        # Wait for response (2 bytes expected: High Byte + Low Byte)
-        response = self.ser.read(2)
-        if len(response) == 2:
-            high_byte, low_byte = response[0], response[1]
-            num_grating = low_byte  # Convert to integer
-            is_finished = self.query_confirmation_bytes()
-            if is_finished:
-                self.logger.info(f"Current gratting number is {num_grating}")
-            self.close()
-            return num_grating
-        else:
-            self.logger.warning("No valid response received for grating query.")
-            self.close()
-            return None
-
-    def get_number_of_grattings(self):
-        """
-        Get the number of gratings.
-        """
-        self.connect()
-        if not self.ser:
-            self.logger.error("Error: Could not establish connection to monochromator.")
-            return None
-
-        # Construct command: <56> D <02> D  (QUERY GROOVES/MM)
-        command = bytes([56, 13])
-        self.ser.write(command)
-        self.logger.info("Sent QUERY command to get the number of gratings.")
-
-        # Wait for response (2 bytes expected: High Byte + Low Byte)
-        response = self.ser.read(2)
-        if len(response) == 2:
-            high_byte, low_byte = response[0], response[1]
-            num_grating = low_byte  # Convert to integer
-            is_finished = self.query_confirmation_bytes()
-            if is_finished:
-                self.logger.info(f"The number of grattings is {num_grating}")
-            self.close()
-            return num_grating
-        else:
-            self.logger.warning("No valid response received for grating query.")
-            self.close()
-            return None
         
     def get_speed(self):
         """
@@ -439,7 +383,7 @@ class MonochromatorController:
         if len(response) == 2:
             high_byte, low_byte = response[0], response[1]
             speed = (high_byte << 8) | low_byte
-            if self.query_confirmation_bytes():
+            if self._query_confirmation_bytes():
                 self.logger.info(f"Current speed is: {speed} units.")
             return speed
         else:
@@ -447,7 +391,7 @@ class MonochromatorController:
             return None
     
 
-    def query_confirmation_bytes(self, expected_byte=24, intermediate_byte=34, num_attempts=10):
+    def _query_confirmation_bytes(self, expected_byte=24, intermediate_byte=34, num_attempts=10):
         """
         Waits for a confirmation byte from the monochromator.
 
