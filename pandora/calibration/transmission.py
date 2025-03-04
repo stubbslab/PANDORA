@@ -30,10 +30,12 @@ def measureTransmission(df, qeCurve, specBins=None):
     # Compute number of photons
     data['solarCellQE'] = qeCurve(data['wavelength'])
     data['photonsSolarCell'] = data['fluxSolarCell'] / data['solarCellQE']
+    data['photonsInput'] = data['fluxInput'] / photodiodeQE(data['wavelength'])
 
     # Compute the transmission
-    ratio = data['fluxInput'] / data['fluxSolarCell']
-    data['transmission'] = ratio / data['solarCellQE']
+    ratio = data['photonsSolarCell'] / data['photonsInput']
+    ratio = ratio.where(ratio < 0, np.nan)
+    data['transmission'] = ratio 
 
     # Compute the transmission mean/error
     # Bin the wavelength column
