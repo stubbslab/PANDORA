@@ -296,11 +296,17 @@ class MonochromatorController:
         while time.time() - start_time < self.timeout:
             response = self._read(1)  # Try to read one byte
             if response:
-                if response[0] == 24:  # <24> D indicates success
+                status_byte = response[0]
+                self.logger.warning(f"DEBUG: Raw response byte: {response} (decimal: {status_byte}, hex: {response.hex()})")
+
+                if status_byte == 24:
                     self.logger.info(f"Successfully changed units to {unit}.")
                     return True
+                elif status_byte == 34:  # Handle 0x22
+                    self.logger.warning("Warning: Received status byte 34 (Possible intermediate response).")
+                    return False
                 else:
-                    self.logger.warning(f"Unexpected response after SET UNITS: {response}")
+                    self.logger.error(f"Unknown response received: {response} (decimal: {status_byte})")
                     return False
             time.sleep(self.timeout/10)  # Wait briefly before retrying
 
