@@ -110,15 +110,15 @@ class MonochromatorController:
                 # Keep reading until we get the final <24> D byte indicating completion
                 attempts = 0
                 while attempts < max_attempts:
-                    final_status = self._read(1)
-                    if final_status:
-                        print(f"Received byte: {final_status.hex()}")  # Print each received byte
-                        if ord(final_status) == 24:
-                            self.logger.info(f"Monochromator successfully returned to home position.")
-                            break
+                    # Wait for response
+                    is_finished = self.query_confirmation_bytes()
+                    
+                    if is_finished:
+                        self.logger.info(f"Monochromator successfully returned to home position.")
+                        break
                     else:
                         attempts += 1
-                        time.sleep(0.1)  # Add a small delay before trying again
+                        time.sleep(self.timeout)  # Add a small delay before trying again
                         self.logger.warning(f"Attempt {attempts}: Waiting for final confirmation byte...")
 
                 # If we reach here, the expected <24> D was not received
@@ -133,7 +133,7 @@ class MonochromatorController:
         self.close()
 
         # Make a delay to avoid error
-        self.get_wavelength(sleep=1.5)
+        self.get_wavelength(sleep=self.timeout)
 
     def get_wavelength(self, sleep=1):
         """
@@ -156,12 +156,10 @@ class MonochromatorController:
             current_wavelength_nm = current_wavelength_angstroms / 10
             self.logger.info(f"Current wavelength is: {current_wavelength_nm} nm.")
 
-            # Read final status byte
-            final_status = self._read(1)
-            if final_status and final_status[0] == 24:
-                self.logger.debug("Query completed successfully.")
-            # else:
-            #     self.logger.warning("Warning: Did not receive final confirmation byte after query.")
+            # Wait for response
+            is_finished = self.query_confirmation_bytes()
+            if not is_finished:
+                self.logger.warning("Warning: Did not receive final confirmation byte after querying wavelength.")
 
             self.wavelength = current_wavelength_nm
         else:
@@ -200,12 +198,12 @@ class MonochromatorController:
         if status_byte:
             status = status_byte[0]
             if status < 128:
-                # Wait for the final <24> D byte indicating completion
-                final_status = self._read(1)
-                if final_status and final_status[0] == 24:
+                # Wait for response
+                is_finished = self.query_confirmation_bytes()
+
+                if is_finished:
                     self.logger.info(f"Monochromator successfully moved to {wavelength_nm} nm.")
-                else:
-                    self.logger.debug("Warning: Did not receive final confirmation byte after moving to wavelength.")
+
             else:
                 self._handle_status_byte(status)
         else:
@@ -244,16 +242,15 @@ class MonochromatorController:
         self.logger.info(f"Sent SCAN command to scan from {start_nm} nm to {end_nm} nm.")
 
         # Read status byte response
+
         status_byte = self._read(1)
         if status_byte:
             status = status_byte[0]
             if status < 128:
-                # Wait for the final <24> D byte indicating completion
-                final_status = self._read(1)
-                if final_status and final_status[0] == 24:
-                    self.logger.info(f"Monochromator successfully scanned from {start_nm} nm to {end_nm} nm.")
-                else:
-                    self.logger.warning("Warning: Scan issue - Did not receive final confirmation byte after scan.")
+                # Wait for response
+                is_finished = self.query_confirmation_bytes()
+                if is_finished:
+                        self.logger.info(f"Monochromator successfully scanned from {start_nm} nm to {end_nm} nm.")
             else:
                 self._handle_status_byte(status)
         else:
@@ -291,26 +288,109 @@ class MonochromatorController:
         self._write(command)
         self.logger.info(f"Sent SET UNITS command to switch to {unit}.")
 
-        # Read status byte response
+        # Wait for response
+        is_finished = self.query_confirmation_bytes()
+        if is_finished:
+            self.logger.info(f"Monochromator successfully switched to {unit}.")
+        pass
+    
+    def get_grating_gmm(self):
+        """
+        Query the current grating groove density (g/mm).
+        
+        Returns:
+        - int: The groove density in gr/mm if successful.
+        - None: If no valid response is received.
+        """
+        self.connect()
+        if not self.ser:
+            self.logger.error("Error: Could not establish connection to monochromator.")
+            return None
+
+        # Construct command: <56> D <02> D  (QUERY GROOVES/MM)
+        command = bytes([56, 2])
+        self.ser.write(command)
+        self.logger.info("Sent QUERY command to get current grating groove density (g/mm).")
+
+        # Wait for response (2 bytes expected: High Byte + Low Byte)
+        response = self.ser.read(2)
+        if len(response) == 2:
+            high_byte, low_byte = response[0], response[1]
+            grating_gmm = (high_byte * 256) + low_byte  # Convert to integer
+            self.logger.info(f"Current grating has {grating_gmm} grooves/mm.")
+            return grating_gmm
+        else:
+            self.logger.warning("No valid response received for grating query.")
+            return None
+
+    def change_order(self, order):
+        """
+        Change the diffraction order direction.
+
+        Parameters:
+        - order (str): "clockwise" (positive orders, m > 0) 
+                        or "counterclockwise" (negative orders, m < 0).
+        """
+        self.connect()
+        if not self.ser:
+            self.logger.error("Error: Could not establish connection to monochromator.")
+            return False
+
+        # Define order bytes
+        order_bytes = {
+            "clockwise": 0x01,        # Rotates the grating clockwise (selects positive orders, m > 0)
+            "counterclockwise": 0xFE  # Rotates the grating counterclockwise (selects negative orders, m < 0)
+        }
+
+        if order not in order_bytes:
+            self.logger.error("Invalid order. Choose 'clockwise' or 'counterclockwise'.")
+            return False
+
+        # Construct command: <51> D <Order Byte>
+        command = bytes([51, order_bytes[order]])
+        self.ser.write(command)
+        self.logger.info(f"Sent ORDER command to rotate {order} (Selecting {'positive' if order == 'clockwise' else 'negative'} orders).")
+
+        # Wait for response
+        is_finished = self.query_confirmation_bytes()
+        if is_finished:
+            self.logger.info(f"Monochromator successfully rotated {order}.")
+        pass
+
+
+    def query_confirmation_bytes(self, expected_byte=24, intermediate_byte=34, num_attempts=10):
+        """
+        Waits for a confirmation byte from the monochromator.
+
+        Parameters:
+        - expected_byte (int): The expected response byte (default: 24, indicating success).
+        - intermediate_byte (int): A byte indicating an "in-progress" status (default: 34, hex 0x22).
+
+        Returns:
+        - True if the expected byte is received.
+        - False if an unknown byte is received or if timeout occurs.
+        """
         start_time = time.time()
         while time.time() - start_time < self.timeout:
             response = self._read(1)  # Try to read one byte
             if response:
                 status_byte = response[0]
-                self.logger.warning(f"DEBUG: Raw response byte: {response} (decimal: {status_byte}, hex: {response.hex()})")
+                self.logger.debug(f"DEBUG: Raw response byte: {response} (decimal: {status_byte}, hex: {response.hex()})")
 
-                if status_byte == 24:
-                    self.logger.info(f"Successfully changed units to {unit}.")
+                if status_byte == expected_byte:
+                    self.logger.debug("Successfully received confirmation byte.")
                     return True
-                elif status_byte == 34:  # Handle 0x22
-                    self.logger.info("Warning: Received status byte 34. Possible intermediate response, waiting...")
-                    time.sleep(0.5)  # 🚀 Wait and check again
-                    continue
+                elif status_byte == intermediate_byte:  # Handle in-progress signal (0x22)
+                    self.logger.debug("Received intermediate response. Waiting for final confirmation...")
+                    continue  # Keep waiting for the final confirmation byte
                 else:
-                    self.logger.error(f"Unknown response received: {response} (decimal: {status_byte})")
+                    self.logger.error(f"Unexpected response: {response} (decimal: {status_byte})")
                     return False
-                
-            time.sleep(self.timeout/10)  # Wait briefly before retrying
+
+            time.sleep(self.timeout / num_attempts)  # Wait briefly before retrying
+
+        self.logger.warning("Timeout: No confirmation received from the monochromator.")
+        return False
 
     # Internal helper methods
     def _write(self, command_bytes):
