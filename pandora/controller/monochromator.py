@@ -385,9 +385,11 @@ class MonochromatorController:
             speed = (high_byte << 8) | low_byte
             if self._query_confirmation_bytes():
                 self.logger.info(f"Current speed is: {speed} units.")
+            self.close()
             return speed
         else:
             self.logger.error("Error: Incomplete response for speed query.")
+            self.close()
             return None
     
 
