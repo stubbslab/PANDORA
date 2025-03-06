@@ -182,7 +182,7 @@ class spectrometerController:
             # put the date and time in the file
             # f.write(f"# Date: {time.strftime('%Y-%m-%d')}, Time: {time.strftime('%H:%M:%S')}\n")
             for i in range(len(wavelengths)):
-                f.write(f"{wavelengths[i]:0.2g}\t{counts[i]:0.1g}\n")
+                f.write(f"{wavelengths[i]:0.2f}\t{counts[i]:0.0f}\n")
         pass
 
     def is_connected(self):
