@@ -199,25 +199,25 @@ class SpectrumCalibrator:
         ax2.set_title("Residuals")
         ax2.legend()
         fig.tight_layout()
-        plt.show()
+        return fig
 
-    def plot_spectrum(self, show_peaks=True):
+    def plot_spectrum(self, show_peaks=True, title="Measured Spectrum"):
         """
         Simple helper to plot the spectrum, optionally highlighting found peaks.
         """
-        plt.figure(figsize=(8, 4))
+        fig = plt.figure(figsize=(8, 4))
         plt.plot(self.x_data, self.intensities, label='Spectrum', color='k')
         
         if show_peaks and self.peak_indices is not None:
             plt.plot(self.peak_x_positions, self.peak_intensities, 'rx',
                      label='Detected peaks')
         
-        plt.title("Measured Spectrum")
+        plt.title(title)
         plt.xlabel("Pixel" if self.x_is_pixel else "Wavelength (nm)")
         plt.ylabel("Intensity (a.u.)")
         plt.legend()
         plt.tight_layout()
-        plt.show()
+        return fig
 
 def polynomial_string(coefs):
     """
