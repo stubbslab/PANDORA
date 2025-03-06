@@ -4,6 +4,8 @@ from pandora.controller.stellarnet import spectrometerController
 from pandora.utils.logger import initialize_central_logger  
 from datetime import datetime
 
+root = '/Users/pandora_ctrl/Desktop/spectrometer'
+
 # Set up logging
 initialize_central_logger("stellarnet.log", "INFO", verbose=True)
 
@@ -26,7 +28,7 @@ if is_short_exposure:
     wav, counts = spectrometer.get_spectrum()
 
     # Save the spectrum
-    spectrometer.save_spectrum(wav, counts, f"ArcLamp_spectrum_short_exposure_{timestamp}")
+    spectrometer.save_spectrum(wav, counts, f"{root}/ArcLamp_spectrum_short_exposure_{timestamp}")
 
 is_long_exposure = False
 if is_long_exposure:
