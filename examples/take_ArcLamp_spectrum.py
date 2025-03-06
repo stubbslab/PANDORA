@@ -5,6 +5,9 @@ from pandora.utils.logger import initialize_central_logger
 from datetime import datetime
 
 root = '/Users/pandora_ctrl/Desktop/spectrometer'
+is_short_exposure = False
+is_long_exposure = False
+is_very_long_exposure = True
 
 # Set up logging
 initialize_central_logger("stellarnet.log", "INFO", verbose=True)
@@ -19,10 +22,9 @@ spectrometer = spectrometerController()
 spectrometer.set_scan_avg(100)
 
 # Take a short exposure
-is_short_exposure = True
 if is_short_exposure:
     # 9ms integration time
-    spectrometer.set_integration_time(9)
+    spectrometer.set_integration_time(8)
 
     # Get spectrum
     wav, counts = spectrometer.get_spectrum()
@@ -30,16 +32,25 @@ if is_short_exposure:
     # Save the spectrum
     spectrometer.save_spectrum(wav, counts, f"{root}/ArcLamp_spectrum_short_exposure_{timestamp}")
 
-is_long_exposure = False
 if is_long_exposure:
-    # 9ms integration time
-    spectrometer.set_integration_time(90)
+    # 39ms integration time
+    spectrometer.set_integration_time(39)
 
     # Get spectrum
     wav, counts = spectrometer.get_spectrum()
 
     # Save the spectrum
-    spectrometer.save_spectrum(wav, counts, f"ArcLamp_spectrum_long_exposure_{timestamp}")
+    spectrometer.save_spectrum(wav, counts, f"{root}/ArcLamp_spectrum_long_exposure_{timestamp}")
+
+if is_very_long_exposure:
+    # 130ms integration time
+    spectrometer.set_integration_time(130)
+
+    # Get spectrum
+    wav, counts = spectrometer.get_spectrum()
+
+    # Save the spectrum
+    spectrometer.save_spectrum(wav, counts, f"{root}/ArcLamp_spectrum_very_long_exposure_{timestamp}")
 
 # Plot spectrum
 spectrometer.plot_spectrum(wav, counts)
