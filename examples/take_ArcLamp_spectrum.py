@@ -1,5 +1,9 @@
-from pandora.controller.spectrometer import spectrometerController
+from pandora.controller.stellarnet import spectrometerController
 from datetime import datetime
+from pandora.utils.logger import initialize_central_logger  
+
+# Set up logging
+initialize_central_logger("stellarnet.log", "INFO", verbose=True)
 
 # Make a timestamp
 timestamp = datetime.now().strftime("%Y%m%d")
