@@ -4,206 +4,264 @@ import matplotlib.pyplot as plt
 
 class SpectrumCalibrator:
     """
-    A class that takes in a measured (pixel/wavelength vs. intensity) spectrum,
-    finds the most prominent emission lines, and performs a polynomial calibration
-    fit to known spectral lines (e.g., from a Hg/Ar lamp).
+    A class that takes in a spectrometer's *reported wavelengths* vs. intensities,
+    but re-calibrates by treating the 'true' x-axis as pixel indices (0..N-1).
+    The final polynomial maps: pixel -> true wavelength.
     """
-    def __init__(self, x_data, intensities, x_is_pixel=False):
+    def __init__(self, reported_wavelengths, intensities):
         """
         Parameters
         ----------
-        x_data : array-like
-            The x-axis data. Can be pixel numbers or approximate wavelengths.
+        reported_wavelengths : array-like
+            The spectrometer-reported wavelengths for each detector element.
+            (Often slightly off and needing re-calibration.)
         intensities : array-like
-            The measured intensities at each x_data point.
-        x_is_pixel : bool, optional
-            If True, x_data is treated as pixel indices (0, 1, 2, ...).
-            If False, x_data is treated as nominal/approximate wavelengths.
+            The measured intensities at each element.
         """
-        self.x_data = np.asarray(x_data)
+        # Store the raw data
+        self.reported_wavelengths = np.asarray(reported_wavelengths)
         self.intensities = np.asarray(intensities)
-        self.x_is_pixel = x_is_pixel
+
+        # Number of pixels in the detector
+        self.num_pixels = len(self.reported_wavelengths)
         
-        # These will be filled after finding peaks and calibrating
+        # For calibration, we treat x_data = pixel indices [0..N-1]
+        self.x_data = np.arange(self.num_pixels, dtype=float)
+        
+        # Book-keeping for found peaks, fits, etc.
         self.peak_indices = None
-        self.peak_x_positions = None
+        self.peak_x_positions = None   # in pixel space
         self.peak_intensities = None
-        self.calibration_coeffs = None
+        self.vertex_positions = None   # parabola-fitted peak positions in pixel space
+        self.centroid_positions = None # centroid-fitted peak positions in pixel space
         
+        self.calibration_coeffs = None
+        self.matched_pairs = None      # list of (peak_pixel, true_wavelength)
+        self.matched_method = None
+        self.matched_residual = None
+    
     def find_prominent_lines(self, height=None, distance=None, prominence=None):
         """
         Finds prominent peaks in the spectrum using scipy.signal.find_peaks.
-        
-        Parameters
-        ----------
-        height : float, optional
-            Required height of peaks. If None, no minimum height is enforced.
-        distance : int, optional
-            Required minimal horizontal distance (in x_data steps) between peaks.
-        prominence : float, optional
-            Required prominence of peaks. If None, no minimum prominence is enforced.
-        
-        Returns
-        -------
-        peaks : ndarray
-            Indices of found peaks in self.intensities.
+        Returns the indices of the found peaks in self.intensities.
         """
-        # Use scipy.signal.find_peaks to locate peaks
         peaks, properties = find_peaks(self.intensities,
                                        height=height,
                                        distance=distance,
                                        prominence=prominence)
-        
-        # Store the results
         self.peak_indices = peaks
+        # The 'pixel' position of each peak
         self.peak_x_positions = self.x_data[peaks]
         self.peak_intensities = self.intensities[peaks]
         
         return peaks
     
-    def match_peaks_to_known_lines(self, known_lines, match_tolerance=2.0):
+    def fit_parabola_to_peaks(self, peak_indices=None, num_points=10):
         """
-        Simple matching of found peaks to known lines (for demonstration).
+        Fits a parabola near each peak to refine its position in pixel space.
+        """
+        if peak_indices is None:
+            if self.peak_indices is None:
+                raise ValueError("No peaks found yet. Run find_prominent_lines first.")
+            peak_indices = self.peak_indices
         
-        Parameters
-        ----------
-        known_lines : dict or list
-            If dict, the keys are known wavelengths (float) and the values
-            might be the element name (e.g., 'Hg' or 'Ar').
-            If list, it should be a list of known wavelength floats.
-        match_tolerance : float
-            Maximum absolute difference in x-domain (pixel or nominal nm)
-            within which a peak is considered a match to a known line.
+        refined_peaks = []
+        for idx in peak_indices:
+            start = max(0, idx - num_points)
+            end   = min(self.num_pixels, idx + num_points + 1)
             
-        Returns
-        -------
-        matched_pairs : list of tuples
-            List of (measured_x, true_wavelength).
+            x_fit = self.x_data[start:end]
+            y_fit = self.intensities[start:end]
+            # 2nd order polynomial fit
+            coeffs = np.polyfit(x_fit, y_fit, 2)
+            a, b, c = coeffs
+            # vertex of the parabola
+            vertex_x = -b / (2*a)
+            refined_peaks.append(vertex_x)
+        
+        self.vertex_positions = np.array(refined_peaks)
+        return self.vertex_positions
+
+    def measure_peak_centroids(self, peak_indices=None, num_points=10):
         """
+        Measures peak centroids (in pixel space) by the center-of-mass
+        of intensity in a small window around each peak.
+        """
+        if peak_indices is None:
+            if self.peak_indices is None:
+                raise ValueError("No peaks found yet. Run find_prominent_lines first.")
+            peak_indices = self.peak_indices
+
+        centroids = []
+        for idx in peak_indices:
+            start = max(0, idx - num_points)
+            end   = min(self.num_pixels, idx + num_points + 1)
+            
+            pixel_window = self.x_data[start:end]
+            intensity_window = self.intensities[start:end]
+            
+            # Center of mass
+            csum = np.sum(intensity_window)
+            if csum == 0:
+                centroids.append(pixel_window[len(pixel_window)//2])  # fallback
+            else:
+                centroid = np.sum(pixel_window * intensity_window) / csum
+                centroids.append(centroid)
+        
+        self.centroid_positions = np.array(centroids)
+        return self.centroid_positions
+    
+    def match_peaks_to_known_lines(self, known_lines, method="peak", match_tolerance=2.0):
+        """
+        Matches found peaks (in pixel space) to known lines (in nm) by
+        first converting the known line wavelength -> 'expected pixel'
+        via linear interpolation from the min/max reported wave.
+        
+        known_lines : dict or list
+            If dict, the values are known line wavelengths in nm.
+            If list, it should be the known line wavelengths in nm.
+        method : "peak", "parabola", or "centroid"
+            Which peak position array to use.
+        match_tolerance : float
+            Maximum difference in pixel space to be considered a match.
+        """
+        # Gather the known line wavelengths
         if isinstance(known_lines, dict):
             true_wavelengths = np.array(list(known_lines.values()), dtype=float)
         else:
             true_wavelengths = np.array(known_lines, dtype=float)
-        
+
+        # Choose which measured x positions to use
+        if method == "peak":
+            if self.peak_x_positions is None:
+                raise ValueError("No peaks found yet. Run find_prominent_lines first.")
+            measured_x = self.peak_x_positions
+        elif method == "parabola":
+            if self.vertex_positions is None:
+                raise ValueError("No parabola-fitted positions. Run fit_parabola_to_peaks first.")
+            measured_x = self.vertex_positions
+        elif method == "centroid":
+            if self.centroid_positions is None:
+                raise ValueError("No centroid positions. Run measure_peak_centroids first.")
+            measured_x = self.centroid_positions
+        else:
+            raise ValueError("Unknown method. Choose from 'peak', 'parabola', 'centroid'.")
+
         matched_pairs = []
-        residual = []
-        # For each known line, see if there's a measured peak close enough
+        pixel_resids = []
+
+        # For each known line wavelength, compute expected pixel
         for wl in true_wavelengths:
-            # Find the difference with all peak positions
-            diffs = np.abs(self.peak_x_positions - wl)
+            expected_pixel = np.interp(wl, self.reported_wavelengths, self.x_data)
+            diffs = np.abs(measured_x - expected_pixel)
             min_diff = np.min(diffs)
             if min_diff <= match_tolerance:
-                # get index of the best match
                 best_idx = np.argmin(diffs)
-                matched_x = self.peak_x_positions[best_idx]
-                matched_pairs.append((matched_x, wl))
-                residual.append(min_diff)
-        print(f"There are {len(matched_pairs)} pairs found with median residual {np.median(residual):0.2f} nm")
-        self.matched_pairs = matched_pairs
-        pass
+                matched_pixel = measured_x[best_idx]
+                matched_pairs.append((matched_pixel, wl))
+                pixel_resids.append(min_diff)
+
+        if len(pixel_resids) > 0:
+            print(f"Matched {len(matched_pairs)} lines, median pixel residual = {np.median(pixel_resids):.3f}")
+        else:
+            print("No lines matched within tolerance.")
+        
+        self.matched_pairs = matched_pairs  # (pixel, known_wavelength)
+        self.matched_method = method
+        self.matched_residual = np.array(pixel_resids)
     
     def fit_polynomial(self, matched_pairs=None, order=2):
         """
-        Fits a polynomial of given order to the matched peak data.
-        
-        If x_is_pixel=True, we interpret matched_pairs as:
-            matched_pairs[i] = (pixel_position, true_wavelength).
-        If x_is_pixel=False, matched_pairs[i] = (measured_wavelength, true_wavelength).
-        
-        Parameters
-        ----------
-        matched_pairs : (optional) list of tuples
-            Each tuple is (measured_x, true_wavelength).
-        order : int
-            Polynomial order (e.g., 1 = linear, 2 = quadratic, etc.).
-            
-        Returns
-        -------
-        coeffs : ndarray
-            Polynomial coefficients in the order used by np.polyval (highest power last).
-            That is: coeffs = [a_n, a_(n-1), ..., a_0].
+        Fits a polynomial W = f(pixel) to matched data: (pixel, true_wavelength).
         """
         if matched_pairs is None:
-            if not hasattr(self, 'matched_pairs'):
-                raise ValueError("No matched pairs provided and no previous matches found.")
-            else:
-                matched_pairs = self.matched_pairs
+            matched_pairs = self.matched_pairs
+        if not matched_pairs:
+            raise ValueError("No matched pairs found; cannot fit polynomial.")
 
-        # Convert matched_pairs to arrays
-        measured_x = np.array([p[0] for p in matched_pairs], dtype=float)
-        true_wl   = np.array([p[1] for p in matched_pairs], dtype=float)
-        
-        # Fit polynomial: we want to find W = f(X)
-        # so that np.polyval(coeffs, X) ~ W
-        coeffs = np.polyfit(measured_x, true_wl, deg=order)
+        px = np.array([p[0] for p in matched_pairs], dtype=float)
+        wl = np.array([p[1] for p in matched_pairs], dtype=float)
+
+        coeffs = np.polyfit(px, wl, deg=order)
         self.calibration_coeffs = coeffs
         return coeffs
     
-    def apply_calibration(self, x_values):
+    def apply_calibration(self, pixel_values):
         """
-        Apply the previously fitted polynomial calibration to new x-values.
-        
-        Parameters
-        ----------
-        x_values : array-like
-            Pixel or nominal wavelength values to calibrate.
-            
-        Returns
-        -------
-        calibrated_wavelengths : ndarray
-            The calibrated wavelengths after applying the polynomial fit.
+        Evaluate the polynomial calibration to convert from pixel -> wavelength.
         """
         if self.calibration_coeffs is None:
-            raise ValueError("No calibration has been performed yet. "
-                             "Call fit_polynomial first.")
-        return np.polyval(self.calibration_coeffs, x_values)
+            raise ValueError("No calibration has been performed yet.")
+        return np.polyval(self.calibration_coeffs, pixel_values)
+    
+    def get_model_residual(self):
+        """
+        Returns the difference [f(pixel) - true_wavelength] for matched pairs.
+        """
+        if self.calibration_coeffs is None:
+            raise ValueError("No calibration has been performed yet.")
+        if not self.matched_pairs:
+            raise ValueError("No matched pairs found.")
+
+        px = np.array([p[0] for p in self.matched_pairs], dtype=float)
+        wl = np.array([p[1] for p in self.matched_pairs], dtype=float)
+        calibrated_wl = self.apply_calibration(px)
+        return calibrated_wl - wl
     
     def plot_calibration_fit(self):
         """
-        Plots the calibration polynomial fit and the data (measured vs. true wavelengths).
+        Plots pixel on X axis vs. wavelength on Y axis, showing:
+          1) the matched points (pixel, line_wavelength)
+          2) the fitted polynomial curve
+          3) a histogram of residuals (nm)
         """
         if self.calibration_coeffs is None:
-            raise ValueError("No calibration has been performed yet. "
-                             "Call fit_polynomial first.")
+            raise ValueError("No calibration has been performed yet.")
+
+        # Prepare data for plotting
         coefs = self.calibration_coeffs
-        x_values = np.linspace(np.min(self.x_data), np.max(self.x_data), 100)
-        y_values = np.polyval(coefs, x_values)
-    
-        # Convert matched_pairs to arrays
-        matched_pairs = self.matched_pairs
-        measured_x = np.array([p[0] for p in matched_pairs], dtype=float)
-        true_wl   = np.array([p[1] for p in matched_pairs], dtype=float)
-    
         eq_str = polynomial_string(coefs)
-    
-        fig, axs = plt.subplots(1, 2, figsize=(12, 5))
-        ax1 = axs[0]
-        ax1.scatter(true_wl, measured_x, color='firebrick', label='Data')
-        ax1.plot(y_values, x_values, color='k', 
-                 label='Fit Model\n' + eq_str)
-        ax1.set_xlabel("True Wavelength (nm)")
-        ax1.set_ylabel("Measured Wavelength (nm)")
-        ax1.set_title("Calibration Fit")
+
+        matched_pairs = self.matched_pairs
+        px_meas = np.array([p[0] for p in matched_pairs], dtype=float)
+        wl_true = np.array([p[1] for p in matched_pairs], dtype=float)
+
+        # Generate a smooth pixel array & compute polynomial
+        px_model = np.linspace(0, self.num_pixels - 1, 200)
+        wl_model = self.apply_calibration(px_model)
+
+        # Residuals in nm
+        residuals = self.get_model_residual()
+        residuals2 = np.interp(px_meas, self.x_data, self.reported_wavelengths) - wl_true
+
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+        # Left plot: Pixel vs. Wavelength (fit + matched points)
+        ax1.scatter(px_meas, wl_true, color='firebrick', label='Matched Lines')
+        ax1.plot(px_model, wl_model, color='k', label='Calibration Fit\n' + eq_str)
+        ax1.plot(px_model, np.interp(px_model, self.x_data, self.reported_wavelengths), color='grey', label='Spec Calibration', ls='--')
+        ax1.set_xlabel("Pixel")
+        ax1.set_ylabel("Wavelength (nm)")
+        ax1.set_title("Pixel-to-Wavelength Fit")
         ax1.legend()
-    
-        ax2 = axs[1]
-        residual = np.polyval(coefs, measured_x) - true_wl
-        residual2 = measured_x-true_wl
-        ax2.scatter(true_wl, residual2, color='firebrick', label='Not Corrected\n'+
-                    f'RMS: {np.std(residual2):0.2g} nm')
-        ax2.scatter(true_wl, residual, color='k', 
-                    label=('Corrected\n' + f'RMS: {np.std(residual):0.2g} nm'))
-        ax2.axhline(0, color='grey', ls='--', lw=2)
-        ax2.set_xlabel("True Wavelength (nm)")
+
+        # Right plot: histogram of residuals
+        #ax2.hist(residuals, bins=12, color='grey', alpha=0.7, edgecolor='black')
+        ax2.scatter(wl_true, residuals, color='firebrick', label='Hg2 Calibrated\n' + f'RMS: {np.std(residuals):0.2g} nm')
+        ax2.scatter(wl_true, residuals2, color='k', label='Spec Calibrated\n'+f'RMS: {np.std(residuals2):0.2g} nm')
+        ax2.axhline(0, ls='--', color='k')
         ax2.set_ylabel("Residual (nm)")
-        ax2.set_title("Residuals")
+        ax2.set_xlabel("Wavelength (nm)")
         ax2.legend()
+        ax2.set_title(f"Centroid Method: {self.matched_method}")
+        # ax2.set_title(f"Residuals (RMS={np.std(residuals):.3f} nm)")
+
         fig.tight_layout()
         return fig
-
+    
     def plot_spectrum(self, show_peaks=True, title="Measured Spectrum"):
         """
-        Simple helper to plot the spectrum, optionally highlighting found peaks.
+        Plots the raw spectrum in pixel space.
         """
         fig = plt.figure(figsize=(8, 4))
         plt.plot(self.x_data, self.intensities, label='Spectrum', color='k')
@@ -212,12 +270,57 @@ class SpectrumCalibrator:
             plt.plot(self.peak_x_positions, self.peak_intensities, 'rx',
                      label='Detected peaks')
         
+        # Mark centroid or parabola positions if available
+        if self.centroid_positions is not None:
+            plt.vlines(self.centroid_positions, 
+                       0, np.interp(self.centroid_positions, self.x_data, self.intensities, left=0, right=0),
+                       color='blue', ls='dotted', label='Centroids')
+        
+        if self.vertex_positions is not None:
+            plt.vlines(self.vertex_positions,
+                       0, np.interp(self.vertex_positions, self.x_data, self.intensities, left=0, right=0),
+                       color='red', ls='dashed', label='Parabola Vertices')
+        
         plt.title(title)
-        plt.xlabel("Pixel" if self.x_is_pixel else "Wavelength (nm)")
+        plt.xlabel("Pixel")
         plt.ylabel("Intensity (a.u.)")
         plt.legend()
         plt.tight_layout()
         return fig
+
+    def plot_method_comparasion(self, known_lines, order=2, match_tolerance=2.0):
+        """
+        Plot the residuals of the calibration for different methods.
+        This is useful to compare the performance of different peak
+        detection and fitting methods.
+        1. peak method
+        2. centroid method
+        3. parabola method
+        """
+        # compare methods
+        methods = ['peak','centroid','parabola']
+        colors = ['k','firebrick','grey']
+        residuals = []
+        for m in methods:
+            matched = self.match_peaks_to_known_lines(known_lines, method=m, match_tolerance=match_tolerance)
+            coeffs = self.fit_polynomial(matched, order)
+            residuals.append(self.get_model_residual())
+
+        mybins = np.arange(-1.0, 1.15, 0.15)
+        # plot residuals
+        fig, axs = plt.subplots(1, 3, figsize=(12, 4), sharey='all')
+        for i, m in enumerate(methods):
+            std = np.std(residuals[i][np.abs(residuals[i])<1.0])
+            axs[i].set_title(f"{m} method\nRMS: {std:0.2g} nm")
+            axs[i].hist(residuals[i], bins=mybins, histtype='step', lw=3,
+                        color=colors[i], label=f'{m} method')
+            axs[i].axvline(0, color='k', ls='--', lw=2)
+            axs[i].set_xlabel("Residual (nm)")
+            axs[i].set_ylabel("Counts")
+            axs[i].legend()
+        fig.tight_layout()
+        return fig
+
 
 def polynomial_string(coefs):
     """
@@ -243,25 +346,27 @@ if __name__ == "__main__":
     wav, spec = create_fake_hg2_spectrum()
 
     # 1. Initialize the calibrator
-    calibrator = SpectrumCalibrator(wav, spec, x_is_pixel=False)
+    calibrator = SpectrumCalibrator(wav, spec, x_is_pixel=True)
 
     # 2. Find prominent peaks
-    calibrator.find_prominent_lines(height=100, distance=1.5)
+    calibrator.find_prominent_lines(height=1000, distance=1.5)
+    calibrator.measure_peak_centroids(num_points=12)
+    calibrator.fit_parabola_to_peaks(num_points=12)
 
     # 3. Match found peaks to known lines
-    matched = calibrator.match_peaks_to_known_lines(hg2_lines, match_tolerance=3.0)
+    calibrator.match_peaks_to_known_lines(hg2_lines, method='parbola', match_tolerance=1.5)
 
-    # X. Plot the spectrum and the peaks
-    calibrator.plot_spectrum()
+    fig = calibrator.plot_spectrum(title='Frankenstein Hg2 Lamp Spectrum')
+    fig.savefig('long_exposure_spectrum_peaks.png', dpi=120)
 
     # 4. Fit a polynomial (pixel -> wavelength)
+    matched = calibrator.match_peaks_to_known_lines(hg2_lines, method='parabola', match_tolerance=3.5)
     coeffs = calibrator.fit_polynomial(matched, order=2)
-    print("Calibration polynomial coeffs:", coeffs)
+    fig = calibrator.plot_calibration_fit()
+    fig.savefig('long_exposure_calibration_fit_2nd_order.png', dpi=120)
 
     # 5. Apply calibration to all pixel values
-    calibrated_wavelengths = calibrator.apply_calibration(wav)
-    print("Calibrated wavelengths example:", calibrated_wavelengths[:10])
+    
 
     # 6. Plot the calibration fit
     calibrator.plot_calibration_fit()
-
