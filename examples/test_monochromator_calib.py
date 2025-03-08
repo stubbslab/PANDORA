@@ -14,6 +14,7 @@ root = "/Users/pandora_ctrl/Desktop/monochromator"
 buffer = 100 # ms
 exptime = 28 # ms
 
+# Check lambda changes
 lambda0 = 300
 lambdaEnd = 1000
 steps = 100
