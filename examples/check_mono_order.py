@@ -69,3 +69,61 @@ take_spectrum("m-1","counterclockwise")
 
 # Move order counterclockwise
 take_spectrum("m-2","counterclockwise")
+
+# Analysis
+# names = ["m0","m1","m2","m-1","m-2"]
+# colors = ["k","firebrick","red","tab:blue","blue"]
+# lss = ["-","--","--","--","--"]
+# data = dict().fromkeys(names)
+# for i,n in enumerate(names):
+#     data[n] = np.genfromtxt(files[i])
+
+# import matplotlib.pyplot as plt
+# def plot_spec(d,axis=None, is_norm=True):
+#     if axis is None: axis = plt.gca()
+#     shift = 0
+#     for i,n in enumerate(names):
+#         if is_norm:
+#             if i>1: shift= (i-1)*0.2
+#             axis.plot(d[n][50:,0],shift+(d[n][50:,1]-np.median(d[n][:,1]))/np.max(d[n][:,1]),ls=lss[i],label=n,color=colors[i])
+#         else:
+#             axis.plot(d[n][50:,0],d[n][50:,1],ls=lss[i],label=n,color=colors[i])
+#     axis.set_xlabel('wavelength [nm]')
+    
+#     wavpeaks = []
+#     for i,n in enumerate(names):
+#         peak = np.nanmax(data[n][:,1])
+#         argpeak = np.nanargmax(data[n][:,1])
+#         wavpeak = data[n][argpeak,0]
+#         wavpeaks.append(wavpeak)
+
+#     if is_norm:
+#         peak_offset= d[names[0]][:,1]-d[names[1]][:,1]
+#         axis.set_ylabel('Relative Strength normalized by the peak')
+#         axis.set_title('Peak offset is {:.2f} nm'.format(wavpeaks[1]-wavpeaks[0]))
+
+#     else:
+#         argpeak = np.nanargmax(data[names[0]][:,1])
+#         wavpeak = data[names[0]][argpeak,0]
+#         axis.set_ylabel('Counts [ADU]')
+#         axis.set_title(f"measured/commanded: {wavpeak} nm/500 nm")
+#     axis.legend()
+# def plot_line_peak(data,axis=None,**kwargs):
+#     if axis is None: axis = plt.gca()
+#     wavpeaks = []
+#     for i,n in enumerate(names):
+#         peak = np.nanmax(data[n][:,1])
+#         argpeak = np.nanargmax(data[n][:,1])
+#         wavpeak = data[n][argpeak,0]
+#         wavpeaks.append(wavpeak)
+#         axis.plot(n, peak, color=colors[i], marker="o")
+#     axis.set_yscale('log')
+#     axis.set_ylim(1e3, 1e5)
+#     axis.set_xlabel('Monochromator Order')
+#     axis.set_ylabel('Peak Strength [ADU]')
+    
+    
+# fig, axis = plt.subplots(2,1,figsize=(10,10))
+# plot_spec(data, axis=axis[0])
+# plot_line_peak(data, axis=axis[1])
+
