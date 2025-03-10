@@ -43,7 +43,7 @@ mono = MonochromatorController(SERIAL_PORT)
 mono.go_home()
 mono.move_to_wavelength(180)
 wav0, counts0 = spectrometer.get_spectrum()
-spectrometer.save_spectrum(wav0, counts0, f"{path}/{timestamp}_{exptime}ms_dark")
+spectrometer.save_spectrum(wav0, counts0, f"{path}/{timestamp}_{exptime}ms_dark", exptime=exptime)
 np.savetxt(f"{path}/{timestamp}_wavelength.txt", lambdaVec)
 
 for lbd in lambdaVec:
@@ -51,4 +51,4 @@ for lbd in lambdaVec:
     mono.move_to_wavelength(lbd)
     time.sleep(buffer/1000)
     wav, counts = spectrometer.get_spectrum()
-    spectrometer.save_spectrum(wav, counts, f"{path}/{timestamp}_{exptime}ms_wav_{lbd*10:04d}angs")
+    spectrometer.save_spectrum(wav, counts, f"{path}/{timestamp}_{exptime}ms_wav_{lbd*10:04d}angs", exptime=exptime)
