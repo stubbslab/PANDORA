@@ -87,13 +87,13 @@ class spectrometerController:
 
         # Set up logging
         self.logger = logging.getLogger(f"pandora.spectrometer")
-        self.logger.info("Initializing the spectrometer controller")
         self.initialize()
 
     def initialize(self):
         """
         Initialize the spectrometer (USB connection).
         """
+        self.logger.info("Initializing the spectrometer controller")
         # self.logger.info("Initializing the spectrometer controller")
         spectrometer, wav = sn.array_get_spec(0) # 0 for first channel and 1 for second channel , up to 127 spectrometers
 
@@ -107,6 +107,7 @@ class spectrometerController:
 
         # Device ID
         self.deviceID = sn.getDeviceId(spectrometer)
+        self.logger.info(f"Spectrometer ID: {self.deviceID}")
 
         # Set initial params
         self.set_params()
@@ -118,10 +119,12 @@ class spectrometerController:
         # -- Set to 'False' if you don't want to do another capture to throw away the first data, however your next spectrum data might not be valid.
         inttime, scansavg, smooth, xtiming = self.params['inttime'], self.params['scan_avg'], self.params['smooth'], self.params['xtiming']
         sn.setParam(self.device, inttime, scansavg, smooth, xtiming, True)
+        self.logger.info(f"Set params: inttime={inttime}, scansavg={scansavg}, smooth={smooth}, xtiming={xtiming}")
+        pass
 
     def set_integration_time(self, inttime_ms):
         """Set integration time in ms."""
-        self.device['device'].set_config(int_time=inttime_ms)
+        # self.device['device'].set_config(int_time=inttime_ms)
         self.params['inttime'] = inttime_ms
         self.set_params()
     
@@ -148,6 +151,7 @@ class spectrometerController:
     def set_temperature_compensation(self, enable):
         """Enable or disable temperature compensation."""
         sn.temp_comp(self.device, enable)
+        self.logger.info("Enabled temperature compensation")
         pass
 
     def get_params(self):
@@ -157,6 +161,7 @@ class spectrometerController:
 
     def get_spectrum(self):
         # Get spectrometer data - Get BOTH X and Y in single return
+        self.logger.info("Get spectrum data")
         data = sn.array_spectrum(self.device, self.wav) # get specturm for the first time
         wavelengths = data[:,0] 
         counts = data[:,1]
@@ -176,6 +181,7 @@ class spectrometerController:
             counts (array): Array of counts.
             filename (str): Name of the file.
         """
+        self.logger.info(f"Saving spectrum {filename}.txt")
         with open(f"{filename}.txt", "w") as f:
             # put a header in the file
             f.write(f"# Wavelength (nm)\tCounts\n")
@@ -203,6 +209,7 @@ class spectrometerController:
         # Release the spectrometer before ends the program
         sn.reset(self.device)
         self.device = None
+        self.logger.info("Device closed")
 
     def plot_spectrum(self, wavelengths, counts):
         """
