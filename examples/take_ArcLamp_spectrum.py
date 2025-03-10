@@ -20,22 +20,22 @@ timestamp = datetime.now().strftime("%Y%m%dT%H%M%S")
 spectrometer = spectrometerController()
 
 # 100 average scans
-spectrometer.set_scan_avg(100)
+spectrometer.set_scan_avg(1000)
 
 # Take a short exposure
 if is_very_short_exposure:
     # 9ms integration time
-    spectrometer.set_integration_time(8)
+    spectrometer.set_integration_time(5)
 
     # Get spectrum
     wav, counts = spectrometer.get_spectrum()
 
     # Save the spectrum
-    spectrometer.save_spectrum(wav, counts, f"{root}/ArcLamp_spectrum_short_exposure_{timestamp}")
+    spectrometer.save_spectrum(wav, counts, f"{root}/ArcLamp_spectrum_very_short_exposure_{timestamp}")
 
 if is_short_exposure:
     # 9ms integration time
-    spectrometer.set_integration_time(24)
+    spectrometer.set_integration_time(20)
 
     # Get spectrum
     wav, counts = spectrometer.get_spectrum()
