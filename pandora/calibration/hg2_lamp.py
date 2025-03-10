@@ -6,72 +6,94 @@ This module also contains a function to create a fake spectrum.
 """
 import numpy as np
 
+# https://physics.nist.gov/PhysRefData/ASD/lines_form.html
+# https://www.oceanoptics.com/wp-content/uploads/2024/07/Wavelength-Calibration-Products-v1.0_0724.pdf
 # Fake spectrum for demonstration
+# Dictionary of Hg/Ar lamp spectral lines (NIST reference),
+# extended up to ~1100 nm for Ar lines.
 hg2_lines = {
-    "Hg01":  253.652,
-    "Hg02":  296.728,
-    "Hg03":  302.150,
-    "Hg04":  313.155,
-    "Hg05":  334.148,
-    "Hg06":  365.015,
-    "Hg07":  404.656,
-    "Hg08":  435.835,
-    "Hg09":  546.074,
-    "Hg10":  576.961,
-    "Hg11":  579.066,
-    "Ar01":  696.543,
-    "Ar02":  706.722,
-    "Ar03":  714.704,
-    "Ar04":  727.294,
-    "Ar05":  738.398,
-    "Ar06":  750.387,
-    "Ar07":  763.511,
-    "Ar08":  772.376,
-    "Ar09":  794.818,
-    "Ar10":  800.616,
-    "Ar11":  811.531,
-    "Ar12":  826.452,
-    "Ar13":  842.465,
-    "Ar14":  912.297,
-    "Ar15":  922.450,
-    "Ar16":  935.423,
-    "Ar17":  949.743,
-    "Ar18":  965.778,
+    # Mercury (Hg) lines
+    "Hg01": 253.65200,
+    "Hg02": 296.72840,
+    "Hg03": 302.15060,
+    "Hg04": 313.15560,
+    "Hg05": 334.14820,
+    "Hg06": 365.01520,
+    "Hg07": 404.65650,
+    "Hg08": 435.83430,
+    "Hg09": 546.07350,
+    "Hg10": 576.95980,
+    "Hg11": 579.06630,
+
+    # Argon (Ar) lines
+    "Ar01":  696.54310,
+    "Ar02":  706.72180,
+    "Ar03":  714.70420,
+    "Ar04":  727.29360,
+    "Ar05":  738.39800,
+    "Ar06":  750.38690,
+    "Ar07":  763.51100,
+    "Ar08":  772.37610,
+    "Ar09":  794.81760,
+    "Ar10":  800.61580,
+    "Ar11":  811.53110,
+    "Ar12":  826.45180,
+    "Ar13":  842.46480,
+    "Ar14":  912.29670,
+    "Ar15":  922.44990,
+    "Ar16":  935.42200,
+    "Ar17":  949.74290,
+    "Ar18":  965.77860,
+    "Ar19":  978.45100,
+    "Ar20": 1047.00000,
+    "Ar21": 1066.66000,
+    "Ar22": 1088.46000,
+    "Ar23": 1090.65000,
 }
 
+# Approximate relative intensities (peak heights). Actual values
+# depend on lamp conditions and spectrometer setup; use these
+# as a rough guide only.
 hg2_line_strengths = {
     # Mercury lines
-    "Hg01": 4096,  # ~253.652 nm (often saturated)
-    "Hg02": 1024,  # ~296.728 nm
-    "Hg03":  512,  # ~302.150 nm
-    "Hg04": 4096,  # ~313.155 nm (very bright, often saturated)
-    "Hg05": 1000,  # ~334.148 nm
-    "Hg06":  512,  # ~365.015 nm (bright)
-    "Hg07": 3072,  # ~404.656 nm (bright)
-    "Hg08": 4096,  # ~435.835 nm (very strong)
-    "Hg09": 3200,  # ~546.074 nm (strong but not always saturated)
-    "Hg10": 1500,  # ~576.961 nm
-    "Hg11": 1400,  # ~579.066 nm
+    "Hg01": 4096,  # Often the strongest Hg line near 254 nm
+    "Hg02": 1024,
+    "Hg03":  900,
+    "Hg04": 2048,
+    "Hg05":  800,
+    "Hg06": 3500,
+    "Hg07": 3800,
+    "Hg08": 4000,
+    "Hg09": 3200,
+    "Hg10": 1200,
+    "Hg11": 1000,
+
     # Argon lines
-    "Ar01": 800,   # ~696.543 nm
-    "Ar02": 900,   # ~706.722 nm
-    "Ar03": 700,   # ~714.704 nm
-    "Ar04": 600,   # ~727.294 nm
-    "Ar05": 500,   # ~738.398 nm
-    "Ar06": 600,   # ~750.387 nm
-    "Ar07": 700,   # ~763.511 nm
-    "Ar08": 600,   # ~772.376 nm
-    "Ar09": 500,   # ~794.818 nm
-    "Ar10": 500,   # ~800.616 nm
-    "Ar11": 400,   # ~811.531 nm
-    "Ar12": 350,   # ~826.452 nm
-    "Ar13": 300,   # ~842.465 nm
-    "Ar14": 300,   # ~912.297 nm
-    "Ar15": 250,   # ~922.450 nm
-    "Ar16": 250,   # ~935.423 nm
-    "Ar17": 200,   # ~949.743 nm
-    "Ar18": 200,   # ~965.778 nm
+    "Ar01":  600,
+    "Ar02":  500,
+    "Ar03":  400,
+    "Ar04":  300,
+    "Ar05":  300,
+    "Ar06":  400,
+    "Ar07":  500,
+    "Ar08":  500,
+    "Ar09":  400,
+    "Ar10":  400,
+    "Ar11":  300,
+    "Ar12":  250,
+    "Ar13":  200,
+    "Ar14":  150,
+    "Ar15":  150,
+    "Ar16":  150,
+    "Ar17":  150,
+    "Ar18":  150,
+    "Ar19":  100,
+    "Ar20":   80,
+    "Ar21":   80,
+    "Ar22":   70,
+    "Ar23":   70,
 }
+
 
 def create_fake_hg2_spectrum(
     wavemin=200.0, 

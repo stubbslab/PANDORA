@@ -167,7 +167,7 @@ class spectrometerController:
         print(version)
         print('Spec device ID: ', self.deviceID)
 
-    def save_spectrum(self, wavelengths, counts, filename):
+    def save_spectrum(self, wavelengths, counts, filename, exptime=-99):
         """
         Save the spectrum to a file.
         
@@ -179,10 +179,11 @@ class spectrometerController:
         with open(f"{filename}.txt", "w") as f:
             # put a header in the file
             f.write(f"# Wavelength (nm)\tCounts\n")
-            # put the date and time in the file
+            # put the exptime in ms
+            f.write(f"# Exptime(ms): {self.params['inttime']}\n")
             # f.write(f"# Date: {time.strftime('%Y-%m-%d')}, Time: {time.strftime('%H:%M:%S')}\n")
             for i in range(len(wavelengths)):
-                f.write(f"{wavelengths[i]:0.4f}\t{counts[i]:0.0f}\n")
+                f.write(f"{wavelengths[i]:0.4f}\t{counts[i]:0.2f}\n")
         pass
 
     def is_connected(self):
