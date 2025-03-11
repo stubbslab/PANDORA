@@ -12,15 +12,16 @@ os.makedirs(root, exist_ok=True)
 # exptimes = [2,3,5,6,9,12]
 # exptimes+= [12+5*(i+1) for i in range(10)]
 # exptimes+= [62+20*(i+1) for i in range(4)]
-exptimes = [142+50*(i+1) for i in range(4)]
-scanvg = 1000
+# exptimes = [142+50*(i+1) for i in range(4)]
+exptimes = [1000+500*i for i in range(4)]
+scanvg = 10
 
 # Set up logging
 initialize_central_logger("stellarnet.log", "INFO", verbose=True)
 
 # Make a timestamp
 # timestamp = datetime.now().strftime("%Y%m%dT%H%M%S")
-timestamp = "20250311T122109"
+timestamp = "20250311T153442"
 
 # Set up the spectrometer
 spectrometer = spectrometerController()
