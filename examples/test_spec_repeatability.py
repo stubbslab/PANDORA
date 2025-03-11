@@ -3,7 +3,7 @@ sys.path.append("/Users/pandora_ctrl/Documents/dev/versions/v1.0/PANDORA")
 from pandora.controller.stellarnet import spectrometerController
 from pandora.utils.logger import initialize_central_logger  
 from datetime import datetime
-from pandora.utils import line, head
+from pandora.utils.random import line, head
 
 root = '/Users/pandora_ctrl/Desktop/spectrometer/repeatability'
 os.makedirs(root, exist_ok=True)
