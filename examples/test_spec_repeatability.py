@@ -37,7 +37,7 @@ for scanavg, nsteps in zip(scanvgs, nreaptss):
         # Get spectrum
         wav, counts = spectrometer.get_spectrum()
         # Save the spectrum
-        spectrometer.save_spectrum(wav, counts, f"{root}/{timestamp}_scanavg_{scanavg:04d}_rep_{(i+1):04d}", exptime)
+        spectrometer.save_spectrum(wav, counts, f"{root}/{timestamp}_scanavg_{scanavg:05d}_rep_{(i+1):05d}", exptime)
 
 # Close the spectrometer
 spectrometer.close()
