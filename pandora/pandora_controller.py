@@ -87,17 +87,18 @@ class PandoraBox:
         labjack_ip = self.get_config_value('labjack', 'ip_address')
         shutter_port = self.get_config_value('labjack', 'flipShutter')
         fm1_port = self.get_config_value('labjack', 'flipSpecMount')
-        fm2_port = self.get_config_value('labjack', 'flipOrderBlock')
+        fm2_port = self.get_config_value('labjack', 'flipOrderBlockFilter')
         fm3_port = self.get_config_value('labjack', 'flipOD2First')
         fm4_port = self.get_config_value('labjack', 'flipOD2Second')
         fm5_port = self.get_config_value('labjack', 'flipPD1')
-        fm6_port = self.get_config_value('labjack', 'flipQuaterWavePlate')
-        fm7_port = self.get_config_value('labjack', 'flipPD2')
+        fm6_port = self.get_config_value('labjack', 'flipPD2')
+        fm7_port = self.get_config_value('labjack', 'flipQuaterWavePlate')
+        
 
         # Photodiode Controlled Devices
         # Ethernet connections with ip_addresses
-        k1_config = self.get_config_section('photodiode1', config=ks_config)
-        k2_config = self.get_config_section('photodiode2', config=ks_config)
+        k1_config = self.get_config_section('K1', config=ks_config)
+        k2_config = self.get_config_section('K2', config=ks_config)
 
         z1_config = self.get_config_section('Z1', config=zb_config)
         z2_config = self.get_config_section('Z2', config=zb_config)
@@ -111,33 +112,35 @@ class PandoraBox:
         
         # Flip Mounts
         self.flipMountNames = [
-                               'flipShutter', 'flipSpecMount', 'flipOrderBlock',
+                               'flipShutter', 'flipSpecMount', 'flipOrderBlockFilter',
                                'flipOD2First', 'flipOD2Second', 'flipPD1',
                                'flipQuaterWavePlate', 'flipPD2'
                                ]
-        self.flipShutter = FlipMountState(fm1_port, labjack=self.labjack)
-        self.flipSpecMount = FlipMountState(fm2_port, labjack=self.labjack)
-        self.flipOrderBlock = FlipMountState(fm3_port, labjack=self.labjack)
-        self.flipOD2First = FlipMountState(fm4_port, labjack=self.labjack)
-        self.flipOD2Second = FlipMountState(fm5_port, labjack=self.labjack)
-        self.flipPD1 = FlipMountState(fm6_port, labjack=self.labjack)
+        self.flipShutter = FlipMountState(shutter_port, labjack=self.labjack)
+        self.flipSpecMount = FlipMountState(fm1_port, labjack=self.labjack)
+        self.flipOrderBlockFilter = FlipMountState(fm2_port, labjack=self.labjack)
+        self.flipOD2First = FlipMountState(fm3_port, labjack=self.labjack)
+        self.flipOD2Second = FlipMountState(fm4_port, labjack=self.labjack)
+        self.flipPD1 = FlipMountState(fm5_port, labjack=self.labjack)
+        self.flipPD2 = FlipMountState(fm6_port, labjack=self.labjack)
         self.flipQuaterWavePlate = FlipMountState(fm7_port, labjack=self.labjack)
-        self.flipPD2 = FlipMountState(fm7_port, labjack=self.labjack)
+        
         # Add more flip mounts as needed...
 
         # Keysights
-        self.photodiodeNames = list(ks_config.keys())
-        # the name increases with the optical path, 1 is the first in the optical path
-        self.photodiode1 = KeysightController(**k1_config)
-        self.photodiode2 = KeysightController(**k2_config)
+        # self.photodiodeNames = list(ks_config.keys())
+        self.keysight = type('KeysightContainer', (), {})()
+        self.keysight.deviceNames = list(ks_config.keys())
+        self.keysight.k1 = KeysightController(**k1_config)
+        self.keysight.k2 = KeysightController(**k2_config)
         # Add more Keysights as needed...
 
         # Zaber Stages
-        self.zaber = type('ZaberContainer', (), {})()
-        self.zaber.deviceNames = list(zb_config.keys())
-        self.zaber.z1 = ZaberController(**z1_config)
-        # self.zaber.z2 = ZaberController(**z2_config)
-        # self.zaber.z3 = ZaberController(**z3_config)
+        # self.zaber = type('ZaberContainer', (), {})()
+        self.zaberNames = list(zb_config.keys())
+        self.zaberNDFilter = ZaberController(**z1_config)
+        self.zaberFocus = ZaberController(**z2_config)
+        self.zaberPinholeMask = ZaberController(**z3_config)
         # Add more stages as needed...
 
         # Monochromator
@@ -249,7 +252,7 @@ class PandoraBox:
         self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
         self.pdb.add("currentOutputErr", np.std(d2['CURR']))
-        self.pdb.add("zaber", self.zaber.z1.position)
+        self.pdb.add("zaberNDFilter", self.zaberNDFilter.position)
         self.pdb.add("FM1", self.flipMount.f1.state.value)
         self.pdb.add("FM2", self.flipMount.f2.state.value)
         self.pdb.add("FM3", self.flipMount.f3.state.value)
@@ -385,9 +388,9 @@ class PandoraBox:
     # TODO: Check what is the IR filter code
     def enable_ir_filter(self):
         """
-        Put the IR filter on the optical path.
+        Put the Order-Block(UV) filter on the optical path.
         """
-        self.flipMount.f1.activate()
+        self.flipOrderBlock.activate()
         pass
 
     def write_exposure(self):
@@ -489,13 +492,7 @@ class PandoraBox:
                         ks.close()
 
         # Close Zaber stage connections
-        if hasattr(self, 'zaber') and self.zaber is not None:
-            for attr_name in dir(self.zaber):
-                if attr_name.startswith('z'):
-                    zb = getattr(self.zaber, attr_name, None)
-                    if zb:
-                        self.logger.info(f"Closing zaber stage {attr_name} connection.")
-                        zb.close()
+        # TODO: Check if we need to close the Zaber stages
 
         # Close spectrograph connection
         if hasattr(self, 'spectrograph') and self.spectrograph is not None:
@@ -568,9 +565,11 @@ class PandoraBox:
     
     def move_nd_filter(self,nd_filter_name):
         """
-        
+        Move the Zaber stage to a new position for the ND filter.
+        Args:
+            nd_filter_name (str): The name of the ND filter to move to.
         """
-        self.zaber.z1.move_to_slot(nd_filter_name)
+        self.zaberNDFilter.move_to_slot(nd_filter_name)
 
     def set_photodiode_scale(self, scale_down=None, scale=None):
         if scale_down is None and scale is None:

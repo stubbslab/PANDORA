@@ -15,16 +15,20 @@ monochromator:
 labjack:
   ip_address: "169.254.84.89"
   timeout: 2
-  shutter: "FIO00"
-  flipmount1: "FIO1"
-  flipmount2: "FIO2"
-  flipmount3: "FIO3"
+  flipShutter: "FIO00"
+  flipSpecMount: "FIO1"
+  flipOrderBlockFilter: "FIO2"
+  flipOD2First: "FIO3"
+  flipOD2Second: "FIO4"
+  flipPD3: "FIO5"
+  flipQuaterWavePlate: "FIO6"
+  flipPD2: "FIO7"
 
 keysights:
   type: "pandora.controller.keysight.KeysightController"
   # Each Keysight device with its own IP address
-  K1:
-    name: "K1"
+  photodiode1:
+    name: "photodiode1"
     keysight_ip: "169.254.5.2"
     timeout_ms: 25000
     settings:
@@ -34,8 +38,8 @@ keysights:
       nsamples: 50
       delay: 0.
       interval: 2e-3
-  K2:
-    name: "K2"
+  photodiode2:
+    name: "photodiode2"
     keysight_ip: "169.254.124.255"
     timeout_ms: 25000
     settings:
@@ -45,21 +49,10 @@ keysights:
       nsamples: 50
       delay: 0.
       interval: 2e-3
-  solarCell:
-    name: "solarCell"
-    keysight_ip: "169.254.124.XXX"
-    timeout_ms: 5000
-    settings:
-      mode: "CURR"
-      rang: 'AUTO'
-      nplc: 10.
-      nsamples: 50
-      delay: 0.
-      interval: 2e-3
-      
+
 zaber_stages:
   type: "pandora.controller.zaberstages.zaberController"
-  Z1:
+  Z1: # ND Filter
     ip_address: "169.254.47.12"
     # ND filters map
     # The numbers refers to the zaber position in mm
@@ -72,14 +65,27 @@ zaber_stages:
     axis_id: 1
     # Zaber speed in mm/sec
     speed_mm_per_sec: 25
-  Z2:
-    ip_address: "192.168.1.70"
-    device: 1
+  Z2: # Focus
+    ip_address: "169.254.50.12"
+    device: 2
     axis_id: 1
     speed_mm_per_sec: 10
-  Z3:
-    ip_address: "192.168.1.70"
-    device: 2
+    # The focus position is given in mm
+    # the focus position is very sensitive to positional changes
+    slot_map: {'Focus': 50.8}
+  Z3: # Pinhole Mask
+    ip_address: "169.254.49.12"
+    # Pinhole mask map
+    # The numbers refers to the zaber position in mm
+    # The pinhole mask is a 4-position wheel with the following configuration:
+    # 1. 50 um pinhole (P50um)
+    # 2. 100 um pinhole (P100um)
+    # We do not have clear
+    slot_map: {
+               'P50um': 14.47, 
+               'P100um': 45.94,
+               }
+    device: 3
     axis_id: 1
     speed_mm_per_sec: 10
 
