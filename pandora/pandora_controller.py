@@ -85,17 +85,19 @@ class PandoraBox:
         # LabJack Controlled Devices
         # Port names for each subsystem
         labjack_ip = self.get_config_value('labjack', 'ip_address')
-        shutter_port = self.get_config_value('labjack', 'shutter')
-        fm1_port = self.get_config_value('labjack', 'flipmount1')
-        fm2_port = self.get_config_value('labjack', 'flipmount2')
-        fm3_port = self.get_config_value('labjack', 'flipmount3')
-        # Add more ports as needed...
+        shutter_port = self.get_config_value('labjack', 'flipShutter')
+        fm1_port = self.get_config_value('labjack', 'flipSpecMount')
+        fm2_port = self.get_config_value('labjack', 'flipOrderBlock')
+        fm3_port = self.get_config_value('labjack', 'flipOD2First')
+        fm4_port = self.get_config_value('labjack', 'flipOD2Second')
+        fm5_port = self.get_config_value('labjack', 'flipPD1')
+        fm6_port = self.get_config_value('labjack', 'flipQuaterWavePlate')
+        fm7_port = self.get_config_value('labjack', 'flipPD2')
 
         # Photodiode Controlled Devices
         # Ethernet connections with ip_addresses
-        k1_config = self.get_config_section('K1', config=ks_config)
-        k2_config = self.get_config_section('K2', config=ks_config)
-        sc_config = self.get_config_section('solarCell', config=ks_config)
+        k1_config = self.get_config_section('photodiode1', config=ks_config)
+        k2_config = self.get_config_section('photodiode2', config=ks_config)
 
         z1_config = self.get_config_section('Z1', config=zb_config)
         z2_config = self.get_config_section('Z2', config=zb_config)
@@ -108,21 +110,26 @@ class PandoraBox:
         self.shutter = ShutterState(shutter_port,labjack=self.labjack)
         
         # Flip Mounts
-        self.flipMount = type('FlipMountContainer', (), {})()
-        self.flipMount.deviceNames = ['fm1', 'fm2', 'fm3']
-        self.flipMount.f1 = FlipMountState(fm1_port, labjack=self.labjack)
-        self.flipMount.f2 = FlipMountState(fm2_port, labjack=self.labjack)
-        self.flipMount.f3 = FlipMountState(fm3_port, labjack=self.labjack)
+        self.flipMountNames = [
+                               'flipShutter', 'flipSpecMount', 'flipOrderBlock',
+                               'flipOD2First', 'flipOD2Second', 'flipPD1',
+                               'flipQuaterWavePlate', 'flipPD2'
+                               ]
+        self.flipShutter = FlipMountState(fm1_port, labjack=self.labjack)
+        self.flipSpecMount = FlipMountState(fm2_port, labjack=self.labjack)
+        self.flipOrderBlock = FlipMountState(fm3_port, labjack=self.labjack)
+        self.flipOD2First = FlipMountState(fm4_port, labjack=self.labjack)
+        self.flipOD2Second = FlipMountState(fm5_port, labjack=self.labjack)
+        self.flipPD1 = FlipMountState(fm6_port, labjack=self.labjack)
+        self.flipQuaterWavePlate = FlipMountState(fm7_port, labjack=self.labjack)
+        self.flipPD2 = FlipMountState(fm7_port, labjack=self.labjack)
         # Add more flip mounts as needed...
 
         # Keysights
-        self.keysight = type('KeysightContainer', (), {})()
-        self.keysight.deviceNames = list(ks_config.keys())
-
-        # print(k1_config['settings'])
-        self.keysight.k1 = KeysightController(**k1_config)
-        self.keysight.k2 = KeysightController(**k2_config)
-        # self.solar_cell = KeysightController(**sc_config)
+        self.photodiodeNames = list(ks_config.keys())
+        # the name increases with the optical path, 1 is the first in the optical path
+        self.photodiode1 = KeysightController(**k1_config)
+        self.photodiode2 = KeysightController(**k2_config)
         # Add more Keysights as needed...
 
         # Zaber Stages

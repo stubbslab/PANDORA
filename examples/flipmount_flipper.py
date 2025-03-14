@@ -11,6 +11,6 @@ ip_address = "169.254.84.89"
 labjack = LabJack(ip_address)
 
 # Initialize the shutter
-fm = FlipMountState("FIO3", labjack=labjack)
+fm = FlipMountState("FIO00", labjack=labjack)
 fm.deactivate()
 # fm.activate()
