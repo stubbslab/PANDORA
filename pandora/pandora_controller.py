@@ -90,9 +90,9 @@ class PandoraBox:
         fm2_port = self.get_config_value('labjack', 'flipOrderBlockFilter')
         fm3_port = self.get_config_value('labjack', 'flipOD2First')
         fm4_port = self.get_config_value('labjack', 'flipOD2Second')
-        fm5_port = self.get_config_value('labjack', 'flipPD1')
-        fm6_port = self.get_config_value('labjack', 'flipPD2')
-        fm7_port = self.get_config_value('labjack', 'flipQuaterWavePlate')
+        fm5_port = self.get_config_value('labjack', 'flipPD2')
+        fm6_port = self.get_config_value('labjack', 'flipPD3')
+        fm7_port = self.get_config_value('labjack', 'flipQuarterWavePlate')
         
 
         # Photodiode Controlled Devices
@@ -113,17 +113,17 @@ class PandoraBox:
         # Flip Mounts
         self.flipMountNames = [
                                'flipShutter', 'flipSpecMount', 'flipOrderBlockFilter',
-                               'flipOD2First', 'flipOD2Second', 'flipPD1',
-                               'flipQuaterWavePlate', 'flipPD2'
+                               'flipOD2First', 'flipOD2Second', 'flipPD2',
+                               'flipQuaterWavePlate', 'flipPD3'
                                ]
         self.flipShutter = FlipMountState(shutter_port, labjack=self.labjack)
         self.flipSpecMount = FlipMountState(fm1_port, labjack=self.labjack)
         self.flipOrderBlockFilter = FlipMountState(fm2_port, labjack=self.labjack)
         self.flipOD2First = FlipMountState(fm3_port, labjack=self.labjack)
         self.flipOD2Second = FlipMountState(fm4_port, labjack=self.labjack)
-        self.flipPD1 = FlipMountState(fm5_port, labjack=self.labjack)
-        self.flipPD2 = FlipMountState(fm6_port, labjack=self.labjack)
-        self.flipQuaterWavePlate = FlipMountState(fm7_port, labjack=self.labjack)
+        self.flipPD2 = FlipMountState(fm5_port, labjack=self.labjack)
+        self.flipPD3 = FlipMountState(fm6_port, labjack=self.labjack)
+        self.flipQuarterWavePlate = FlipMountState(fm7_port, labjack=self.labjack)
         
         # Add more flip mounts as needed...
 
@@ -253,10 +253,12 @@ class PandoraBox:
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
         self.pdb.add("currentOutputErr", np.std(d2['CURR']))
         self.pdb.add("zaberNDFilter", self.zaberNDFilter.position)
-        self.pdb.add("FM1", self.flipMount.f1.state.value)
-        self.pdb.add("FM2", self.flipMount.f2.state.value)
-        self.pdb.add("FM3", self.flipMount.f3.state.value)
-        self.pdb.add("shutter_opened", shutter_flag)
+
+        # Save the flip mount states
+        for name in self.flipMountNames:
+            fm = getattr(self, name, None)
+            self.pdb.add(name, fm.state.value)
+        
         self.pdb.add("Description", description)
         
         self.pdb.save_lightcurve(d1, tag="currentInput")
@@ -326,6 +328,9 @@ class PandoraBox:
         self.logger.info("wavelength-scan measurement cycle completed.")
         self.logger.info("wavelength-scan saved on {self.pdb.run_data_file}")
 
+    ## TODO
+    ## Under construction
+    ## First Draft
     def solar_cell_qe_curve(self, start, end, step, exptime, nrpeats=1, range1=None, range2=None):
         """
         Solar cell QE curve is a walength scan with flipping the NIST diode on and off.
@@ -353,33 +358,33 @@ class PandoraBox:
         if range1 is None: range1 = 200e-9 # B2987B
         if range2 is None: range2 = 2e-9 # B2983B
     
-        for wav in wavelengthScan:
-            self.logger.info(f"solar-cell-qe-curve: start exposure of lambda = {wav:0.1f} nm with {nrpeats} repeats")
-            self.set_wavelength(wav)
-            if wav>700:
-                # Check what is the IR filter code
-                self.enable_ir_filter()
+        # for wav in wavelengthScan:
+        #     self.logger.info(f"solar-cell-qe-curve: start exposure of lambda = {wav:0.1f} nm with {nrpeats} repeats")
+        #     self.set_wavelength(wav)
+        #     if wav>700:
+        #         # Check what is the IR filter code
+        #         self.enable_ir_filter()
 
-            self.keysight.k1.set_rang(range1)
-            self.keysight.k2.set_rang(range2)
+        #     self.keysight.k1.set_rang(range1)
+        #     self.keysight.k2.set_rang(range2)
 
-            # make sure NIST diode is out of the beam
-            self.flipMount.nist.deactivate()
-            for _ in range(nrpeats):
-                self.take_dark(exptime, observation_type="dark")
+        #     # make sure NIST diode is out of the beam
+        #     self.flipMount.nist.deactivate()
+        #     for _ in range(nrpeats):
+        #         self.take_dark(exptime, observation_type="dark")
                 
-                # put NIST diode in the beam
-                self.flipMount.nist.activate()
-                self.take_dark(exptime, observation_type="dark")
-                self.take_exposure(exptime, observation_type="solarcell")
-                self.take_dark(exptime, observation_type="dark")
+        #         # put NIST diode in the beam
+        #         self.flipMount.nist.activate()
+        #         self.take_dark(exptime, observation_type="dark")
+        #         self.take_exposure(exptime, observation_type="solarcell")
+        #         self.take_dark(exptime, observation_type="dark")
 
-                # put NIST diode out of the beam
-                self.flipMount.nist.deactivate()
-                self.take_exposure(exptime, observation_type="solarcell")
-                self.take_dark(exptime, observation_type="dark")
+        #         # put NIST diode out of the beam
+        #         self.flipMount.nist.deactivate()
+        #         self.take_exposure(exptime, observation_type="solarcell")
+        #         self.take_dark(exptime, observation_type="dark")
 
-            self.logger.info(f"solar-cell-qe-curve: finished exposure of lambda = {wav:0.1f} nm")
+        #     self.logger.info(f"solar-cell-qe-curve: finished exposure of lambda = {wav:0.1f} nm")
 
         self.close_all_connections()
         self.logger.info("solar-cell-qe-curve measurement cycle completed.")
@@ -429,7 +434,7 @@ class PandoraBox:
         else:
             return self.calib.get_default_calibration("throughput")
     
-    def get_qe_solarcell(self, fname=None):
+    def get_qe_curve(self, fname=None, label="qe_solarcell"):
         """
         Get the quantum efficiency curve for the solar cell.
 
@@ -438,24 +443,46 @@ class PandoraBox:
         fname : str, optional
             The filename of the QE curve data. If none, the default file is loaded.
 
+        label : str, optional
+            The label of the calibration data to load.
+
         Returns
         -------
         qeCurve : function
             The quantum efficiency curve function.
         """
         from scipy.interpolate import interp1d
-
-        if fname is None:
+        if fname is not None:
             df = self.calib.get_calibration_file(fname)
         else:
-            df = self.calib.get_default_calibration("qe_solarcell")
+            df = self.calib.get_default_calibration(label)
 
         # Interpolate the QE curve
         qeCurve = interp1d(df['wavelength'], df['qe'], kind='cubic',
                          fill_value=np.nan, bounds_error=False)
-        
         return qeCurve
-        
+            
+    def get_qe_solarcell(self, fname=None):
+        """
+        Get the quantum efficiency curve for the solar cell.
+        """
+        qeCurve = self.get_qe_curve(fname, label="qe_solarcell")
+        return qeCurve
+    
+    def get_qe_diode(self, fname=None):
+        """
+        Get the quantum efficiency curve for the monitor diode.s
+        """
+        qeCurve = self.get_qe_curve(fname, label="qe_diode")
+        return qeCurve
+    
+    def get_qe_nist(self, fname=None):
+        """
+        Get the quantum efficiency curve for the NIST diode.
+        """
+        qeCurve = self.get_qe_curve(fname, label="qe_nist")
+        return qeCurve
+    
     def close_all_connections(self):
         """
         Close all connections to devices in a controlled manner.
@@ -474,13 +501,12 @@ class PandoraBox:
             self.shutter.close()
 
         # Close flip mount connections
-        if hasattr(self, 'flipMount') and self.flipMount is not None:
-            for attr_name in dir(self.flipMount):
-                if attr_name.startswith('f'):
-                    fm = getattr(self.flipMount, attr_name, None)
-                    if fm:
-                        self.logger.info(f"Closing flip mount {attr_name} connection.")
-                        fm.close()
+        names = self.flipMountNames
+        for name in names:
+            fm = getattr(self, name, None)
+            if fm:
+                self.logger.info(f"Closing flip mount {name} connection.")
+                fm.close()
 
         # Close keysight connections
         if hasattr(self, 'keysight') and self.keysight is not None:
@@ -529,11 +555,18 @@ class PandoraBox:
         self.shutter.activate()
         pass
 
+    def turn_on_sollar_cell(self):
+        """
+        Turn on the solar cell by moving the flip mount.
+        """
+        # self..activate()
+        pass
+
     def switch_flipmount(self, mount_name):
         """
         Switch the flip mount to a new position.
         """
-        flipmount = getattr(self.flipMount, mount_name, None)
+        flipmount = getattr(self, mount_name, None)
         if flipmount:
             flipmount.get_state()
             if flipmount.state == State.OFF:
@@ -563,13 +596,23 @@ class PandoraBox:
         self.monochromator.get_wavelength()
         return self.monochromator.wavelength
     
-    def move_nd_filter(self,nd_filter_name):
+    def set_nd_filter(self,nd_filter_name):
         """
         Move the Zaber stage to a new position for the ND filter.
         Args:
             nd_filter_name (str): The name of the ND filter to move to.
         """
         self.zaberNDFilter.move_to_slot(nd_filter_name)
+        pass
+
+    def set_pinhole_mask(self, mask_name):
+        """
+        Move the Zaber stage to a new position for the ND filter.
+        Args:
+            mask_name (str): The name of the pinhole mask to move to.
+        """
+        self.zaberPinholeMask.move_to_slot(mask_name)
+        pass
 
     def set_photodiode_scale(self, scale_down=None, scale=None):
         if scale_down is None and scale is None:
