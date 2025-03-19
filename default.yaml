@@ -27,8 +27,8 @@ labjack:
 keysights:
   type: "pandora.controller.keysight.KeysightController"
   # Each Keysight device with its own IP address
-  photodiode1:
-    name: "photodiode1"
+  K1:
+    name: "k1"
     keysight_ip: "169.254.5.2"
     timeout_ms: 25000
     settings:
@@ -38,8 +38,8 @@ keysights:
       nsamples: 50
       delay: 0.
       interval: 2e-3
-  photodiode2:
-    name: "photodiode2"
+  K2:
+    name: "k2"
     keysight_ip: "169.254.124.255"
     timeout_ms: 25000
     settings:
@@ -67,7 +67,7 @@ zaber_stages:
     speed_mm_per_sec: 25
   Z2: # Focus
     ip_address: "169.254.50.12"
-    device: 2
+    device: 0
     axis_id: 1
     speed_mm_per_sec: 10
     # The focus position is given in mm
@@ -85,7 +85,7 @@ zaber_stages:
                'P50um': 14.47, 
                'P100um': 45.94,
                }
-    device: 3
+    device: 0
     axis_id: 1
     speed_mm_per_sec: 10
 
