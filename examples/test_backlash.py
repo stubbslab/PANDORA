@@ -32,7 +32,7 @@ os.makedirs(path, exist_ok=True)
 
 # Set up the spectrometer
 spectrometer = spectrometerController()
-spectrometer.set_scan_avg(10)
+spectrometer.set_scan_avg(100)
 spectrometer.set_integration_time(exptime)
 
 # Create an instance of the MonochromatorController
@@ -48,15 +48,15 @@ for ii in range(nrepetitions):
     for lbd in sequence1:
         print(f"Moving to {lbd} nm")
         mono.move_to_wavelength(lbd)
-        wav, counts = spectrometer.get_spectrum()
         if lbd==lambdaCen:
+            wav, counts = spectrometer.get_spectrum()
             spectrometer.save_spectrum(wav, counts, f"{path}/{timestamp}_{exptime}ms_wav_right_{ii:02d}_{lbd*10:04d}angs", exptime=exptime)
         time.sleep(buffer/1000)
 
     for lbd in sequence2:
         print(f"Moving to {lbd} nm")
         mono.move_to_wavelength(lbd)
-        wav, counts = spectrometer.get_spectrum()
         if lbd==lambdaCen:
+            wav, counts = spectrometer.get_spectrum()
             spectrometer.save_spectrum(wav, counts, f"{path}/{timestamp}_{exptime}ms_wav_left_{ii:02d}_{lbd*10:04d}angs", exptime=exptime)
         time.sleep(buffer/1000)

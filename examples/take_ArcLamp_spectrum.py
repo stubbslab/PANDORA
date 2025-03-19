@@ -6,8 +6,8 @@ from datetime import datetime
 
 root = '/Users/pandora_ctrl/Desktop/spectrometer'
 is_very_short_exposure = True
-is_short_exposure = True
-is_long_exposure = True
+is_short_exposure = False
+is_long_exposure = False
 is_very_long_exposure = True
 
 # Set up logging

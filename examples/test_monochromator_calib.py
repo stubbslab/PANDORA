@@ -51,4 +51,10 @@ for lbd in lambdaVec:
     mono.move_to_wavelength(lbd)
     time.sleep(buffer/1000)
     wav, counts = spectrometer.get_spectrum()
-    spectrometer.save_spectrum(wav, counts, f"{path}/{timestamp}_{exptime}ms_wav_{lbd*10:04d}angs", exptime=exptime)
+    spectrometer.save_spectrum(wav, counts, f"{path}/{timestamp}_{exptime}ms_wav_{lbd*10:05d}angs", exptime=exptime)
+
+# Close the spectrometer
+spectrometer.close()
+mono.go_home()
+mono.close()
+print("Done!")

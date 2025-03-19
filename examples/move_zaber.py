@@ -7,14 +7,14 @@ from pandora.utils.logger import initialize_central_logger
 initialize_central_logger("zaberstage-main.log", "INFO")
 
 # Create a PandoraBox object
-pandora_box = PandoraBox(config_file="../default.yaml", verbose=False)
+pandora_box = PandoraBox(config_file="./default.yaml", verbose=True)
 # pandora_box.start_run(run_id) # makes a catalog with name run_id:05d
 
 # Initialize the Pandora System Components
 pandora_box.initialize_subsystems()
 
 # Clear the optical path
-pandora_box.move_nd_filter("CLEAR")
+pandora_box.move_nd_filter("ND05")
 
 # Move the focus
 pandora_box.zaberFocus.move_to_slot("Focus")
