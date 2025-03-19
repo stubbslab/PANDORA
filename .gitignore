@@ -2,6 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.png
+plots/
+results/
+*.pdf
+draft*.ipynb
+spec*.ipynb
 
 # C extensions
 *.so
