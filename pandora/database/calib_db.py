@@ -4,6 +4,9 @@ import numpy as np
 from datetime import datetime
 import logging
 
+# TODO: Convert Diode QE data to calibration format
+# TODO: Convert solar cell QE data to calibration format
+
 class PandoraCalibrationDatabase:
     """
     Class to manage and track calibration files for the Pandora system.

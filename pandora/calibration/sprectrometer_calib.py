@@ -1,5 +1,6 @@
 import numpy as np
-from scipy.signal import find_peaks
+from scipy.signal import find_peaks, peak_widths
+from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
 class SpectrumCalibrator:
@@ -8,7 +9,7 @@ class SpectrumCalibrator:
     but re-calibrates by treating the 'true' x-axis as pixel indices (0..N-1).
     The final polynomial maps: pixel -> true wavelength.
     """
-    def __init__(self, reported_wavelengths, intensities):
+    def __init__(self, reported_wavelengths, intensities, dark=None):
         """
         Parameters
         ----------
@@ -20,7 +21,17 @@ class SpectrumCalibrator:
         """
         # Store the raw data
         self.reported_wavelengths = np.asarray(reported_wavelengths)
-        self.intensities = np.asarray(intensities)
+        self.intensities0 = np.asarray(intensities)
+        self.intensities = np.copy(self.intensities0)
+        if dark is not None:
+            self.intensities = self.intensities - dark
+            self.intensities = np.clip(self.intensities, 0, None)
+        
+        # Compute the noise level (median intensity in a noise region)
+        # The Hg2 lamp has no lines in the 610-660 nm range
+        noise_region = (reported_wavelengths>610) & (reported_wavelengths<660)
+        self.noise = np.median(self.intensities[noise_region])
+        self.intensities/= self.noise
 
         # Number of pixels in the detector
         self.num_pixels = len(self.reported_wavelengths)
@@ -34,27 +45,67 @@ class SpectrumCalibrator:
         self.peak_intensities = None
         self.vertex_positions = None   # parabola-fitted peak positions in pixel space
         self.centroid_positions = None # centroid-fitted peak positions in pixel space
+        self.peak_fwhm = None # in nm
         
         self.calibration_coeffs = None
         self.matched_pairs = None      # list of (peak_pixel, true_wavelength)
         self.matched_method = None
         self.matched_residual = None
     
+    # def find_prominent_lines(self, height=None, distance=None, prominence=None):
+    #     """
+    #     Finds prominent peaks in the spectrum using scipy.signal.find_peaks.
+    #     Returns the indices of the found peaks in self.intensities.
+    #     """
+    #     peaks, properties = find_peaks(self.intensities,
+    #                                    height=height,
+    #                                    distance=distance,
+    #                                    prominence=prominence)
+    #     self.peak_indices = peaks
+    #     # The 'pixel' position of each peak
+    #     self.peak_x_positions = self.x_data[peaks]
+    #     self.peak_intensities = self.intensities[peaks]
+        
+    #     return peaks
+    
     def find_prominent_lines(self, height=None, distance=None, prominence=None):
         """
-        Finds prominent peaks in the spectrum using scipy.signal.find_peaks.
-        Returns the indices of the found peaks in self.intensities.
+        Finds peaks using scipy.signal.find_peaks and computes the FWHM (full width
+        at half maximum) in the actual x-data domain (which may be non-uniform).
+            
+        Returns
+        -------
+        peaks : ndarray
+            Indices of found peaks in `intensities`.
+        peak_fwhm : ndarray
+            The computed FWHM in the same units as `x_data`.
         """
-        peaks, properties = find_peaks(self.intensities,
-                                       height=height,
-                                       distance=distance,
-                                       prominence=prominence)
+        # 1. Find the peaks
+        peaks, properties = find_peaks(self.intensities, height=height,
+                                    distance=distance, prominence=prominence)
+
+        # 2. Compute widths at half maximum
+        #    This returns widths in *index space*, plus fractional left_ips and right_ips
+        results_half = peak_widths(self.intensities, peaks, rel_height=0.5)
+        
+        widths_samples = results_half[0]  # widths in *sample indices*
+        left_ips       = results_half[2]
+        right_ips      = results_half[3]
+
+        # 3. Make an interpolation function from index -> x_data
+        #    We'll treat the array index as the independent variable, x_data as dependent
+        f_interp = interp1d(self.x_data, self.reported_wavelengths, kind='linear')  
+        # or kind='cubic' if you want more smoothness, but linear is often enough.
+
+        # 4. FWHM in x_data space
+        fwhm = f_interp(right_ips) - f_interp(left_ips)
+        self.peak_fwhm = fwhm
         self.peak_indices = peaks
-        # The 'pixel' position of each peak
+
         self.peak_x_positions = self.x_data[peaks]
         self.peak_intensities = self.intensities[peaks]
-        
-        return peaks
+        self.peak_intensities0 = self.intensities0[peaks]
+        return peaks, fwhm
     
     def fit_parabola_to_peaks(self, peak_indices=None, num_points=10):
         """
@@ -111,6 +162,80 @@ class SpectrumCalibrator:
         self.centroid_positions = np.array(centroids)
         return self.centroid_positions
     
+    def remove_saturated_peaks(self, saturation_threshold=64800):
+        """
+        Removes any detected peaks that exceed the given saturation threshold.
+
+        Parameters
+        ----------
+        saturation_threshold : float
+            Intensity above which a peak is considered saturated.
+            
+        Returns
+        -------
+        remaining_peaks : ndarray
+            Updated array of peak indices that are below the saturation threshold.
+        """
+        if self.peak_indices is None:
+            raise ValueError("No peaks found. Run find_prominent_lines() first.")
+        
+        # Identify which peaks are below the threshold
+        mask = self.peak_intensities0 < saturation_threshold
+        
+        # Filter out saturated peaks
+        removed_count = np.sum(~mask)
+        self.peak_indices = self.peak_indices[mask]
+        self.peak_x_positions = self.peak_x_positions[mask]
+        self.peak_intensities = self.peak_intensities[mask]
+        self.peak_fwhm = self.peak_fwhm[mask]
+        self.peak_intensities0 = self.peak_intensities0[mask]
+        
+        print(f"Removed {removed_count} saturated peaks. {len(self.peak_indices)} remain.")
+        return self.peak_indices
+
+    def remove_wide_peaks(self, fwhm_threshold=10.0):
+        """
+        Removes any detected peaks that exceed the given FWHM threshold.
+        
+        Parameters
+        ----------
+        fwhm_threshold : float
+            Any peak with FWHM larger than this value will be removed.
+            
+        Returns
+        -------
+        remaining_peaks : ndarray
+            Updated array of peak indices that have FWHM below the threshold.
+            
+        Notes
+        -----
+        - Requires that `find_prominent_lines()` (or another method) has populated
+        `self.peak_indices` and `self.peak_fwhm`.
+        - Adjust `fwhm_threshold` to match your expected peak width unit.
+        (e.g., if x_data is in nm, then threshold is in nm.)
+        """
+        # Make sure we have peaks and associated FWHM
+        if self.peak_indices is None or not hasattr(self, 'peak_fwhm'):
+            raise ValueError(
+                "No peaks found or no FWHM values. "
+                "Run find_prominent_lines() (with FWHM calculation) first."
+            )
+        
+        # Identify which peaks have FWHM below threshold
+        mask = (self.peak_fwhm < fwhm_threshold)
+        
+        # Count how many are removed
+        removed_count = np.sum(~mask)
+        
+        # Filter out wide peaks
+        self.peak_indices      = self.peak_indices[mask]
+        self.peak_x_positions = self.peak_x_positions[mask]
+        self.peak_intensities = self.peak_intensities[mask]
+        self.peak_fwhm        = self.peak_fwhm[mask]
+        
+        print(f"Removed {removed_count} wide peaks. {len(self.peak_indices)} remain.")
+        return self.peak_indices
+
     def match_peaks_to_known_lines(self, known_lines, method="peak", match_tolerance=2.0):
         """
         Matches found peaks (in pixel space) to known lines (in nm) by
@@ -155,6 +280,7 @@ class SpectrumCalibrator:
             expected_pixel = np.interp(wl, self.reported_wavelengths, self.x_data)
             diffs = np.abs(measured_x - expected_pixel)
             min_diff = np.min(diffs)
+            print(wl, min_diff)
             if min_diff <= match_tolerance:
                 best_idx = np.argmin(diffs)
                 matched_pixel = measured_x[best_idx]
@@ -265,7 +391,7 @@ class SpectrumCalibrator:
         """
         fig = plt.figure(figsize=(8, 4))
         plt.plot(self.x_data, self.intensities, label='Spectrum', color='k')
-        
+
         if show_peaks and self.peak_indices is not None:
             plt.plot(self.peak_x_positions, self.peak_intensities, 'rx',
                      label='Detected peaks')

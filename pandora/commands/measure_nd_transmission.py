@@ -21,7 +21,7 @@ def measureNDTransmission(args):
     pandora_box = PandoraBox(config_file="../../default.yaml", verbose=True)
 
     # Take the measurements with no ND filter
-    pandora_box.move_nd_filter("CLEAR")
+    pandora_box.set_nd_filter("CLEAR")
     pandora_box.turn_on_sollar_cell()
 
     # Select the optical mask
@@ -29,7 +29,7 @@ def measureNDTransmission(args):
     pandora_box.move_optical_mask(args.maskPorts)
 
     for i, ND in enumerate(args.filters.split(",")):
-        pandora_box.move_nd_filter(ND)
+        pandora_box.set_nd_filter(ND)
         # Scan the wavelength in linear steps from lambda0 to lambdaEnd
         # Takes one dark, one exposure, one dark, moves to the next wavelength
         pandora_box.wavelegth_scan(args.lambda0, args.lambdaEnd, args.step, 

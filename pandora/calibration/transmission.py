@@ -7,20 +7,25 @@ import numpy as np
 from dark import correctDarkCurrent
 # from solarcell import qeCurve
 
-def measureTransmission(df, qeCurve, specBins=None):
+def measureTransmission(df, solarCellQE, diodeQE=None, specBins=None):
     """
     Measure the transmission of the Pandora Optical; System.
 
     Args:
         df (pandas.DataFrame): The raw data frame with the pandora measurements.
-        qeCurve (function): The quantum efficiency curve of the solar cell.
+        solarCellQE (function): The quantum efficiency curve of the solar cell.
+        diodeQE (function): The quantum efficiency curve of the monitor diode.
         specBin (int): The spectral bin to analyze.
 
     Returns:
         transmission (pandas.Series): The transmission of the Pandora optical system.
     """
+    # If the solar cell was on, 
+    # rename the currentOutput column to currentSolarCell
+    if df['is_solar_cell']:
+        df.rename(columns={'currentOutput': 'currentSolarCell'}, inplace=True)
+
     # Correct the dark current
-    df = correctDarkCurrent(df, ycol='currentOutput')
     df = correctDarkCurrent(df, ycol='currentInput')
     df = correctDarkCurrent(df, ycol='currentSolarCell')
 
@@ -28,9 +33,9 @@ def measureTransmission(df, qeCurve, specBins=None):
     data = df[df['Description'] != 'dark'].copy()
 
     # Compute number of photons
-    data['solarCellQE'] = qeCurve(data['wavelength'])
+    data['solarCellQE'] = solarCellQE(data['wavelength'])
     data['photonsSolarCell'] = data['fluxSolarCell'] / data['solarCellQE']
-    data['photonsInput'] = data['fluxInput'] / photodiodeQE(data['wavelength'])
+    data['photonsInput'] = data['fluxInput'] / diodeQE(data['wavelength'])
 
     # Compute the transmission
     ratio = data['photonsSolarCell'] / data['photonsInput']
@@ -48,7 +53,7 @@ def measureTransmission(df, qeCurve, specBins=None):
         transmission_std=('transmission', 'std')
     ).reset_index()
 
-    return transmission_stats
+    return transmission_stats, data
 
 
 def measureNDFactor(ndt, th):

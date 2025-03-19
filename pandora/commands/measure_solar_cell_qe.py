@@ -17,7 +17,7 @@ def measureSolarCellQE(args):
     pandora_box = PandoraBox(config_file="../default.yaml", verbose=True)
 
     # Take the measurements with no ND filter
-    pandora_box.move_nd_filter("CLEAR")
+    pandora_box.set_nd_filter("CLEAR")
 
     print(f"Scanning the wavelength from {args.lambda0} to {args.lambdaEnd} in steps of {args.step} with {args.nrepeats} repeats")
     print("this might take a while...")
@@ -29,11 +29,11 @@ def measureSolarCellQE(args):
     lambdaBins = np.arange(args.lambda0-args.step/2, args.lambdaEnd+args.step*3/2, args.step)
 
     # get the data taken
-    df = pandora_box.get_database()
+    df = pandora_box.get_db()
 
     # Get the NIST QE curve
     print("Getting NIST QE curve")
-    qeNIST = getNISTQE()
+    qeNIST = pandora_box.get_qe_nist()
 
     print("Calculating Solar Cell QE")
     transmission = computeSolarCellQE(df, qeNIST, specBins=lambdaBins)

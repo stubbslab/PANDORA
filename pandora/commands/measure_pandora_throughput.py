@@ -18,13 +18,14 @@ def measurePandoraThroughput(args):
 
     print("Clear the optical path, no ND filters")
     # Take the measurements with no ND filter
-    pandora_box.move_nd_filter("CLEAR")
+    pandora_box.set_nd_filter("CLEAR")
+
+    # TODO: Implement turn_on_sollar_cell
     pandora_box.turn_on_sollar_cell()
 
-    # Select the optical mask
-    # TODO: Implement move_optical_mask
-    print("Select the optical mask")
-    pandora_box.move_optical_mask(args.maskPorts)
+    # Select the pinhole mask
+    print("Select the pinhole mask")
+    pandora_box.set_pinhole_mask(args.maskPorts)
 
     print(f"Scanning the wavelength from {args.lambda0} to {args.lambdaEnd} in steps of {args.step} with {args.nrepeats} repeats")
     print("this might take a while...")
@@ -37,13 +38,16 @@ def measurePandoraThroughput(args):
     
     # get solar cell qe curve
     print("Getting solar cell QE curve")
-    qeCurve = pandora_box.get_qe_solarcell()
+    # TODO: Convert Diode QE data to calibration format
+    # TODO: Convert solar cell QE data to calibration format
+    solarQE = pandora_box.get_qe_solarcell()
+    diodeQE = pandora_box.get_qe_diode()
 
     # get the data taken
     df = pandora_box.get_database()
 
     print("Calculating throughput")
-    transmission = measureTransmission(df, qeCurve, specBins=lambdaBins)
+    transmission, dfCalib = measureTransmission(df, solarQE, diodeQE, specBins=lambdaBins)
     
     print("Saving throughput calibration file")
     # Save the throughput calibration file
