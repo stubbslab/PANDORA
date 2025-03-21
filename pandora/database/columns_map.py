@@ -25,8 +25,9 @@ COLUMN_DEFINITIONS = {
     'flipPD2': bool,
     'flipQuarterWavePlate': bool, 
     'flipPD3': bool,
-    # "zaber": str,
-    # "maskSlot": str,
+    'ndFilter': str,
+    'pinholeMask': str,
+    'focusPosition': str,
     "Description": str
 }
 
@@ -51,6 +52,9 @@ DEFAULT_VALUES = {
     'flipPD2': False,
     'flipQuarterWavePlate': False, 
     'flipPD3': False,
+    'ndFilter': None,
+    'pinholeMask': None,
+    'focusPosition': None,    
     "alt": np.nan,
     "az": np.nan,
     "description": ""

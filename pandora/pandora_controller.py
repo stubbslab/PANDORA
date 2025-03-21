@@ -253,13 +253,15 @@ class PandoraBox:
         self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
         self.pdb.add("currentOutputErr", np.std(d2['CURR']))
-        # self.pdb.add("zaberNDFilter", self.zaberNDFilter.position)
 
         # Save the flip mount states
         for name in self.flipMountNames:
             fm = getattr(self, name, None)
             self.pdb.add(name, fm.state.value)
         
+        # self.pdb.add("ndFilter", self.zaberNDFilter.position)
+        # self.pdb.add("pinholeMask", self.zaberPinholeMask.position)
+        # self.pdb.add("focus", self.zaberFocus.position)
         self.pdb.add("Description", description)
         
         self.pdb.save_lightcurve(d1, tag="currentInput")
