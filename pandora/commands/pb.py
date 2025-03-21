@@ -8,6 +8,8 @@ from measure_nd_transmission import measureNDTransmission
 
 from utils import set_wavelength, get_wavelength
 from utils import open_shutter, close_shutter
+from utils import get_keysight_readout
+from utils import get_spectrometer_readout
 
 """Main function to handle command-line arguments and dispatch to the appropriate function.
 
@@ -37,7 +39,6 @@ def main():
         "measure-solar-cell-qe", 
         help="Measure the solar cell QE (ratio vs. wavelength)."
     )
-    
     sc_qe_parser.add_argument("--lambda0", type=float, default=300.0, help="Start wavelength (nm).")
     sc_qe_parser.add_argument("--lambdaEnd", type=float, default=800.0, help="End wavelength (nm).")
     sc_qe_parser.add_argument("--step", type=float, default=10.0, help="Wavelength step (nm).")
@@ -69,28 +70,6 @@ def main():
     pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")    
     nd_parser.set_defaults(func=measureNDTransmission)
 
-    # # command: expose
-    # expose_parser = subparsers.add_parser("expose", help="Expose telescope with a known photon dose.")
-    # expose_parser.add_argument("--wavelength", type=float, default=500.0, help="Wavelength for exposure (nm).")
-    # expose_parser.add_argument("--dose", type=float, default=1e12, help="Desired photon dose.")
-    # expose_parser.add_argument("--filters", type=str, default="ND3", help="ND filters to use.")
-    # expose_parser.add_argument("--aperture", type=str, default="10um", help="Aperture mask (e.g., 10um).")
-    # expose_parser.set_defaults(func=exposeFocalPlane)
-
-    # # command: spectrograph-calib
-    # spec_calib_parser = subparsers.add_parser(
-    #     "spectrograph-calib",
-    #     help="Calibrate the spectrograph using arc lamp emission lines."
-    # )
-    # spec_calib_parser.set_defaults(func=spectrographCalib)
-
-    # # command: monochromator-calib
-    # mono_calib_parser = subparsers.add_parser(
-    #     "monochromator-calib",
-    #     help="Calibrate the monochromator via the spectrograph readings."
-    # )
-    # mono_calib_parser.set_defaults(func=monochromatorCalib)
-
     # command: set-wavelength
     set_wavelength_parser = subparsers.add_parser(
         "set-wavelength",
@@ -121,6 +100,50 @@ def main():
     )
     close_shutter_parser.set_defaults(func=close_shutter)
 
+    # command: get-keysight-readout
+    keysight_readout_parser = subparsers.add_parser(
+        "get-keysight-readout",
+        help="Get the readout from the Keysight electrometer."
+    )
+    keysight_readout_parser.add_argument("name", type=str, help="Name of the measurement.")
+    keysight_readout_parser.add_argument("nplc", type=float, help="Number of power line cycles.")
+    keysight_readout_parser.add_argument("exptime", type=float, help="Exposure time.")
+    keysight_readout_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
+    keysight_readout_parser.add_argument("--rang0", type=float, default=None, help="If not none, set auto range with initial range.")
+    keysight_readout_parser.set_defaults(func=get_keysight_readout)
+
+    spectrometer_readout_parser = subparsers.add_parser(
+        "get-spectrometer-readout",
+        help="Get the readout from the StellarNet spectrometer."
+    )
+    spectrometer_readout_parser.add_argument("exptime", type=int, help="Exposure time in ms.")
+    spectrometer_readout_parser.add_argument("--scanavg", type=int, default=10, help="Number of scans to average.")
+    spectrometer_readout_parser.add_argument("--xtiming", type=int, default=3, help="Spectrometer resolution modes, 1, 2 or 3.")
+    spectrometer_readout_parser.add_argument("--is_plot", action="store_true", default=False, help="Enable plotting.")
+    spectrometer_readout_parser.add_argument("--verbose", action="store_true", default=True, help="Enable verbose output.")
+    spectrometer_readout_parser.set_defaults(func=get_spectrometer_readout)
+    
+    # # command: expose
+    # expose_parser = subparsers.add_parser("expose", help="Expose telescope with a known photon dose.")
+    # expose_parser.add_argument("--wavelength", type=float, default=500.0, help="Wavelength for exposure (nm).")
+    # expose_parser.add_argument("--dose", type=float, default=1e12, help="Desired photon dose.")
+    # expose_parser.add_argument("--filters", type=str, default="ND3", help="ND filters to use.")
+    # expose_parser.add_argument("--aperture", type=str, default="10um", help="Aperture mask (e.g., 10um).")
+    # expose_parser.set_defaults(func=exposeFocalPlane)
+
+    # # command: spectrograph-calib
+    # spec_calib_parser = subparsers.add_parser(
+    #     "spectrograph-calib",
+    #     help="Calibrate the spectrograph using arc lamp emission lines."
+    # )
+    # spec_calib_parser.set_defaults(func=spectrographCalib)
+
+    # # command: monochromator-calib
+    # mono_calib_parser = subparsers.add_parser(
+    #     "monochromator-calib",
+    #     help="Calibrate the monochromator via the spectrograph readings."
+    # )
+    # mono_calib_parser.set_defaults(func=monochromatorCalib)
 
     # Parse arguments and dispatch
     args = parser.parse_args()
