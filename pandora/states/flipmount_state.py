@@ -72,7 +72,7 @@ class FlipMountState:
             return
         
         elif self.state == State.ON:
-            self.logger.info(f"Flip Mount is already activated {self.labjack_port}.")
+            self.logger.debug(f"Flip Mount is already activated {self.labjack_port}.")
             return
     
         elif self.state == State.FAULT:
@@ -97,7 +97,7 @@ class FlipMountState:
             return
         
         elif self.state == State.OFF:
-            self.logger.info(f"Flip Mount is already deactivated {self.labjack_port}.")
+            self.logger.debug(f"Flip Mount is already deactivated {self.labjack_port}.")
             return
         
         elif self.state == State.FAULT:
