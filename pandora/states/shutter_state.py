@@ -37,7 +37,7 @@ class ShutterState:
         # Initialize the ShutterState object
         self.labjack = labjack
         self.codename = name
-        self.state = State.UNINITIALIZED
+        self.state = None
         self.logger = logging.getLogger(f"pandora.shutter.{name}")
 
         ## Safety measure for SHB1 shutter
@@ -55,9 +55,7 @@ class ShutterState:
         3. Close the shutter.
         """
         self.logger.info(f"Initializing ShutterState {self.codename}.")
-        self.set_state(State.IDLE)
         self.get_state()
-        self.activate()
         self.timer.update_last_operation_time()
 
     def activate(self):
@@ -68,20 +66,8 @@ class ShutterState:
             self.timer.sleep_through_remaining_interval()
             self.logger.warning(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
 
-        if self.state == State.OFF:
-            self.labjack.send_low_signal(self.codename)
-            self.set_state(State.ON)
-            self.timer.update_last_operation_time()
-        
-        elif self.state == State.ON:
-            self.logger.debug(f"Shutter {self.codename} is already activated.")
-        
-        elif self.state == State.FAULT:
-            self.logger.error(f"Error activating Shutter {self.codename}.")
-        
-        elif self.state == State.IDLE:
-            self.get_state()
-            self.activate()
+        self.labjack.send_low_signal(self.codename)
+        self.timer.update_last_operation_time()
 
     def deactivate(self):
         self.logger.info(f"Deactivating Shutter {self.codename}.")
@@ -91,72 +77,33 @@ class ShutterState:
             self.timer.sleep_through_remaining_interval()
             self.logger.debug(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
 
-        if self.state == State.ON:
-            self.labjack.send_high_signal(self.codename)
-            self.set_state(State.OFF)
-            self.timer.update_last_operation_time()
-        
-        elif self.state == State.OFF:
-            self.logger.debug(f"Shutter {self.codename} is already deactivated.")
-        
-        elif self.state == State.FAULT:
-            self.logger.error(f"Error deactivating Shutter {self.codename}.")
-        
-        elif self.state == State.IDLE:
-            self.get_state()
-            self.deactivate()
-
-    def set_error(self):
-        self.logger.error(f"Setting state to fault for Shutter {self.codename}.")
-        self.set_state(State.FAULT)
-
-    def reset(self):
-        if self.state == State.FAULT:
-            self.logger.info(f"Resetting Shutter from fault state {self.codename}.")
-            self.set_state(State.IDLE)
+        self.labjack.send_high_signal(self.codename)
+        self.timer.update_last_operation_time()
 
     def get_state(self):
         self.logger.debug(f"Querying Shutter state {self.codename}.")
+        try:
+            value = int(self.labjack.read("FIO_STATE")) & 1
+            self.state = value
+            # self.logger.info(f"The shutter state is {self.state}")
 
-        if self.state != State.UNINITIALIZED:
-            try:
-                value = int(self.labjack.read("FIO_STATE")) & 1
-                self.set_state(State.ON if value == 0 else State.OFF)
-                # self.logger.info(f"The shutter state is {self.state.value}")
+        except Exception as e:
+            self.logger.error(f"Error querying Shutter {self.codename} state: {e}")
+            self.logger.error(f"The shutter state is {self.state}")
 
-            except Exception as e:
-                self.logger.error(f"Error querying Shutter {self.codename} state: {e}")
-                self.set_state(State.FAULT)
-                self.logger.error(f"The shutter state is {self.state.value}")
-
-        self.logger.info(f"The shutter state is {self.state.value}")
+        self.logger.info(f"The shutter state is {self.state}")
         return self.state
 
     def get_device_info(self):
         self.labjack.get_device_info()
         print(f"Shutter name: {self.codename}")
-        print(f"Shutter {self.codename} state: {self.state.value}")
+        print(f"Shutter {self.codename} state: {self.state}")
 
     def close(self):
         self.logger.info(f"Closing Shutter {self.codename}.")
         self.activate()
-        self.set_state(State.UNINITIALIZED)
+        # self.set_state(State.UNINITIALIZED)
         self.get_state()
-
-    def set_state(self, new_state):
-        valid_transitions = {
-            State.UNINITIALIZED: [State.IDLE],
-            State.IDLE: [State.ON, State.OFF, State.FAULT, State.UNINITIALIZED, State.IDLE],
-            State.ON: [State.OFF, State.FAULT, State.ON, State.IDLE, State.UNINITIALIZED],
-            State.OFF: [State.ON, State.FAULT, State.OFF],
-            State.FAULT: [State.IDLE]
-        }
-
-        if new_state in valid_transitions[self.state]:
-            self.state = new_state
-            self.logger.debug(f"State changed to {self.state.value}")
-        else:
-            self.logger.error(f"Invalid state transition from {self.state.value} to {new_state.value}")
 
 if __name__ == "__main__":
     from labjack_handler import LabJack

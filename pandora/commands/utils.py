@@ -2,22 +2,24 @@ import numpy as np
 import os
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
-config_file_path = os.path.join(script_dir, "../../default.yaml")
+config_filename = os.path.join(script_dir, "../../default.yaml")
 
-
-def get_config_section(section):
+def _load_config(config_file):
+    # Parse a config file (JSON, YAML, etc.) with device parameters
     import yaml
-    # Load the configuration file
-    with open(config_file_path, 'r') as file:
+    # get current working directory
+    with open(config_file, 'r') as file:
         config = yaml.safe_load(file)
+    return config
 
-    # Extract the specified section
-    section_config = config.get(section, {})
-    return section_config
+configDefault = _load_config(config_file=config_filename)
 
-def get_config_value(section, key):
-    section_config = get_config_section(section)
-    return section_config.get(key, None)
+def get_config_section(section, config=configDefault):
+    return config.get(section, {})
+
+def get_config_value(self, section, key, default=None, config=configDefault):
+    if config is None: config = self.config
+    return config.get(section, {}).get(key, default)
 
 def _initialize_logger(verbose=True):
     from pandora.utils.logger import initialize_central_logger
@@ -59,8 +61,8 @@ def close_shutter(args):
         verbose (bool): Whether to print verbose output.
     """
     from pandora.states.shutter_state import ShutterState
-    from states.labjack_handler import LabJack
-    
+    from pandora.states.labjack_handler import LabJack
+
     # Initialize the logger
     _initialize_logger(args.verbose)
     
@@ -70,7 +72,7 @@ def close_shutter(args):
     shutter_port = get_config_value('labjack', 'flipShutter')
     shutter = ShutterState(shutter_port,labjack=labjack)
 
-    # Open the shutter
+    # Close the shutter
     shutter.activate()
     print("Shutter closed")
 
@@ -139,7 +141,11 @@ def get_keysight_readout(args):
     _initialize_logger(verbose)
 
     # Create an instance of the KeysightController
-    _kconfig = get_config_section('keysight')
+    _kconfig = get_config_section('keysights')
+    if name not in _kconfig.keys():
+        print(f"List of available keysight devices: {_kconfig.keys()}")
+        raise ValueError(f"Keysight device {name} not found in config file.")
+
     kconfig = get_config_section(name, config=_kconfig)
     keysight = KeysightController(**kconfig)
 
@@ -159,7 +165,7 @@ def get_keysight_readout(args):
     keysight.acquire()
     d = keysight.read_data(wait=True)
 
-    print(f"Readout stats from {name}: {d.mean():0.2f} +/- {d.std():0.2f} A")
+    print(f"Readout stats from {name}: {d['CURR'].mean():0.2g} +/- {d['CURR'].std():0.2g} A")
     # print(f"Readout from {name}: {d}")
     pass
 
@@ -195,5 +201,59 @@ def get_spectrometer_readout(args):
     
     if is_plot:
         spectrometer.plot_spectrum(wav, counts)
+
+    pass
+
+def flip(args):
+    """
+    Change the flipmounts states
+    """
+    # Flip Mounts
+    flipDict = {
+        "spec-mount": "flipSpecMount",
+        "order-block-filter": "flipOrderBlockFilter",
+        "od2-first": "flipOD2First",
+        "od2-second": "flipOD2Second",
+        "pd2": "flipPD2",
+        "pd3": "flipPD3",
+        "quarter-wave-plate": "flipQuarterWavePlate"
+    }
+
+    if args.listNames:
+        print("Available flip mounts:")
+        namesList = list(flipDict.keys())
+        print(", ".join(namesList))
+        return
+    
+    from pandora.states.flipmount_state import FlipMountState
+    from pandora.states.labjack_handler import LabJack
+
+    name = args.name
+    state = args.state
+    
+    # Initialize the logger
+    logger = _initialize_logger(args.verbose)
+
+    if name not in flipDict.keys():
+        logger.error(f"Flip mount {name} not found in flipDict")
+        raise ValueError(f"Flip mount {name} not found in flipDict, run pb flip --listNames to see the available flip mounts")
+
+    # Port names for each subsystem
+    _lbjack_config = get_config_section('labjack')
+
+    labjack_ip = get_config_value('labjack', 'ip_address')
+    fport = get_config_value('labjack', flipDict[name])
+
+    # Initialize the LabJack connection
+    labjack = LabJack(ip_address=labjack_ip)
+
+    # Initialize the flip mount
+    flipper = FlipMountState(fport, labjack=labjack)
+
+    # Set the flip mount to the desired state
+    if state == 1:
+        flipper.activate()
+    elif state == 0:
+        flipper.deactivate()
 
     pass
