@@ -52,16 +52,16 @@ class PandoraCalibrationDatabase:
     # Set a calibration file as default
     calib_db.set_default("throughput", fname)
     """
-    def __init__(self, root_path: str = "./", type: str = None):
+    def __init__(self, root: str = "./", type: str = None):
         """
         Initializes the calibration database.
 
         Parameters
         ----------
-        root_path : str
+        root : str
             Root folder where calibration data is stored. Default is "./".
         """
-        self.root_path = os.path.abspath(root_path)
+        self.root_path = os.path.abspath(root)
         self.calib_path = os.path.join(self.root_path, "calib")
         self.log_file = os.path.join(self.calib_path, "calibration_log.csv")
         
@@ -292,7 +292,7 @@ if __name__ == "__main__":
 
     # Initialize the calibration database
     # calib_db = PandoraCalibrationDatabase(root_path="/Users/pandora_ctrl/Desktop")
-    calib_db = PandoraCalibrationDatabase(root_path="/Users/esteves/Documents/")
+    calib_db = PandoraCalibrationDatabase(root="/Users/esteves/Documents/")
 
     # # Simulated calibration data
     wavelengths = np.linspace(400, 700, 10)

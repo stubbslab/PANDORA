@@ -57,8 +57,8 @@ class PandoraBox:
         # Initialize the database connection
         self.logger.info("Initializing database connection...")
         root = self.get_config_value('database', 'root')
-        self.pdb = PandoraDatabase(run_id=run_id, root_path=root)
-        self.calib = PandoraCalibrationDatabase(root_path=root)
+        self.pdb = PandoraDatabase(run_id=run_id, root=root)
+        self.calib = PandoraCalibrationDatabase(root=root)
         pass
 
     def get_db(self):
