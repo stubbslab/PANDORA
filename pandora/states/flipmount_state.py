@@ -56,7 +56,6 @@ class FlipMountState:
         self.logger.info(f"Initializing FlipMount {self.labjack_port}.")
         self.set_state(State.IDLE)
         self.get_state()
-        self.deactivate()
         self.timer.update_last_operation_time()
 
     def activate(self):
@@ -70,12 +69,15 @@ class FlipMountState:
             self.labjack.send_low_signal(self.labjack_port)
             self.set_state(State.ON)
             self.timer.update_last_operation_time()
+            return
         
         elif self.state == State.ON:
             self.logger.info(f"Flip Mount is already activated {self.labjack_port}.")
+            return
     
         elif self.state == State.FAULT:
             self.logger.error(f"Error activating Flip Mount {self.labjack_port}.")
+            return
         
         elif self.state == State.IDLE:
             self.get_state()
@@ -87,21 +89,25 @@ class FlipMountState:
             self.logger.warning(f"Operation too fast {self.labjack_port}.")
             self.timer.sleep_through_remaining_interval()
             self.logger.warning(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
-
+        
         if self.state == State.ON:
             self.labjack.send_high_signal(self.labjack_port)
             self.set_state(State.OFF)
             self.timer.update_last_operation_time()
+            return
         
         elif self.state == State.OFF:
             self.logger.info(f"Flip Mount is already deactivated {self.labjack_port}.")
+            return
         
         elif self.state == State.FAULT:
             self.logger.error(f"Error deactivating Flip Mount {self.labjack_port}.")
+            return
         
         elif self.state == State.IDLE:
             self.get_state()
             self.deactivate()
+            
 
     def set_error(self):
         self.logger.error(f"Setting state to fault for Flip Mount {self.labjack_port}.")
