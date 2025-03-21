@@ -154,7 +154,11 @@ def get_keysight_readout(args):
     # Finding the optimal scale
     if rang0 is not None:
         keysight.set_rang(rang0)
-        # keysight.auto_scale(verbose=verbose,rang0=rang0)
+
+    # Auto scale the keysight;
+    # override the rang0 if autoRange is True    
+    if args.autoRange:
+        keysight.auto_scale(verbose=verbose,rang0=rang0)
 
     # Get the readout from the Keysight multimeter
     # Set the NPLC and the integration time
