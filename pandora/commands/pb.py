@@ -1,7 +1,7 @@
 import argparse
-from measure_solar_cell_qe import measureSolarCellQE
-from measure_pandora_throughput import measurePandoraThroughput
-from measure_nd_transmission import measureNDTransmission
+# from measure_solar_cell_qe import measureSolarCellQE
+# from measure_pandora_throughput import measurePandoraThroughput
+# from measure_nd_transmission import measureNDTransmission
 # from expose import exposeFocalPlane
 # from spectrograph_calib import spectrographCalib
 # from monochromator_calib import monochromatorCalib
@@ -34,41 +34,41 @@ def main():
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    # command: measure-solar-cell-qe
-    sc_qe_parser = subparsers.add_parser(
-        "measure-solar-cell-qe", 
-        help="Measure the solar cell QE (ratio vs. wavelength)."
-    )
-    sc_qe_parser.add_argument("--lambda0", type=float, default=300.0, help="Start wavelength (nm).")
-    sc_qe_parser.add_argument("--lambdaEnd", type=float, default=800.0, help="End wavelength (nm).")
-    sc_qe_parser.add_argument("--step", type=float, default=10.0, help="Wavelength step (nm).")
-    sc_qe_parser.add_argument("--repeats", type=int, default=5, help="Number of repeats per measurement point.")
-    sc_qe_parser.set_defaults(func=measureSolarCellQE)
+    # # command: measure-solar-cell-qe
+    # sc_qe_parser = subparsers.add_parser(
+    #     "measure-solar-cell-qe", 
+    #     help="Measure the solar cell QE (ratio vs. wavelength)."
+    # )
+    # sc_qe_parser.add_argument("--lambda0", type=float, default=300.0, help="Start wavelength (nm).")
+    # sc_qe_parser.add_argument("--lambdaEnd", type=float, default=800.0, help="End wavelength (nm).")
+    # sc_qe_parser.add_argument("--step", type=float, default=10.0, help="Wavelength step (nm).")
+    # sc_qe_parser.add_argument("--repeats", type=int, default=5, help="Number of repeats per measurement point.")
+    # sc_qe_parser.set_defaults(func=measureSolarCellQE)
 
-    # command: measure-pandora-throughput
-    pt_parser = subparsers.add_parser(
-        "measure-pandora-throughput",
-        help="Measure throughput linking main beam flux to monitor diode flux."
-    )
-    pt_parser.add_argument("--lambda0", type=float, default=300.0, help="Start wavelength (nm).")
-    pt_parser.add_argument("--lambdaEnd", type=float, default=700.0, help="End wavelength (nm).")
-    pt_parser.add_argument("--step", type=float, default=10.0, help="Wavelength step (nm).")
-    pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")
-    pt_parser.add_argument("--maskPorts", action="store_true", 
-                           help="Whether to mask 2 of the 3 output ports.")
-    pt_parser.set_defaults(func=measurePandoraThroughput)
+    # # command: measure-pandora-throughput
+    # pt_parser = subparsers.add_parser(
+    #     "measure-pandora-throughput",
+    #     help="Measure throughput linking main beam flux to monitor diode flux."
+    # )
+    # pt_parser.add_argument("--lambda0", type=float, default=300.0, help="Start wavelength (nm).")
+    # pt_parser.add_argument("--lambdaEnd", type=float, default=700.0, help="End wavelength (nm).")
+    # pt_parser.add_argument("--step", type=float, default=10.0, help="Wavelength step (nm).")
+    # pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")
+    # pt_parser.add_argument("--maskPorts", action="store_true", 
+    #                        help="Whether to mask 2 of the 3 output ports.")
+    # pt_parser.set_defaults(func=measurePandoraThroughput)
 
-    # command: measure-nd-transmission
-    nd_parser = subparsers.add_parser(
-        "measure-nd-transmission",
-        help="Measure wavelength-dependent transmission of ND filters."
-    )
-    nd_parser.add_argument("--lambda0", type=float, default=400.0, help="Start wavelength (nm).")
-    nd_parser.add_argument("--lambdaEnd", type=float, default=700.0, help="End wavelength (nm).")
-    nd_parser.add_argument("--filters", type=str, default="ND05,ND10,ND15,ND20", help="Comma-separated ND filters (e.g., ND1,ND2).")
-    pt_parser.add_argument("--step", type=float, default=10.0, help="Wavelength step (nm).")
-    pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")    
-    nd_parser.set_defaults(func=measureNDTransmission)
+    # # command: measure-nd-transmission
+    # nd_parser = subparsers.add_parser(
+    #     "measure-nd-transmission",
+    #     help="Measure wavelength-dependent transmission of ND filters."
+    # )
+    # nd_parser.add_argument("--lambda0", type=float, default=400.0, help="Start wavelength (nm).")
+    # nd_parser.add_argument("--lambdaEnd", type=float, default=700.0, help="End wavelength (nm).")
+    # nd_parser.add_argument("--filters", type=str, default="ND05,ND10,ND15,ND20", help="Comma-separated ND filters (e.g., ND1,ND2).")
+    # pt_parser.add_argument("--step", type=float, default=10.0, help="Wavelength step (nm).")
+    # pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")    
+    # nd_parser.set_defaults(func=measureNDTransmission)
 
     # command: set-wavelength
     set_wavelength_parser = subparsers.add_parser(
@@ -91,6 +91,7 @@ def main():
         "open-shutter",
         help="Open the shutter."
     )
+    open_shutter_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
     open_shutter_parser.set_defaults(func=open_shutter)
 
     # command: close-shutter

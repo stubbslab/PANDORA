@@ -1,7 +1,7 @@
 # states/shutter_state.py
 import logging
-from states.states_map import State                # '.' means same directory as shutter_state.py
-from utils.operation_timer import OperationTimer
+from .states_map import State                # '.' means same directory as shutter_state.py
+from pandora.utils.operation_timer import OperationTimer
 
 class ShutterState:
     """ ShutterState class to handle state and communication with Thorlabs Shutter devices.

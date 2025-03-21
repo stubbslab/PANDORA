@@ -1,5 +1,9 @@
-config_file_path = '../../default.yaml'
 import numpy as np
+import os
+
+script_dir = os.path.dirname(os.path.realpath(__file__))
+config_file_path = os.path.join(script_dir, "../../default.yaml")
+
 
 def get_config_section(section):
     import yaml
@@ -17,7 +21,8 @@ def get_config_value(section, key):
 
 def _initialize_logger(verbose=True):
     from pandora.utils.logger import initialize_central_logger
-
+    import os
+    print(os.getcwd())
     # Setup and return a logger instance for the Pandora class
     logging_config = get_config_section('logging')
     logger = initialize_central_logger(logging_config['logfile'], logging_config['level'], verbose)
@@ -31,7 +36,7 @@ def open_shutter(args):
         verbose (bool): Whether to print verbose output.
     """
     from pandora.states.shutter_state import ShutterState
-    from states.labjack_handler import LabJack
+    from pandora.states.labjack_handler import LabJack
 
     # Initialize the logger
     _initialize_logger(args.verbose)
