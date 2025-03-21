@@ -94,6 +94,9 @@ def set_wavelength(args):
     # Set the monochromator to a new wavelength
     mono.move_to_wavelength(args.wavelength)
 
+    # Get the current wavelength
+    mono.get_wavelength()
+
     print(f"Monochromator set to {mono.wavelength:0.2f} nm")
 
 

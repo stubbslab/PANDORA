@@ -99,6 +99,7 @@ def main():
         "close-shutter",
         help="Close the shutter."
     )
+    close_shutter_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
     close_shutter_parser.set_defaults(func=close_shutter)
 
     # command: get-keysight-readout
@@ -107,8 +108,8 @@ def main():
         help="Get the readout from the Keysight electrometer."
     )
     keysight_readout_parser.add_argument("name", type=str, help="Name of the measurement.")
-    keysight_readout_parser.add_argument("nplc", type=float, help="Number of power line cycles.")
     keysight_readout_parser.add_argument("exptime", type=float, help="Exposure time.")
+    keysight_readout_parser.add_argument("--nplc", type=int, default=5, help="Number of power line cycles.")
     keysight_readout_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
     keysight_readout_parser.add_argument("--rang0", type=float, default=None, help="If not none, set auto range with initial range.")
     keysight_readout_parser.set_defaults(func=get_keysight_readout)
