@@ -104,6 +104,7 @@ class OperationTimer:
     def update_last_operation_time(self):
         """Update the timestamp of the last operation."""
         self.last_operation_time = time.time()
+        self.sleep(self.min_interval)
 
     def sleep_through_remaining_interval(self):
         """Sleep through the remaining time interval until the next operation."""

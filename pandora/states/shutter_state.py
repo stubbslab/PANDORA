@@ -60,8 +60,7 @@ class ShutterState:
         """
         self.logger.info(f"Initializing ShutterState {self.codename}.")
         self.get_state()
-        self.timer.sleep(self.timer.min_interval)
-        # self.timer.update_last_operation_time()
+        self.timer.update_last_operation_time()
 
     def activate(self):
         self.logger.info(f"Activating Shutter {self.codename}.")
@@ -73,7 +72,6 @@ class ShutterState:
 
         self.labjack.send_low_signal(self.codename)
         self.timer.update_last_operation_time()
-        self.timer.sleep(self.timer.min_interval)
         
         self.get_state()
 
@@ -87,8 +85,6 @@ class ShutterState:
 
         self.labjack.send_high_signal(self.codename)
         self.timer.update_last_operation_time()
-        self.timer.sleep(self.timer.min_interval)
-        
         self.get_state()
         
     def get_state(self):
@@ -113,7 +109,6 @@ class ShutterState:
     def close(self):
         self.logger.info(f"Closing Shutter {self.codename}.")
         self.activate()
-        # self.set_state(State.UNINITIALIZED)
         self.get_state()
 
 if __name__ == "__main__":
