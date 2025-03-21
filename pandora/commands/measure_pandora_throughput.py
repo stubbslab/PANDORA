@@ -36,7 +36,7 @@ def measurePandoraThroughput(args):
     print("this might take a while...")
     # Scan the wavelength in linear steps from lambda0 to lambdaEnd
     # Takes one dark, one exposure, one dark, moves to the next wavelength
-    pandora_box.wavelength_scan(args.lambda0, args.lambdaEnd, args.step, observation_type="throughput", nrepeats=args.nrepeats)
+    pandora_box.wavelength_scan(args.lambda0, args.lambdaEnd, args.step, args.exptime, observation_type="throughput", nrepeats=args.nrepeats)
     print(f"wavelength-scan saved on {pandora_box.pdb.run_data_file}")
 
     # TODO: Implement the transmission curve calculation

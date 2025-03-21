@@ -51,6 +51,7 @@ def main():
         "measure-pandora-throughput",
         help="Measure throughput linking main beam flux to monitor diode flux."
     )
+    pt_parser.add_argument("exptime", type=float, help="Exposure time (s).")
     pt_parser.add_argument("lambda0", type=float, help="Start wavelength (nm).")
     pt_parser.add_argument("lambdaEnd", type=float, help="End wavelength (nm).")
     pt_parser.add_argument("--step", type=float, help="Wavelength step (nm).")
