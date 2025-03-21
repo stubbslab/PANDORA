@@ -22,8 +22,6 @@ def get_config_value(section, key, default=None, config=configDefault):
 
 def _initialize_logger(verbose=True):
     from pandora.utils.logger import initialize_central_logger
-    import os
-    print(os.getcwd())
     # Setup and return a logger instance for the Pandora class
     logging_config = get_config_section('logging')
     logger = initialize_central_logger(logging_config['logfile'], logging_config['level'], verbose)
@@ -50,7 +48,8 @@ def open_shutter(args):
 
     # Open the shutter
     shutter.deactivate()
-    print("Shutter opened")
+    # print("Shutter opened")
+    shutter.get_device_info()
 
 def close_shutter(args):
     """
@@ -73,7 +72,8 @@ def close_shutter(args):
 
     # Close the shutter
     shutter.activate()
-    print("Shutter closed")
+    # print("Shutter closed")
+    shutter.get_device_info()
 
 def set_wavelength(args):
     """
@@ -153,7 +153,8 @@ def get_keysight_readout(args):
 
     # Finding the optimal scale
     if rang0 is not None:
-        keysight.auto_scale(verbose=verbose,rang0=rang0)
+        keysight.set_rang(rang0)
+        # keysight.auto_scale(verbose=verbose,rang0=rang0)
 
     # Get the readout from the Keysight multimeter
     # Set the NPLC and the integration time

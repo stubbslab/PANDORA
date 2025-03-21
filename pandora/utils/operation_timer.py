@@ -17,7 +17,7 @@ class OperationTimer:
 
     def __init__(self, min_interval, name="Operation"):
         self.min_interval = min_interval  # Minimum interval in seconds
-        self.last_operation_time = None   # Timestamp of the last operation
+        self.last_operation_time = time.time()   # Timestamp of the last operation
         self.remaining_time = 0            # Remaining time until next operation
         # A dictionary to store labeled timestamps
         self.timestamps = {}

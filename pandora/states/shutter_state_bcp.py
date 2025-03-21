@@ -56,8 +56,7 @@ class ShutterState:
         """
         self.logger.info(f"Initializing ShutterState {self.codename}.")
         self.get_state()
-        self.timer.sleep(self.timer.min_interval)
-        # self.timer.update_last_operation_time()
+        self.timer.update_last_operation_time()
 
     def activate(self):
         self.logger.info(f"Activating Shutter {self.codename}.")
@@ -69,9 +68,6 @@ class ShutterState:
 
         self.labjack.send_low_signal(self.codename)
         self.timer.update_last_operation_time()
-        self.timer.sleep(self.timer.min_interval)
-        
-        self.get_state()
 
     def deactivate(self):
         self.logger.info(f"Deactivating Shutter {self.codename}.")
@@ -83,22 +79,19 @@ class ShutterState:
 
         self.labjack.send_high_signal(self.codename)
         self.timer.update_last_operation_time()
-        self.timer.sleep(self.timer.min_interval)
-        
-        self.get_state()
-        
+
     def get_state(self):
         self.logger.debug(f"Querying Shutter state {self.codename}.")
         try:
             value = int(self.labjack.read("FIO_STATE")) & 1
             self.state = value
-            self.logger.info(f"The shutter state is {self.state}")
+            # self.logger.info(f"The shutter state is {self.state}")
 
         except Exception as e:
             self.logger.error(f"Error querying Shutter {self.codename} state: {e}")
             self.logger.error(f"The shutter state is {self.state}")
 
-        # self.logger.info(f"The shutter state is {self.state}")
+        self.logger.info(f"The shutter state is {self.state}")
         return self.state
 
     def get_device_info(self):
