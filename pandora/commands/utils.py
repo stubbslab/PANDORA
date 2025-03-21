@@ -253,8 +253,11 @@ def flip(args):
     # Set the flip mount to the desired state
     if is_on:
         flipper.activate()
+        print(f"Flip mount {name} is now {flipper.state.value}")
     elif is_off:
         flipper.deactivate()
+        print(f"Flip mount {name} is now {flipper.state.value}")
     else:
         flipper.get_state()
+        print(f"Flip mount {name} is {flipper.state.value}")
     pass

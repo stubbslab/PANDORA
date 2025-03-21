@@ -142,7 +142,7 @@ def main():
     flip_group.add_argument("--on", action="store_true", help="Activate the flip mount.")
     flip_group.add_argument("--off", action="store_true", help="Deactivate the flip mount.")
     flip_group.add_argument("--state", action="store_true", help="Show the current flip mount state.")
-    flip_group.add_argument("--verbose", action="store_true", default=True, help="Enable verbose output.")
+    flip_group.add_argument("--verbose", action="store_true", default=False, help="Enable verbose output.")
 
     # Option to list all known flip mounts
     flipper_parser.add_argument("--listNames", action="store_true", help="List all flip mount names.")
