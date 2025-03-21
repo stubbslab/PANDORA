@@ -1,6 +1,6 @@
 import argparse
 # from measure_solar_cell_qe import measureSolarCellQE
-# from measure_pandora_throughput import measurePandoraThroughput
+from measure_pandora_throughput import measurePandoraThroughput
 # from measure_nd_transmission import measureNDTransmission
 # from expose import exposeFocalPlane
 # from spectrograph_calib import spectrographCalib
@@ -46,18 +46,18 @@ def main():
     # sc_qe_parser.add_argument("--repeats", type=int, default=5, help="Number of repeats per measurement point.")
     # sc_qe_parser.set_defaults(func=measureSolarCellQE)
 
-    # # command: measure-pandora-throughput
-    # pt_parser = subparsers.add_parser(
-    #     "measure-pandora-throughput",
-    #     help="Measure throughput linking main beam flux to monitor diode flux."
-    # )
-    # pt_parser.add_argument("--lambda0", type=float, default=300.0, help="Start wavelength (nm).")
-    # pt_parser.add_argument("--lambdaEnd", type=float, default=700.0, help="End wavelength (nm).")
-    # pt_parser.add_argument("--step", type=float, default=10.0, help="Wavelength step (nm).")
-    # pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")
+    # command: measure-pandora-throughput
+    pt_parser = subparsers.add_parser(
+        "measure-pandora-throughput",
+        help="Measure throughput linking main beam flux to monitor diode flux."
+    )
+    pt_parser.add_argument("lambda0", type=float, help="Start wavelength (nm).")
+    pt_parser.add_argument("lambdaEnd", type=float, help="End wavelength (nm).")
+    pt_parser.add_argument("--step", type=float, help="Wavelength step (nm).")
+    pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")
     # pt_parser.add_argument("--maskPorts", action="store_true", 
     #                        help="Whether to mask 2 of the 3 output ports.")
-    # pt_parser.set_defaults(func=measurePandoraThroughput)
+    pt_parser.set_defaults(func=measurePandoraThroughput)
 
     # # command: measure-nd-transmission
     # nd_parser = subparsers.add_parser(
@@ -110,9 +110,10 @@ def main():
     )
     keysight_readout_parser.add_argument("exptime", type=float, help="Exposure time.")
     keysight_readout_parser.add_argument("--name", type=str, default="K1", help="Name of the keysight device (K1 or K2).")
-    keysight_readout_parser.add_argument("--nplc", type=int, default=5, help="Number of power line cycles.")
-    keysight_readout_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
+    keysight_readout_parser.add_argument("--nplc", type=int, default=10, help="Number of power line cycles.")
     keysight_readout_parser.add_argument("--rang0", type=float, default=None, help="If not none, set auto range with initial range.")
+    keysight_readout_parser.add_argument("--autoRange", action="store_true", help="Enable verbose output.")
+    keysight_readout_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
     keysight_readout_parser.set_defaults(func=get_keysight_readout)
 
     spectrometer_readout_parser = subparsers.add_parser(

@@ -8,7 +8,7 @@ from pandora.states.flipmount_state import FlipMountState
 from pandora.states.shutter_state import ShutterState
 from pandora.controller.keysight import KeysightController
 from pandora.controller.monochromator import MonochromatorController
-from pandora.controller.zaberstages import ZaberController
+# from pandora.controller.zaberstages import ZaberController
 from pandora.states.labjack_handler import LabJack
 from pandora.states.states_map import State
 from pandora.utils.logger import initialize_central_logger
@@ -138,10 +138,10 @@ class PandoraBox:
 
         # Zaber Stages
         # self.zaber = type('ZaberContainer', (), {})()
-        self.zaberNames = list(zb_config.keys())
-        self.zaberNDFilter = ZaberController(**z1_config)
-        self.zaberFocus = ZaberController(**z2_config)
-        self.zaberPinholeMask = ZaberController(**z3_config)
+        # self.zaberNames = list(zb_config.keys())
+        # self.zaberNDFilter = ZaberController(**z1_config)
+        # self.zaberFocus = ZaberController(**z2_config)
+        # self.zaberPinholeMask = ZaberController(**z3_config)
         # Add more stages as needed...
 
         # Monochromator
@@ -253,7 +253,7 @@ class PandoraBox:
         self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
         self.pdb.add("currentOutputErr", np.std(d2['CURR']))
-        self.pdb.add("zaberNDFilter", self.zaberNDFilter.position)
+        # self.pdb.add("zaberNDFilter", self.zaberNDFilter.position)
 
         # Save the flip mount states
         for name in self.flipMountNames:
@@ -603,7 +603,7 @@ class PandoraBox:
         Args:
             nd_filter_name (str): The name of the ND filter to move to.
         """
-        self.zaberNDFilter.move_to_slot(nd_filter_name)
+        # self.zaberNDFilter.move_to_slot(nd_filter_name)
         pass
 
     def set_pinhole_mask(self, mask_name):
@@ -612,7 +612,7 @@ class PandoraBox:
         Args:
             mask_name (str): The name of the pinhole mask to move to.
         """
-        self.zaberPinholeMask.move_to_slot(mask_name)
+        # self.zaberPinholeMask.move_to_slot(mask_name)
         pass
 
     def set_photodiode_scale(self, scale_down=None, scale=None):
