@@ -218,7 +218,6 @@ def flip(args):
         "pd3": "flipPD3",
         "quarter-wave-plate": "flipQuarterWavePlate"
     }
-
     if args.listNames:
         print("Available flip mounts:")
         namesList = list(flipDict.keys())
@@ -227,9 +226,10 @@ def flip(args):
     
     from pandora.states.flipmount_state import FlipMountState
     from pandora.states.labjack_handler import LabJack
-
     name = args.name
-    state = args.state
+    is_on = args.on
+    is_off = args.off
+    is_state = args.state
     
     # Initialize the logger
     logger = _initialize_logger(args.verbose)
@@ -251,9 +251,10 @@ def flip(args):
     flipper = FlipMountState(fport, labjack=labjack)
 
     # Set the flip mount to the desired state
-    if state == 1:
+    if is_on:
         flipper.activate()
-    elif state == 0:
+    elif is_off:
         flipper.deactivate()
-
+    else:
+        flipper.get_state()
     pass
