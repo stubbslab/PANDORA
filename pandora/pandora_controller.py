@@ -401,7 +401,7 @@ class PandoraBox:
         """
         Put the Order-Block(UV) filter on the optical path.
         """
-        self.flipOrderBlock.activate()
+        self.flipOrderBlockFilter.activate()
         pass
 
     def write_exposure(self):
