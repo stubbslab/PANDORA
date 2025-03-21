@@ -1,7 +1,7 @@
 # states/flipmount_state.py
 import logging
-from states.states_map import State
-from utils.operation_timer import OperationTimer
+from pandora.states.states_map import State
+from pandora.utils.operation_timer import OperationTimer
 
 class FlipMountState:
     """ FlipMountState class to handle communication with Thorlabs FlipMount devices.
