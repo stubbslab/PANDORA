@@ -10,6 +10,7 @@ from utils import set_wavelength, get_wavelength
 from utils import open_shutter, close_shutter
 from utils import get_keysight_readout
 from utils import get_spectrometer_readout
+from utils import flip
 
 """Main function to handle command-line arguments and dispatch to the appropriate function.
 
@@ -107,8 +108,8 @@ def main():
         "get-keysight-readout",
         help="Get the readout from the Keysight electrometer."
     )
-    keysight_readout_parser.add_argument("name", type=str, help="Name of the measurement.")
     keysight_readout_parser.add_argument("exptime", type=float, help="Exposure time.")
+    keysight_readout_parser.add_argument("--name", type=str, default="K1", help="Name of the keysight device (K1 or K2).")
     keysight_readout_parser.add_argument("--nplc", type=int, default=5, help="Number of power line cycles.")
     keysight_readout_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
     keysight_readout_parser.add_argument("--rang0", type=float, default=None, help="If not none, set auto range with initial range.")
@@ -125,6 +126,29 @@ def main():
     spectrometer_readout_parser.add_argument("--verbose", action="store_true", default=True, help="Enable verbose output.")
     spectrometer_readout_parser.set_defaults(func=get_spectrometer_readout)
     
+    flipper_parser = subparsers.add_parser(
+        "flip",
+        help="Control flip mounts (on/off/state, or list mount names)."
+    )
+
+    # Make 'name' optional, so users can do `pb flip --listNames` with no name
+    flipper_parser.add_argument(
+        "name",
+        nargs="?",
+        help="Name of the flip mount to control (e.g., pd2, fm1)."
+    )
+    # Mutually exclusive group for setting or checking state
+    flip_group = flipper_parser.add_mutually_exclusive_group()
+    flip_group.add_argument("--on", action="store_true", help="Activate the flip mount.")
+    flip_group.add_argument("--off", action="store_true", help="Deactivate the flip mount.")
+    flip_group.add_argument("--state", action="store_true", help="Show the current flip mount state.")
+
+    # Option to list all known flip mounts
+    flipper_parser.add_argument("--listNames", action="store_true", help="List all flip mount names.")
+
+    # Hook up the handler function
+    flipper_parser.set_defaults(func=flip)
+
     # # command: expose
     # expose_parser = subparsers.add_parser("expose", help="Expose telescope with a known photon dose.")
     # expose_parser.add_argument("--wavelength", type=float, default=500.0, help="Wavelength for exposure (nm).")
