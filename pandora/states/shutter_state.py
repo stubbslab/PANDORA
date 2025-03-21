@@ -1,7 +1,11 @@
 # states/shutter_state.py
 import logging
-from .states_map import State                # '.' means same directory as shutter_state.py
 from pandora.utils.operation_timer import OperationTimer
+
+stateDict = {
+    0: "closed",
+    1: "opened"
+}
 
 class ShutterState:
     """ ShutterState class to handle state and communication with Thorlabs Shutter devices.
@@ -91,7 +95,7 @@ class ShutterState:
         self.logger.debug(f"Querying Shutter state {self.codename}.")
         try:
             value = int(self.labjack.read("FIO_STATE")) & 1
-            self.state = value
+            self.state = stateDict[value]
             self.logger.info(f"The shutter state is {self.state}")
 
         except Exception as e:
