@@ -17,8 +17,7 @@ configDefault = _load_config(config_file=config_filename)
 def get_config_section(section, config=configDefault):
     return config.get(section, {})
 
-def get_config_value(self, section, key, default=None, config=configDefault):
-    if config is None: config = self.config
+def get_config_value(section, key, default=None, config=configDefault):
     return config.get(section, {}).get(key, default)
 
 def _initialize_logger(verbose=True):
