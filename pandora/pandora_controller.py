@@ -4,17 +4,17 @@ from datetime import datetime
 import numpy as np
 
 ## Make Pandora Class
-from states.flipmount_state import FlipMountState
-from states.shutter_state import ShutterState
-from controller.keysight import KeysightController
-from controller.monochromator import MonochromatorController
-from controller.zaberstages import ZaberController
-from states.labjack_handler import LabJack
-from states.states_map import State
-from utils.logger import initialize_central_logger
-from utils.operation_timer import OperationTimer
-from database.db import PandoraDatabase
-from database.calib_db import PandoraCalibrationDatabase
+from pandora.states.flipmount_state import FlipMountState
+from pandora.states.shutter_state import ShutterState
+from pandora.controller.keysight import KeysightController
+from pandora.controller.monochromator import MonochromatorController
+from pandora.controller.zaberstages import ZaberController
+from pandora.states.labjack_handler import LabJack
+from pandora.states.states_map import State
+from pandora.utils.logger import initialize_central_logger
+from pandora.utils.operation_timer import OperationTimer
+from pandora.database.db import PandoraDatabase
+from pandora.database.calib_db import PandoraCalibrationDatabase
 
 ## TODOS:
 ## Add a header to the class
@@ -114,8 +114,9 @@ class PandoraBox:
         self.flipMountNames = [
                                'flipShutter', 'flipSpecMount', 'flipOrderBlockFilter',
                                'flipOD2First', 'flipOD2Second', 'flipPD2',
-                               'flipQuaterWavePlate', 'flipPD3'
+                               'flipQuarterWavePlate', 'flipPD3'
                                ]
+        
         self.flipShutter = FlipMountState(shutter_port, labjack=self.labjack)
         self.flipSpecMount = FlipMountState(fm1_port, labjack=self.labjack)
         self.flipOrderBlockFilter = FlipMountState(fm2_port, labjack=self.labjack)
