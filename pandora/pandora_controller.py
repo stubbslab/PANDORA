@@ -280,7 +280,7 @@ class PandoraBox:
         self.take_exposure(exptime, observation_type=observation_type, is_dark=True)
         pass
         
-    def wavelength_scan(self, start, end, step, exptime, observation_type="acq", nrpeats=1, range1=None, range2=None):
+    def wavelength_scan(self, start, end, step, exptime, observation_type="acq", nrepeats=1, range1=None, range2=None):
         """
         Wavelength scan with measurements from start to end with a given step size.
 
@@ -309,7 +309,7 @@ class PandoraBox:
         # self.flipMount.f1.activate()
         
         for wav in wavelengthScan:
-            self.logger.info(f"wavelength-scan: start exposure of lambda = {wav:0.1f} nm with {nrpeats} repeats")
+            self.logger.info(f"wavelength-scan: start exposure of lambda = {wav:0.1f} nm with {nrepeats} repeats")
             self.set_wavelength(wav)
             if wav>700:
                 # Check what is the IR filter code
@@ -318,7 +318,7 @@ class PandoraBox:
             self.keysight.k1.set_rang(range1)
             self.keysight.k2.set_rang(range2)
 
-            for _ in range(nrpeats):
+            for _ in range(nrepeats):
                 self.take_dark(exptime)
                 self.take_exposure(exptime, observation_type=observation_type)
                 self.take_dark(exptime)
@@ -332,7 +332,7 @@ class PandoraBox:
     ## TODO
     ## Under construction
     ## First Draft
-    def solar_cell_qe_curve(self, start, end, step, exptime, nrpeats=1, range1=None, range2=None):
+    def solar_cell_qe_curve(self, start, end, step, exptime, nrepeats=1, range1=None, range2=None):
         """
         Solar cell QE curve is a walength scan with flipping the NIST diode on and off.
 
@@ -360,7 +360,7 @@ class PandoraBox:
         if range2 is None: range2 = 2e-9 # B2983B
     
         # for wav in wavelengthScan:
-        #     self.logger.info(f"solar-cell-qe-curve: start exposure of lambda = {wav:0.1f} nm with {nrpeats} repeats")
+        #     self.logger.info(f"solar-cell-qe-curve: start exposure of lambda = {wav:0.1f} nm with {nrepeats} repeats")
         #     self.set_wavelength(wav)
         #     if wav>700:
         #         # Check what is the IR filter code
@@ -371,7 +371,7 @@ class PandoraBox:
 
         #     # make sure NIST diode is out of the beam
         #     self.flipMount.nist.deactivate()
-        #     for _ in range(nrpeats):
+        #     for _ in range(nrepeats):
         #         self.take_dark(exptime, observation_type="dark")
                 
         #         # put NIST diode in the beam
