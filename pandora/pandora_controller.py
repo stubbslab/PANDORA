@@ -253,11 +253,14 @@ class PandoraBox:
         self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
         self.pdb.add("currentOutputErr", np.std(d2['CURR']))
+        self.pdb.add('shutter', shutter_flag)
 
         # Save the flip mount states
-        for name in self.flipMountNames:
+        for name in self.flipMountNames[1:]:
             fm = getattr(self, name, None)
-            self.pdb.add(name, fm.state.value)
+            val = fm.state.value 
+            flag = val == "on"
+            self.pdb.add(name, flag)
         
         # self.pdb.add("ndFilter", self.zaberNDFilter.position)
         # self.pdb.add("pinholeMask", self.zaberPinholeMask.position)
