@@ -107,7 +107,6 @@ class FlipMountState:
         elif self.state == State.IDLE:
             self.get_state()
             self.deactivate()
-            
 
     def set_error(self):
         self.logger.error(f"Setting state to fault for Flip Mount {self.labjack_port}.")

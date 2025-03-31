@@ -85,7 +85,7 @@ class LabJack:
             self.logger.info(f"Signal high sent to {port_name}.")
         # try one reset if it fails
         except Exception as e:
-            self.logger.error(f"Error send_high_signal Monochromator: {e}")
+            self.logger.error(f"Error send_high_signal: {e}")
             self.state = "off"
             self.reset()
             if self.state == "on":
@@ -100,7 +100,7 @@ class LabJack:
             self.write(port_name, 0)
             self.logger.info(f"Signal low sent to {port_name}.")
         except Exception as e:
-            self.logger.error(f"Error send_low_signal Monochromator: {e}")
+            self.logger.error(f"Error send_low_signal: {e}")
             self.state = "off"
             self.reset()
             if self.state == "on":
@@ -110,7 +110,7 @@ class LabJack:
         self.logger.info("Sending square signal to labjack entry.")
         self.send_high_signal(port_name)
         time.sleep(wait_time_ms / 1000)
-        self.send_low_signal(self.fport_name)
+        self.send_low_signal(port_name)
 
     def get_device_info(self):
         try:
