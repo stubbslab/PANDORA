@@ -76,6 +76,9 @@ class MonochromatorController:
         Close the serial connection to the monochromator.
         """
         if self.ser and self.ser.is_open:
+            self.ser.cancel_read()
+            self.ser.cancel_write()
+            self.ser.flush()            
             self.ser.close()
             self.logger.info("Serial connection closed.")
         self.ser = None
