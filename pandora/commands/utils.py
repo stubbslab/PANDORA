@@ -295,7 +295,7 @@ def zaber(args):
     controller_name = args.controller
     zcode = ZMAP[controller_name] 
 
-    logger.info(f"Initializing Zaber controller '{controller_name}'...")
+    logger.info(f"Initializing Zaber controller {controller_name}...")
     zb_config = get_config_section('zaber_stages', config=configDefault)
     zconfig = get_config_section(zcode, config=zb_config)
     zaber = ZaberController(**zconfig)
@@ -305,10 +305,11 @@ def zaber(args):
         print(f"Listing slot table for controller '{args.controller}':")
         # Insert logic to display slot table here
         slot_dict = zconfig['slot_map']
+        print(10*'---')
+        print(f'Slot Map for {controller_name}:')
+        print('Slot home: 0.00 mm')
         for slot_name, position in slot_dict.items():
-            print(10*'---')
-            print(f'Slot Map for {controller_name}:')
-            print(f"Slot '{slot_name}': {position} mm")
+            print(f"Slot {slot_name}: {position:.2f} mm")
         return
 
     # Option 3: Move to a given position in mm (if --move flag is used)
@@ -317,12 +318,18 @@ def zaber(args):
         # Insert code to move to the specified position
         zaber.move_zaber_axis(args.move)
         return
-
+    
+    # Option 5:  move to home position
+    if args.slot=="home":
+        print(f"Moving controller {args.controller} to home position...")
+        zaber.go_home()
+        return
+    
     # Option 4: If no flag is given but a slot name is provided, move to that slot
     if args.slot:
-        print(f"Moving controller '{args.controller}' to slot '{args.slot}'...")
+        print(f"Moving controller {args.controller} to slot '{args.slot}'...")
         # Insert code to move to the specified slot
-        zaber.move_to_slot(args.slot)
+        zaber.move_to_slot(args.slot.upper())  # Ensure slot name is uppercase
     else:
         print("Error: You must specify a slot name or use --move or --listSlotTable.")
         sys.exit(1)
