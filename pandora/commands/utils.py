@@ -327,7 +327,10 @@ def zaber(args):
     if args.move is not None:
         print(f"Moving controller '{args.controller}' to position {args.move} mm...")
         # Insert code to move to the specified position
-        zaber.move_zaber_axis(args.move)
+        current_position = zaber.get_position_mm()    
+        zaber.move_zaber_axis(args.move-current_position)  # Move relative to current position
+        new_position = zaber.get_position_mm()
+        print(f"Moved to new position: {new_position:.2f} mm")
         return
     
     # Option 5:  move to home position
