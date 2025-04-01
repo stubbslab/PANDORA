@@ -23,7 +23,8 @@ def measurePandoraThroughput(args):
 
     # print("Clear the optical path, no ND filters")
     # Take the measurements with no ND filter
-    pandora_box.set_nd_filter(args.ndFilter)
+    filter_name = str(args.ndFilter)
+    pandora_box.set_nd_filter(filter_name.upper())
 
     # TODO: Implement turn_on_sollar_cell
     # pandora_box.turn_on_sollar_cell()
