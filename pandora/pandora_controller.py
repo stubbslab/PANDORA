@@ -238,7 +238,7 @@ class PandoraBox:
 
     def _save_exposure(self, d1, d2, eff_exptime, description, shutter_flag=True):
         self.pdb.add("effective_exptime", eff_exptime)
-        self.pdb.add("wavelength", self.get_wavelength())
+        self.pdb.add("wavelength", self.get_wavelength(query=False))
         self.pdb.add("currentInput", np.abs(np.mean(d1['CURR'])))
         self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
@@ -589,11 +589,12 @@ class PandoraBox:
         self.logger.debug(f"Set wavelength to {wavelength} nm took {self.timer.elapsed_since('Wavelength'):.3f} seconds.")
         pass
 
-    def get_wavelength(self):
+    def get_wavelength(self, query=True):
         """
         Get the current wavelength of the monochromator.
         """
-        self.monochromator.get_wavelength()
+        if query:
+            self.monochromator.get_wavelength()
         return self.monochromator.wavelength
     
     def set_nd_filter(self,nd_filter_name):
