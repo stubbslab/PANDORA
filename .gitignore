@@ -12,6 +12,9 @@ spec*.ipynb
 # C extensions
 *.so
 
+# Bash scripts
+*.sh
+
 # Distribution / packaging
 .Python
 env/
