@@ -293,6 +293,11 @@ def zaber(args):
     # Initialize the logger
     logger = _initialize_logger(args.verbose)
     controller_name = args.controller
+
+    if controller_name not in ZMAP.keys():
+        logger.error(f"Zaber controller '{controller_name}' not found in ZMAP.\n Available controllers: {list(ZMAP.keys())}")
+        sys.exit(1)
+
     zcode = ZMAP[controller_name] 
 
     logger.info(f"Initializing Zaber controller {controller_name}...")
