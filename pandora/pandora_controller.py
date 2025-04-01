@@ -589,7 +589,7 @@ class PandoraBox:
         self.monochromator.move_to_wavelength(wavelength, timeout)
         # Check how long we should wait here
         # self.monochromator.wait_until_ready()
-        self.walength = wavelength
+        self.wavelength = wavelength
         self.logger.debug(f"Set wavelength to {wavelength} nm took {self.timer.elapsed_since('Wavelength'):.3f} seconds.")
         pass
 
