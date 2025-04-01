@@ -29,7 +29,7 @@ class FlipMountState:
         # Close the labjack connection
         fm.close()
     """
-    def __init__(self, labjack_port, labjack):
+    def __init__(self, labjack_port, labjack, invert_logic=False):
         if labjack_port is None:
             raise ValueError("Flip Mount name cannot be None.")
         if labjack is None:
@@ -40,6 +40,11 @@ class FlipMountState:
         self.labjack_port = labjack_port  
         self.state = State.UNINITIALIZED
         self.logger = logging.getLogger(f"pandora.flipmount.{labjack_port}")
+        
+        ## Invert logic is used to set the state of the flip mount
+        ## to ON when the signal is low and OFF when the signal is high.
+        self.invert_logic = invert_logic
+
         ## Safety measure for SHB1 shutter
         self.max_operation_freq = 2 # Hz
         self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"FlipMount-{labjack_port}")
@@ -66,7 +71,13 @@ class FlipMountState:
             self.logger.debug(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
 
         if self.state == State.OFF:
-            self.labjack.send_low_signal(self.labjack_port)
+            if not self.invert_logic:
+                self.logger.debug(f"Sending low signal to Flip Mount {self.labjack_port}.")
+                self.labjack.send_low_signal(self.labjack_port)
+            else:
+                self.logger.debug(f"Sending high signal to Flip Mount {self.labjack_port}.")
+                self.labjack.send_high_signal(self.labjack_port)
+
             self.set_state(State.ON)
             self.timer.update_last_operation_time()
             return
@@ -91,7 +102,13 @@ class FlipMountState:
             self.logger.warning(f"System sleeped for {self.timer.remaining_time:0.2f} seconds.")
         
         if self.state == State.ON:
-            self.labjack.send_high_signal(self.labjack_port)
+            if not self.invert_logic:
+                self.logger.debug(f"Sending high signal to Flip Mount {self.labjack_port}.")
+                self.labjack.send_high_signal(self.labjack_port)
+            else:
+                self.logger.debug(f"Sending low signal to Flip Mount {self.labjack_port}.")
+                self.labjack.send_low_signal(self.labjack_port)
+
             self.set_state(State.OFF)
             self.timer.update_last_operation_time()
             return
@@ -122,7 +139,10 @@ class FlipMountState:
             try:
                 self.logger.debug(f"Querying Flip Mount state {self.labjack_port}.")
                 value = int(self.labjack.read(self.labjack_port))
-                self.set_state(State.ON if value == 0 else State.OFF)
+                if self.invert_logic:
+                    self.set_state(State.ON if value == 1 else State.OFF)
+                else:
+                    self.set_state(State.ON if value == 0 else State.OFF)
             except:
                 self.logger.error(f"Error querying Flip Mount {self.labjack_port} state.")
                 self.set_state(State.FAULT)

@@ -86,14 +86,17 @@ class PandoraBox:
         # Port names for each subsystem
         labjack_ip = self.get_config_value('labjack', 'ip_address')
         shutter_port = self.get_config_value('labjack', 'flipShutter')
-        fm1_port = self.get_config_value('labjack', 'flipSpecMount')
-        fm2_port = self.get_config_value('labjack', 'flipOrderBlockFilter')
-        fm3_port = self.get_config_value('labjack', 'flipOD2First')
-        fm4_port = self.get_config_value('labjack', 'flipOD2Second')
-        fm5_port = self.get_config_value('labjack', 'flipPD2')
-        fm6_port = self.get_config_value('labjack', 'flipPD3')
-        fm7_port = self.get_config_value('labjack', 'flipQuarterWavePlate')
-        
+
+        # Flip Mounts
+        self.flipMountNames = ['flipShutter', 'flipSpecMount', 'flipOrderBlockFilter',
+                               'flipOD2First', 'flipOD2Second', 'flipPD2',
+                               'flipQuarterWavePlate', 'flipPD3'
+                               # Add more flip mounts as needed...
+                               ]
+        fports, fstates = [], []
+        for name in self.flipMountNames[1:]:
+            fports.append(self.get_config_value('labjack', name))
+            fstates.append(self.get_config_value('labjack', name+'InvertLogic'))
 
         # Photodiode Controlled Devices
         # Ethernet connections with ip_addresses
@@ -111,23 +114,10 @@ class PandoraBox:
         self.shutter = ShutterState(shutter_port,labjack=self.labjack)
         
         # Flip Mounts
-        self.flipMountNames = [
-                               'flipShutter', 'flipSpecMount', 'flipOrderBlockFilter',
-                               'flipOD2First', 'flipOD2Second', 'flipPD2',
-                               'flipQuarterWavePlate', 'flipPD3'
-                               ]
-        
         self.flipShutter = FlipMountState(shutter_port, labjack=self.labjack)
-        self.flipSpecMount = FlipMountState(fm1_port, labjack=self.labjack)
-        self.flipOrderBlockFilter = FlipMountState(fm2_port, labjack=self.labjack)
-        self.flipOD2First = FlipMountState(fm3_port, labjack=self.labjack)
-        self.flipOD2Second = FlipMountState(fm4_port, labjack=self.labjack)
-        self.flipPD2 = FlipMountState(fm5_port, labjack=self.labjack)
-        self.flipPD3 = FlipMountState(fm6_port, labjack=self.labjack)
-        self.flipQuarterWavePlate = FlipMountState(fm7_port, labjack=self.labjack)
+        for i, name in enumerate(self.flipMountNames[1:]):
+            setattr(self, name, FlipMountState(fports[i], labjack=self.labjack, invert_logic=fstates[i]))
         
-        # Add more flip mounts as needed...
-
         # Keysights
         # self.photodiodeNames = list(ks_config.keys())
         self.keysight = type('KeysightContainer', (), {})()
