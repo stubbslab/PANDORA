@@ -14,7 +14,7 @@ pandora_box = PandoraBox(config_file="./default.yaml", verbose=True)
 pandora_box.set_nd_filter("CLEAR")
 
 # Move the focus
-# pandora_box.zaberFocus.move_to_slot("Focus")
+# pandora_box.zaberFocus.move_to_slot("FOCUS")
 
 # Move the pinhole mask
 # pandora_box.set_pinhole_mask("CLEAR")

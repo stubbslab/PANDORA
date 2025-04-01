@@ -82,7 +82,7 @@ zaber_stages:
     speed_mm_per_sec: 10
     # The focus position is given in mm
     # the focus position is very sensitive to positional changes
-    slot_map: {'Focus': 50.8}
+    slot_map: {'FOCUS': 50.8}
   Z3: # Pinhole Mask
     ip_address: "140.247.113.252"
     # Pinhole mask map
@@ -92,8 +92,8 @@ zaber_stages:
     # 2. 100 um pinhole (P100um)
     # We do not have clear
     slot_map: {
-               'P50um': 14.47, 
-               'P100um': 45.94,
+               'P50UM': 14.47, 
+               'P100UM': 45.94,
                'CLEAR': 50.8,
                }
     device: 0
