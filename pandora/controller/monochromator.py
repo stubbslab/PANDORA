@@ -208,7 +208,7 @@ class MonochromatorController:
 
                 if is_finished:
                     self.logger.info(f"Monochromator successfully moved to {wavelength_nm} nm.")
-
+                    self.wavelength = wavelength_nm 
             else:
                 self._handle_status_byte(status)
         else:

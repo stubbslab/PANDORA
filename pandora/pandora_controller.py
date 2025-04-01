@@ -238,7 +238,7 @@ class PandoraBox:
 
     def _save_exposure(self, d1, d2, eff_exptime, description, shutter_flag=True):
         self.pdb.add("effective_exptime", eff_exptime)
-        self.pdb.add("wavelength", self.get_wavelength(query=False))
+        self.pdb.add("wavelength", self.get_wavelength())
         self.pdb.add("currentInput", np.abs(np.mean(d1['CURR'])))
         self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
@@ -578,7 +578,7 @@ class PandoraBox:
                 print(f"Error switching flip mount {mount_name}.")
         pass
 
-    def set_wavelength(self, wavelength, timeout=2):
+    def set_wavelength(self, wavelength, timeout=0.5):
         """
         Set the monochromator to a specific wavelength.
         """
@@ -593,8 +593,7 @@ class PandoraBox:
         """
         Get the current wavelength of the monochromator.
         """
-        if query:
-            self.monochromator.get_wavelength()
+        self.monochromator.get_wavelength()
         return self.monochromator.wavelength
     
     def set_nd_filter(self,nd_filter_name):
