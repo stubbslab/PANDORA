@@ -10,17 +10,14 @@ initialize_central_logger("zaberstage-main.log", "INFO")
 pandora_box = PandoraBox(config_file="./default.yaml", verbose=True)
 # pandora_box.start_run(run_id) # makes a catalog with name run_id:05d
 
-# Initialize the Pandora System Components
-pandora_box.initialize_subsystems()
-
 # Clear the optical path
-pandora_box.move_nd_filter("ND05")
+pandora_box.set_nd_filter("CLEAR")
 
 # Move the focus
-pandora_box.zaberFocus.move_to_slot("Focus")
+# pandora_box.zaberFocus.move_to_slot("Focus")
 
 # Move the pinhole mask
-pandora_box.zaberPinholeMask.move_to_slot("P50um")
+# pandora_box.set_pinhole_mask("CLEAR")
 
 # # Create an instance of ZaberController
 # zb = ZaberController("169.254.47.12", speed_mm_per_sec=12)
