@@ -20,7 +20,7 @@ MASK_MAP = {'ND05': 7,
             }
 
 class ZaberController:
-    def __init__(self, ip_address, device=0, axis_id=1, slot_map=MASK_MAP, speed_mm_per_sec=8.0, type=None):
+    def __init__(self, ip_address, device=0, axis_id=1, slot_map=MASK_MAP, speed_mm_per_sec=8.0, name='foo', type=None):
         """
         Initialize the ZaberController object.
 
@@ -42,7 +42,7 @@ class ZaberController:
         self.timeout_ms = 2000
 
         # Set up logging
-        self.logger = logging.getLogger(f"pandora.zaber")
+        self.logger = logging.getLogger(f"pandora.zaber.{name}")
 
         # Enable Zaber's device database
         Library.enable_device_db_store()

@@ -55,7 +55,8 @@ def main():
     pt_parser.add_argument("exptime", type=float, help="Exposure time (s).")
     pt_parser.add_argument("lambda0", type=float, help="Start wavelength (nm).")
     pt_parser.add_argument("lambdaEnd", type=float, help="End wavelength (nm).")
-    pt_parser.add_argument("--step", type=float, help="Wavelength step (nm).")
+    pt_parser.add_argument("--step", type=float, default=1, help="Wavelength step (nm).")
+    pt_parser.add_argument("--ndFilter", type=str, default="CLEAR", help="ND filter to use on zaber stage (e.g., ND05, ND10, ND15, ND20, CLEAR).")
     pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")
     # pt_parser.add_argument("--maskPorts", action="store_true", 
     #                        help="Whether to mask 2 of the 3 output ports.")
