@@ -8,7 +8,7 @@ from pandora.states.flipmount_state import FlipMountState
 from pandora.states.shutter_state import ShutterState
 from pandora.controller.keysight import KeysightController
 from pandora.controller.monochromator import MonochromatorController
-# from pandora.controller.zaberstages import ZaberController
+from pandora.controller.zaberstages import ZaberController
 from pandora.states.labjack_handler import LabJack
 from pandora.states.states_map import State
 from pandora.utils.logger import initialize_central_logger
@@ -128,10 +128,10 @@ class PandoraBox:
 
         # Zaber Stages
         # self.zaber = type('ZaberContainer', (), {})()
-        # self.zaberNames = list(zb_config.keys())
-        # self.zaberNDFilter = ZaberController(**z1_config)
-        # self.zaberFocus = ZaberController(**z2_config)
-        # self.zaberPinholeMask = ZaberController(**z3_config)
+        self.zaberNames = list(zb_config.keys())
+        self.zaberNDFilter = ZaberController(**z1_config)
+        self.zaberFocus = ZaberController(**z2_config)
+        self.zaberPinholeMask = ZaberController(**z3_config)
         # Add more stages as needed...
 
         # Monochromator
@@ -303,6 +303,10 @@ class PandoraBox:
         # Flip the wavelength ordering filter
         # self.flipMount.f1.activate()
         
+        # Auto-range
+        self.set_wavelength(start-10)
+        self.set_photodiode_scale()
+
         for wav in wavelengthScan:
             self.logger.info(f"wavelength-scan: start exposure of lambda = {wav:0.1f} nm with {nrepeats} repeats")
             self.set_wavelength(wav)
@@ -310,8 +314,8 @@ class PandoraBox:
                 # Check what is the IR filter code
                 self.enable_ir_filter()
 
-            self.keysight.k1.set_rang(range1)
-            self.keysight.k2.set_rang(range2)
+            # self.keysight.k1.set_rang(range1)
+            # self.keysight.k2.set_rang(range2)
 
             for _ in range(nrepeats):
                 self.take_dark(exptime)
@@ -320,7 +324,7 @@ class PandoraBox:
 
             self.logger.info(f"wavelength-scan: finished exposure of lambda = {wav:0.1f} nm")
 
-        self.close_all_connections()
+        # self.close_all_connections()
         self.logger.info("wavelength-scan measurement cycle completed.")
         self.logger.info("wavelength-scan saved on {self.pdb.run_data_file}")
 
@@ -382,7 +386,7 @@ class PandoraBox:
 
         #     self.logger.info(f"solar-cell-qe-curve: finished exposure of lambda = {wav:0.1f} nm")
 
-        self.close_all_connections()
+        # self.close_all_connections()
         self.logger.info("solar-cell-qe-curve measurement cycle completed.")
         self.logger.info("solar-cell-qe-curve saved on {self.pdb.run_data_file}")
 
@@ -598,7 +602,7 @@ class PandoraBox:
         Args:
             nd_filter_name (str): The name of the ND filter to move to.
         """
-        # self.zaberNDFilter.move_to_slot(nd_filter_name)
+        self.zaberNDFilter.move_to_slot(nd_filter_name)
         pass
 
     def set_pinhole_mask(self, mask_name):
@@ -607,7 +611,7 @@ class PandoraBox:
         Args:
             mask_name (str): The name of the pinhole mask to move to.
         """
-        # self.zaberPinholeMask.move_to_slot(mask_name)
+        self.zaberPinholeMask.move_to_slot(mask_name)
         pass
 
     def set_photodiode_scale(self, scale_down=None, scale=None):
