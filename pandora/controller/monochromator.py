@@ -173,6 +173,7 @@ class MonochromatorController:
 
         self.wavelength = current_wavelength_nm
         self.close()
+        return current_wavelength_nm
 
     def move_to_wavelength(self, wavelength_nm, timeout=2):
         """

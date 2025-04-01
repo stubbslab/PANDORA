@@ -53,6 +53,9 @@ class PandoraBox:
         self.max_operation_freq = 10 # Hz
         self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"Pandora")
 
+        # initiate the wavelength variable
+        self.walength = None
+
     def initialize_db(self, run_id=None):
         # Initialize the database connection
         self.logger.info("Initializing database connection...")
@@ -238,7 +241,7 @@ class PandoraBox:
 
     def _save_exposure(self, d1, d2, eff_exptime, description, shutter_flag=True):
         self.pdb.add("effective_exptime", eff_exptime)
-        self.pdb.add("wavelength", self.get_wavelength())
+        self.pdb.add("wavelength", self.wavelength)
         self.pdb.add("currentInput", np.abs(np.mean(d1['CURR'])))
         self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
@@ -586,6 +589,7 @@ class PandoraBox:
         self.monochromator.move_to_wavelength(wavelength, timeout)
         # Check how long we should wait here
         # self.monochromator.wait_until_ready()
+        self.walength = wavelength
         self.logger.debug(f"Set wavelength to {wavelength} nm took {self.timer.elapsed_since('Wavelength'):.3f} seconds.")
         pass
 
@@ -593,8 +597,11 @@ class PandoraBox:
         """
         Get the current wavelength of the monochromator.
         """
-        self.monochromator.get_wavelength()
-        return self.monochromator.wavelength
+        if query:
+            self.wavelength = self.monochromator.get_wavelength()
+        else:
+            self.wavelength = self.monochromator.wavelength
+        return self.wavelength
     
     def set_nd_filter(self,nd_filter_name):
         """
