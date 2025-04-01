@@ -33,7 +33,7 @@ class MonochromatorController:
         self.ser = None
         self.logger = logging.getLogger(f"pandora.monochromator")
         self.wavelength = None
-        self.timeout = 0.5 # seconds
+        self.timeout = 1.0 # seconds
 
         self.get_wavelength()
 
