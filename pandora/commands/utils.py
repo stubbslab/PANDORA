@@ -247,12 +247,13 @@ def flip(args):
 
     labjack_ip = get_config_value('labjack', 'ip_address')
     fport = get_config_value('labjack', flipDict[name])
+    flogic = get_config_value('labjack', flipDict[name]+'InvertLogic', default=False)
 
     # Initialize the LabJack connection
     labjack = LabJack(ip_address=labjack_ip)
 
     # Initialize the flip mount
-    flipper = FlipMountState(fport, labjack=labjack)
+    flipper = FlipMountState(fport, labjack=labjack, invert_logic=flogic)
 
     # Set the flip mount to the desired state
     if is_on:
