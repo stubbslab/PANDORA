@@ -54,7 +54,7 @@ class PandoraBox:
         self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"Pandora")
 
         # initiate the wavelength variable
-        self.walength = None
+        self.wavelength = None
 
     def initialize_db(self, run_id=None):
         # Initialize the database connection
