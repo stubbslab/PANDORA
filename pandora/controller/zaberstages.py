@@ -68,8 +68,8 @@ class ZaberController:
         Establish the serial connection to the Zaber device.
         """
         if not self._is_connected():
-            if not is_port_open(self.ip_address, 55551, timeout=self.timeout_ms/1000):
-                self.logger.error(f"Cannot reach {self.ip_address}:55551 within {self.timeout_ms/1000:.2f} sec. Aborting connection.")
+            if not is_port_open(self.ip_address, 55550, timeout=self.timeout_ms/1000):
+                self.logger.error(f"Cannot reach {self.ip_address}:55550 within {self.timeout_ms/1000:.2f} sec. Aborting connection.")
                 self.instrument = None
                 raise ConnectionError(f"Cannot reach zaber stage with ip adress {self.ip_address}. Please check if the instrument is on")
 

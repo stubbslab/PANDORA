@@ -88,13 +88,13 @@ class PandoraBox:
         shutter_port = self.get_config_value('labjack', 'flipShutter')
 
         # Flip Mounts
-        self.flipMountNames = ['flipShutter', 'flipSpecMount', 'flipOrderBlockFilter',
+        self.flipMountNames = ['flipSpecMount', 'flipOrderBlockFilter',
                                'flipOD2First', 'flipOD2Second', 'flipPD2',
                                'flipQuarterWavePlate', 'flipPD3'
                                # Add more flip mounts as needed...
                                ]
         fports, fstates = [], []
-        for name in self.flipMountNames[1:]:
+        for name in self.flipMountNames:
             fports.append(self.get_config_value('labjack', name))
             fstates.append(self.get_config_value('labjack', name+'InvertLogic'))
 
@@ -115,7 +115,7 @@ class PandoraBox:
         
         # Flip Mounts
         self.flipShutter = FlipMountState(shutter_port, labjack=self.labjack)
-        for i, name in enumerate(self.flipMountNames[1:]):
+        for i, name in enumerate(self.flipMountNames):
             setattr(self, name, FlipMountState(fports[i], labjack=self.labjack, invert_logic=fstates[i]))
         
         # Keysights
