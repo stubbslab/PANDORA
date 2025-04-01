@@ -60,6 +60,7 @@ class ZaberController:
         """
         self.connect()
         self.set_zaber_speed(self.speed_mm_per_sec)
+        self.get_current_slot()
         # self.go_home()
         pass
 
@@ -164,6 +165,26 @@ class ZaberController:
         # Set movement speed (mm/sec)
         self.axis.move_velocity(speed, Units.VELOCITY_MILLIMETRES_PER_SECOND)
 
+    def get_current_slot(self):
+        """
+        Get the current mask slot of the Zaber stage.
+        """
+        if not self._is_connected():
+            self.connect()
+
+        # Get the current position in mm
+        current_position = self.get_position_mm()
+
+        # Find the closest slot within 0.1 mm
+        closest_slot = "UNKNOWN"
+        for slot_name, slot_position in self.slot_map.items():
+            if abs(current_position - slot_position) < 0.1:
+                closest_slot = slot_name
+                break
+        
+        self.position = closest_slot
+        self.logger.info(f"Current slot: {closest_slot}")
+    
     def get_position_mm(self):
         """
         Get the current position of the Zaber stage in millimeters.

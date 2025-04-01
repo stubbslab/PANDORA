@@ -252,9 +252,9 @@ class PandoraBox:
             flag = val == "on"
             self.pdb.add(name, flag)
         
-        # self.pdb.add("ndFilter", self.zaberNDFilter.position)
-        # self.pdb.add("pinholeMask", self.zaberPinholeMask.position)
-        # self.pdb.add("focus", self.zaberFocus.position)
+        self.pdb.add("ndFilter", self.zaberNDFilter.position)
+        self.pdb.add("pinholeMask", self.zaberPinholeMask.position)
+        self.pdb.add("focus", self.zaberFocus.position)
         self.pdb.add("Description", description)
         
         self.pdb.save_lightcurve(d1, tag="currentInput")
