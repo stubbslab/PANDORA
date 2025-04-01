@@ -300,11 +300,12 @@ def zaber(args):
     zconfig = get_config_section(zcode, config=zb_config)
     zaber = ZaberController(**zconfig)
 
+    # Get the slot map for the specified controller
+    slot_dict = zconfig['slot_map']
+
     # Option 2: List the slot table for the given controller
     if args.listSlotTable:
         print(f"Listing slot table for controller '{args.controller}':")
-        # Insert logic to display slot table here
-        slot_dict = zconfig['slot_map']
         print(10*'---')
         print(f'Slot Map for {controller_name}:')
         print('Slot home: 0.00 mm')
@@ -312,6 +313,16 @@ def zaber(args):
             print(f"Slot {slot_name}: {position:.2f} mm")
         return
 
+    # Option 2: Get the current position
+    if args.getPosition:
+        current_position = zaber.get_position_mm()    
+        print(f"Current position of controller {args.controller}: {current_position:.2f} mm")
+        # match the slot name if it exists
+        for slot_name, position in slot_dict.items():
+            if abs(current_position - position) < 0.01:
+                print(f"Current position matches slot '{slot_name}' at {position:.2f} mm")
+        return
+    
     # Option 3: Move to a given position in mm (if --move flag is used)
     if args.move is not None:
         print(f"Moving controller '{args.controller}' to position {args.move} mm...")

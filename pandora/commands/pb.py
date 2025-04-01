@@ -187,6 +187,11 @@ def main():
         type=float,
         help="Move the controller to a given position in mm."
     )
+    zaber_parser.add_argument(
+        "--getPosition",
+        action="store_true",
+        help="Get the current position of the Zaber controller in mm."
+    )
     zaber_parser.add_argument("--verbose", action="store_true", default=False, help="Enable verbose output.")
     zaber_parser.set_defaults(func=zaber)
 
