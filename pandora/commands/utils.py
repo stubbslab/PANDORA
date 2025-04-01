@@ -296,7 +296,7 @@ def zaber(args):
     zcode = ZMAP[controller_name] 
 
     logger.info(f"Initializing Zaber controller '{controller_name}'...")
-    zb_config = get_config_section('zabers', controller_name)
+    zb_config = get_config_section('zaber_stages', config=configDefault)
     zconfig = get_config_section(zcode, config=zb_config)
     zaber = ZaberController(**zconfig)
 
