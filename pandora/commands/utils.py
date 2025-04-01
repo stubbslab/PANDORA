@@ -266,3 +266,63 @@ def flip(args):
         flipper.get_state()
         print(f"Flip mount {name} is {flipper.state.value}")
     pass
+
+#!/usr/bin/env python3
+import sys
+
+def zaber(args):
+    ZMAP = {
+        "nd-filter": "Z1",
+        "pinhole-mask": "Z3",
+        "focusing": "Z2"
+    }
+
+    # Option 1: List Zaber controller names
+    if args.listZaberNames:
+        print("Listing available Zaber controller names:")
+        # Insert logic to query and print controller names, e.g.:
+        print("nd-filter\n" + "pinhole-mask\n"+"focusing\n")
+        return
+
+    # For other options, the controller name must be provided
+    if not args.controller:
+        print("Error: A zaber controller name must be provided unless using --listZaberNames.")
+        sys.exit(1)
+
+    from pandora.controller.zaberstages import ZaberController
+    # Initialize the logger
+    logger = _initialize_logger(args.verbose)
+    controller_name = args.controller
+    zcode = ZMAP[controller_name] 
+
+    logger.info(f"Initializing Zaber controller '{controller_name}'...")
+    zb_config = get_config_section('zabers', controller_name)
+    zconfig = get_config_section(zcode, config=zb_config)
+    zaber = ZaberController(**zconfig)
+
+    # Option 2: List the slot table for the given controller
+    if args.listSlotTable:
+        print(f"Listing slot table for controller '{args.controller}':")
+        # Insert logic to display slot table here
+        slot_dict = zconfig['slot_map']
+        for slot_name, position in slot_dict.items():
+            print(10*'---')
+            print(f'Slot Map for {controller_name}:')
+            print(f"Slot '{slot_name}': {position} mm")
+        return
+
+    # Option 3: Move to a given position in mm (if --move flag is used)
+    if args.move is not None:
+        print(f"Moving controller '{args.controller}' to position {args.move} mm...")
+        # Insert code to move to the specified position
+        zaber.move_zaber_axis(args.move)
+        return
+
+    # Option 4: If no flag is given but a slot name is provided, move to that slot
+    if args.slot:
+        print(f"Moving controller '{args.controller}' to slot '{args.slot}'...")
+        # Insert code to move to the specified slot
+        zaber.move_to_slot(args.slot)
+    else:
+        print("Error: You must specify a slot name or use --move or --listSlotTable.")
+        sys.exit(1)

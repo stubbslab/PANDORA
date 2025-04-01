@@ -11,6 +11,7 @@ from utils import open_shutter, close_shutter
 from utils import get_keysight_readout
 from utils import get_spectrometer_readout
 from utils import flip
+from utils import zaber
 
 """Main function to handle command-line arguments and dispatch to the appropriate function.
 
@@ -151,6 +152,42 @@ def main():
 
     # Hook up the handler function
     flipper_parser.set_defaults(func=flip)
+
+    # command: zaber
+    # Define the "zaber" subcommand
+    zaber_parser = subparsers.add_parser(
+        "zaber",
+        help="Control Zaber stages."
+    )
+    # Positional argument: controller name (optional if using --listZaberNames)
+    zaber_parser.add_argument(
+        "controller",
+        nargs="?",
+        help="Name of the Zaber controller (e.g., nd-filters, pinhole, focus)."
+    )
+    # Optional positional argument for slot name (only used if no other flag is specified)
+    zaber_parser.add_argument(
+        "slot",
+        nargs="?",
+        help="Slot name to move to (if not using --move)."
+    )
+    # Optional flags
+    zaber_parser.add_argument(
+        "--listZaberNames",
+        action="store_true",
+        help="List all Zaber controller names."
+    )
+    zaber_parser.add_argument(
+        "--listSlotTable",
+        action="store_true",
+        help="List the slot table for the specified Zaber controller."
+    )
+    zaber_parser.add_argument(
+        "--move",
+        type=float,
+        help="Move the controller to a given position in mm."
+    )
+    zaber_parser.set_defaults(func=zaber)
 
     # # command: expose
     # expose_parser = subparsers.add_parser("expose", help="Expose telescope with a known photon dose.")
