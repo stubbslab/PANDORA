@@ -195,7 +195,7 @@ class PandoraBox:
         """
         pass
 
-    def take_exposure(self, exptime, observation_type="acq", is_dark=False):
+    def take_exposure(self, exptime, observation_type="acq", is_dark=False, warning=False):
         """
         Take an exposure for a specified time.
 
@@ -211,9 +211,9 @@ class PandoraBox:
         self.keysight.k1.set_acquisition_time(exptime)
         self.keysight.k2.set_acquisition_time(exptime)
 
-        # Define exposure
-        self.pdb.add("exptime", float(exptime))
-        self.pdb.add("timestamp", datetime.now())
+        # timestamp
+        timestamp = datetime.now()
+
         if is_dark:
             self.close_shutter()
         else:
@@ -235,11 +235,20 @@ class PandoraBox:
 
         self.logger.info(f"Exposure ended after {eff_exptime:.3f} seconds.")
 
+        # Check if the exposure is overflow
+        if (np.abs(np.mean(d1['CURR'])) > 1e36) and (not warning):
+            self.logger.warning("Overflow in Keysight 1")
+            self.set_photodiode_scale(scale_down=1/10)
+            self.take_exposure(exptime, observation_type=observation_type, is_dark=is_dark, warning=True)
+
         # Save the exposure data
-        self._save_exposure(d1, d2, eff_exptime, observation_type, not is_dark)
+        self._save_exposure(d1, d2, timestamp, exptime, eff_exptime, observation_type, not is_dark)
         pass
 
-    def _save_exposure(self, d1, d2, eff_exptime, description, shutter_flag=True):
+    def _save_exposure(self, d1, d2, timestamp, exptime, eff_exptime, description, shutter_flag=True):
+        # Define exposure
+        self.pdb.add("exptime", float(exptime))
+        self.pdb.add("timestamp", timestamp)
         self.pdb.add("effective_exptime", eff_exptime)
         self.pdb.add("wavelength", self.wavelength)
         self.pdb.add("currentInput", np.abs(np.mean(d1['CURR'])))
@@ -628,8 +637,10 @@ class PandoraBox:
             self.keysight.k2.auto_scale()
             self.close_shutter()
         elif scale is None:
-            s1 = float(self.keysight.k2.get_rang())
-            self.keysight.k2.set_rang(s1/scale_down)
+            s1 = float(self.keysight.k1.get_rang())
+            s2 = float(self.keysight.k2.get_rang())
+            self.keysight.k1.set_rang(s1/scale_down)
+            self.keysight.k2.set_rang(s2/scale_down)
         else:
             self.keysight.k2.set_rang(scale)
 
