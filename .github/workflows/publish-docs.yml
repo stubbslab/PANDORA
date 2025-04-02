@@ -26,9 +26,15 @@ jobs:
 
       - name: Build Sphinx documentation
         run: |
-          make html
-          # After this, your HTML is in _build/html
+          sphinx-build -b html source _build/html
 
+      - name: Show build output
+        run: |
+          echo "Listing _build directory:"
+          ls -l _build
+          echo "Listing _build/html directory:"
+          ls -l _build/html
+          
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
