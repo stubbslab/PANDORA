@@ -9,7 +9,8 @@ build:
   tools:
     python: "3.9"
   jobs:
-    build: sphinx
+    build:
+      type: sphinx
 
 sphinx:
   configuration: docs/source/conf.py
@@ -17,4 +18,3 @@ sphinx:
 python:
   install:
     - requirements: requirements.txt
-
