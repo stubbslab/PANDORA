@@ -26,6 +26,10 @@ def measurePandoraThroughput(args):
     filter_name = str(args.ndFilter)
     pandora_box.set_nd_filter(filter_name.upper())
 
+    # pinhole mask filter name
+    mask_name = str(args.pinholeMask)
+    pandora_box.set_pinhole_mask(mask_name.upper())
+
     # TODO: Implement turn_on_sollar_cell
     # pandora_box.turn_on_sollar_cell()
 
