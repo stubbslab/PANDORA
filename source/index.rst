@@ -8,14 +8,12 @@ Pandora
 
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
+   :caption: Contents
 
-   examples
+   command_line
    controlling_subsystems
    configuration_file
    database_access
-   api/modules
-   # other pages, such as installation, API, etc.
 
 Overview
 --------
@@ -32,6 +30,37 @@ How to Install
 
 Installation instructions are under development. Please check back soon for
 a comprehensive guide on setup, configuration, and dependency management.
+
+Command Line Interface
+----------------------
+
+The PANDORA project includes a command-line interface (CLI) for quick access to
+common functionalities. This allows you to control subsystems, set parameters,
+and perform measurements without writing a full Python script.
+
+To use the CLI, simply run the ``pb`` command followed by the desired action. For example:
+
+.. code-block:: bash
+
+  # Set the monochromator to 500 nm
+  pb set-wavelength 500
+
+  # Open the shutter
+  pb open-shutter
+
+  # Get 1 second electrometer readout
+  pb get-keysight-readout 1 --name K2 --nplc 10 --autoRange
+
+  # Get a spectrum plot
+  pb get-spectrometer-readout 50 --is_plot
+
+  # Close the shutter
+  pb close-shutter
+
+This command will set the monochromator to 500 nm, open the shutter, move a flip mount named "pd2" into the beam, and acquire a short spectrometer reading (50 ms) while plotting the result.
+
+Please refer to the :doc:`Command Line Interface <command_line>` documentation for a full list of commands and options.
+
 
 Quick Start
 -----------

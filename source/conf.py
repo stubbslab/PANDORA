@@ -15,7 +15,10 @@ sys.path.insert(0, os.path.abspath('../pandora'))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Pandora'
+project = 'Pandora Box'
+html_title = 'Pandora Box Documentation'
+html_short_title = 'Pandora'
+
 copyright = '2025, Johnny H. Esteves'
 author = 'Johnny H. Esteves'
 release = '0.1'
@@ -56,8 +59,12 @@ html_theme_options = dict(
         "Contact|http://example.com/contact",
         "Legal|http://example.com/dev/null",
     ]),
+    # site_name = 'Pandora Box',
+    # html_title = 'Pandora Box Documentation',
+    # html_short_title = 'Pandora',
+    project_name = 'Pandora Box',
+    # project_subtitle = 'Version 0.1',
  )
-
 # html_theme = 'pydata_sphinx_theme'
 # import sphinx_theme_pd
 # html_theme = 'sphinx_theme_pd'

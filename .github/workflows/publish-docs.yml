@@ -1,0 +1,40 @@
+name: Build and Deploy Sphinx Docs
+
+on:
+  push:
+    branches:
+      - v1.0        # or "main", or any branch you use for docs
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip wheel
+          pip install -r requirements.txt
+          # or: pip install sphinx sphinx_wagtail_theme recommonmark ...
+          # Add all needed dependencies for building your docs
+
+      - name: Build Sphinx documentation
+        run: |
+          cd source
+          make html
+          # After this, your HTML is in source/_build/html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./source/_build/html
+          # By default, this creates or updates the gh-pages branch
+          # You can override the branch name if you like
+
