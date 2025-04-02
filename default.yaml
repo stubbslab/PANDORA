@@ -1,13 +1,15 @@
 # Configuration file for the Pandora system
 # This file contains the default settings for the system components
 # and their parameters.
+
 database:
   type: "pandora.database.db.PandoraDatabase"
   # type: "pandora.database.calib_db.PandoraCalibrationDatabase"
   root: "/Users/pandora_ctrl/Documents/pandoraData/"
-
+  
 monochromator:
   type: "pandora.controller.monochromator.MonochromatorController"
+
   usb_port: "/dev/tty.usbserial-FTDI1CB2"
   baudrate: 9600
   # model: "Acton_SP2150"
@@ -55,7 +57,6 @@ keysights:
     settings:
       mode: "CURR"
       rang: 'AUTO'
-      nplc: 10.
       nsamples: 50
       delay: 0.
       interval: 2e-3
