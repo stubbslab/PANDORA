@@ -1,0 +1,30 @@
+site_name: "Pandora"
+theme:
+  name: "material"
+  features:
+    - navigation.tabs
+    - navigation.top
+  palette:
+    - scheme: default
+      primary: blue
+      accent: pink
+    - scheme: slate
+      primary: blue
+      accent: pink
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to default mode
+
+markdown_extensions:
+  - codehilite:
+      linenums: true
+
+nav:
+  - Home: index.md
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python: {}
+

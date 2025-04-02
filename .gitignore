@@ -2,9 +2,23 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.png
+
+plots/
+results/
+*.pdf
+draft*.ipynb
+spec*.ipynb
+
+docs/_build/
+*.pyc
+.DS_Store
 
 # C extensions
 *.so
+
+# Bash scripts
+*.sh
 
 # Distribution / packaging
 .Python

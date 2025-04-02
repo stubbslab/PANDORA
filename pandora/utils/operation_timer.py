@@ -17,7 +17,7 @@ class OperationTimer:
 
     def __init__(self, min_interval, name="Operation"):
         self.min_interval = min_interval  # Minimum interval in seconds
-        self.last_operation_time = None   # Timestamp of the last operation
+        self.last_operation_time = time.time()   # Timestamp of the last operation
         self.remaining_time = 0            # Remaining time until next operation
         # A dictionary to store labeled timestamps
         self.timestamps = {}
@@ -68,6 +68,11 @@ class OperationTimer:
         Returns:
             float: The number of seconds elapsed since the event. 
                    Returns None if label not found.
+
+        Example:
+            self.mark("start")
+            time.sleep(2)
+            elapsed = self.elapsed_since("start")  # Should return approximately 2.0
         """
         event_time = self.get_mark(label)
         if event_time is not None:
@@ -80,6 +85,7 @@ class OperationTimer:
         Returns:
             bool: True if operation can proceed, False otherwise.
         """
+        self.remaining_time = 0
         if min_interval is None:
             min_interval = self.min_interval
             
@@ -98,8 +104,12 @@ class OperationTimer:
     def update_last_operation_time(self):
         """Update the timestamp of the last operation."""
         self.last_operation_time = time.time()
+        self.sleep(self.min_interval)
 
     def sleep_through_remaining_interval(self):
         """Sleep through the remaining time interval until the next operation."""
         # logger.info(f"Sleeping for {remaining_time:.2f} seconds before next operation.")
         time.sleep(self.remaining_time)
+
+    def sleep(self, period):
+        time.sleep(period)
