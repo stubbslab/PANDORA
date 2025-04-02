@@ -74,7 +74,7 @@ zaber_stages:
     device: 0
     axis_id: 1
     # Zaber speed in mm/sec
-    speed_mm_per_sec: 20
+    speed_mm_per_sec: 10
     name: "nd-filter"
   Z2: # Focus SN: 132383 FW: 7.41.17786 
     ip_address: "140.247.113.251"
