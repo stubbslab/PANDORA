@@ -11,7 +11,8 @@ build:
   jobs:
     build:
       type: sphinx
-
+      kind: html       # Use "html" for a standard Sphinx HTML build
+    
 sphinx:
   configuration: docs/source/conf.py
 
