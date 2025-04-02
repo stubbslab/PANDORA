@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" data-content_root="./">
+<head>
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+        <title>Controlling Subsystems &mdash; Pandora Box Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/dist/fontawesome.css" />
+      <link rel="stylesheet" type="text/css" href="_static/dist/theme.css?v=310cf088" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+            <link rel="index" title="Index" href="genindex.html" />
+            <link rel="search" title="Search" href="search.html" />
+            <link rel="top" title="Pandora Box Documentation" href="#" />
+            <link rel="next" title="Configuration file" href="configuration_file.html" />
+            <link rel="prev" title="PB Command-Line Interface" href="command_line.html" />
+    </head>
+<body>
+    <script type="text/javascript" src="_static/dist/blocking.js"></script>
+    <header class="container-fluid bg-primary">
+        <a class="btn btn-sm btn-light skip-to-content-link" href="#main">Skip to content</a>
+        <div class="container-fluid">
+            <div class="navbar navbar-expand-lg navbar-dark font-weight-bold">
+                    <a href="index.html"
+                        title="Wagtail"
+                        class="logo navbar-brand"
+                    >
+                        <img src="_static/img/wagtail-logo-circle.svg" width="45" height="59" alt="Wagtail"
+                            class="logo-img"
+                        />
+                        Pandora Box
+                    </a>
+                
+                
+                    <div class="collapse navbar-collapse justify-content-end">
+                        <ul class="navbar-nav">
+                            
+                                
+                                
+                                <li class="nav-item"><a class="nav-link"  href="https://github.com/stubbslab/PANDORA/tree/v1.0">Github Repo</a></li>
+                            
+                        </ul>
+                    </div>
+                
+                <button class="navbar-toggler btn btn-primary d-lg-none" type="button" data-toggle="collapse" data-target="#collapseSidebar" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="sr-only">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-12 col-lg-3 sidebar-container">
+                <div id="collapseSidebar" class="collapse sticky-top d-lg-block pt-5 pr-lg-4">
+<div id="searchbox" class="searchbox mb-6 px-1" role="search">
+    <form id="search-form" action="search.html" autocomplete="off" method="get" role="search">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text border-right-0 bg-white py-3 pl-3 pr-2"><span class="fas fa-search"></span></div>
+            </div>
+            <input class="form-control py-3 pr-3 pl-1 h-100 border-left-0" type="search" name="q" placeholder="Search documentation" aria-label="Search documentation" id="searchinput" />
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div><div class="site-toc">
+    <nav class="toc mt-3" aria-label="Main menu">
+        <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">PB Command-Line Interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Controlling Subsystems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database_access.html">Database Access</a></li>
+</ul>
+
+    </nav>
+    <template data-toggle-item-template>
+        <button class="btn btn-sm btn-link toctree-expand" type="button">
+            <span class="sr-only">Toggle menu contents</span>
+        </button>
+    </template>
+</div>
+                    <div class="d-lg-none border-bottom">
+                        
+                    </div>
+                </div>
+            </aside>
+            <div class="col-12 col-lg-9 pt-5">
+                <header class="row align-items-baseline">
+                    <div class="col">
+                        <nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0 p-0 bg-transparent">
+        <li class="breadcrumb-item"><a href="index.html">Docs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Controlling Subsystems</li>
+    </ol>
+</nav>
+                    </div>
+                    <div class="col-sm-12 col-lg-auto mt-3 mt-lg-3">
+                        <noscript>
+                            <p>JavaScript is required to toggle light/dark mode..</p>
+                        </noscript>
+                        <button id="wagtail-theme" class="btn btn-sm btn-light text-decoration-none" type="button">
+                            <span class="dark-only"><i class="fas fa-sun"></i> Light mode</span>
+                            <span class="light-only"><i class="fas fa-moon"></i> Dark mode</span>
+                        </button>
+    <a class="btn btn-sm btn-light text-decoration-none" href="https://github.com/wagtail/sphinx_wagtail_theme/blob/main/docs/controlling_subsystems.rst" rel="nofollow">
+        <span class="btn-icon"><span class="fab fa-github"></span></span>
+        <span class="btn-text">Edit on GitHub</span>
+    </a>
+    <a class="btn btn-sm btn-light text-decoration-none" href="_sources/controlling_subsystems.rst.txt" rel="nofollow">
+        <span class="btn-icon"><span class="fas fa-code"></span></span>
+        <span class="btn-text">View source</span>
+    </a>
+                        
+                    </div>
+                </header>
+                <div class="row" >
+                    <div class="col-12">
+                        <hr class="w-100 my-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-9 order-last order-lg-first rst-content">
+                        <main role="main" id="main">
+    <section id="controlling-subsystems">
+<h1>Controlling Subsystems<a class="headerlink" href="#controlling-subsystems" title="Link to this heading">¶</a></h1>
+<p>This section provides users with a clear understanding of how to control
+each subsystem of the PANDORA system.</p>
+<section id="shutter">
+<span id="id1"></span><h2>Shutter<a class="headerlink" href="#shutter" title="Link to this heading">¶</a></h2>
+<p>Controlled via the <code class="docutils literal notranslate"><span class="pre">ShutterState</span></code> class, the <strong>Shutter</strong> subsystem
+manages the light path by opening or closing the shutter. Connected through
+the LabJack, it determines if lights enter the optical path or not.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Example: Open the shutter</span>
+<span class="n">pandora</span><span class="o">.</span><span class="n">open_shutter</span><span class="p">()</span>
+
+<span class="c1"># Example: Close the shutter</span>
+<span class="n">pandora</span><span class="o">.</span><span class="n">close_shutter</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>To check the connection please refer to the <a class="reference internal" href="#labjack-interface"><span class="std std-ref">LabJack Interface</span></a> section.</p>
+</section>
+<section id="monochromator">
+<span id="id2"></span><h2>Monochromator<a class="headerlink" href="#monochromator" title="Link to this heading">¶</a></h2>
+<p>The <strong>Monochromator</strong> subsystem is managed by the
+<code class="docutils literal notranslate"><span class="pre">MonochromatorController</span></code>. It is responsible for tuning the system’s
+wavelength and ensuring the device starts in its home position (typically
+400 nm). This subsystem plays a key role in wavelength
+calibration.</p>
+<p>To access from the main controller, use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">monochromator</span> <span class="o">=</span> <span class="n">pandora</span><span class="o">.</span><span class="n">monochromator</span>
+
+<span class="c1"># Example: Move to 500 nm</span>
+<span class="n">monochromator</span><span class="o">.</span><span class="n">move_to_wavelength</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># Example: Move to home position</span>
+<span class="n">monochromator</span><span class="o">.</span><span class="n">go_home</span><span class="p">()</span>
+
+<span class="c1"># Example: Get current wavelength</span>
+<span class="n">monochromator</span><span class="o">.</span><span class="n">get_current_wavelength</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="flip-mounts">
+<span id="id3"></span><h2>Flip Mounts<a class="headerlink" href="#flip-mounts" title="Link to this heading">¶</a></h2>
+<p>The <strong>Flip Mounts</strong> subsystem comprises multiple units (e.g., <code class="docutils literal notranslate"><span class="pre">f1</span></code>,
+<code class="docutils literal notranslate"><span class="pre">f2</span></code>, <code class="docutils literal notranslate"><span class="pre">f3</span></code>), each handled by an instance of <code class="docutils literal notranslate"><span class="pre">FlipMountState</span></code>.
+These flip mounts are linked to specific LabJack ports and enable rapid
+switching of optical paths—ensuring that only the desired signals reach
+the detectors while others remain safely out of the light path.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># There are many flipmounts</span>
+
+<span class="c1"># Example: Activate flip mount 1 (IR blocking filter)</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="n">pandora</span><span class="o">.</span><span class="n">flip_mounts</span><span class="o">.</span><span class="n">f1</span>
+<span class="c1"># Put on the optical path</span>
+<span class="n">f1</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+<span class="c1"># Move out of the optical path</span>
+<span class="n">f1</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+
+<span class="c1"># Example: Deactivate flip mount 2 (neutral density filter)</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">pandora</span><span class="o">.</span><span class="n">flip_mounts</span><span class="o">.</span><span class="n">f2</span>
+<span class="n">f2</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="zaber-stages">
+<span id="id4"></span><h2>Zaber Stages<a class="headerlink" href="#zaber-stages" title="Link to this heading">¶</a></h2>
+<p>The <strong>Zaber Stage</strong> subsystem, managed by the <code class="docutils literal notranslate"><span class="pre">ZaberController</span></code>, is used
+to position optical components (like neutral density filters) within the
+light path. Precise control over this stage ensures accurate alignment
+and optimal system configuration for various experimental setups.</p>
+</section>
+<section id="labjack-interface">
+<span id="id5"></span><h2>LabJack Interface<a class="headerlink" href="#labjack-interface" title="Link to this heading">¶</a></h2>
+<p>The <strong>LabJack</strong> serves as the central digital I/O controller. It connects
+directly with the shutter, flip mounts, and other peripherals, facilitating
+coordinated control across all subsystems. Its integration is essential for
+synchronizing the operation of hardware components throughout the PANDORA
+system.</p>
+</section>
+<section id="keysight-electrometers">
+<h2>Keysight Electrometers<a class="headerlink" href="#keysight-electrometers" title="Link to this heading">¶</a></h2>
+<p>Represented by instances of <code class="docutils literal notranslate"><span class="pre">KeysightState</span></code> (such as <code class="docutils literal notranslate"><span class="pre">k1</span></code> and <code class="docutils literal notranslate"><span class="pre">k2</span></code>),
+the <strong>Keysight Electrometers</strong> perform high-precision electrical
+measurements. They are configured to monitor currents accurately during
+exposures, whether in light or dark conditions, providing critical data
+for the system’s performance.</p>
+</section>
+</section>
+
+</main>
+                        <nav aria-label="Page navigation" class="py-4 my-5 clearfix font-weight-bold border-top">
+    <a class="float-left" href="command_line.html" title="Previous">
+        <span aria-hidden="true">←&nbsp;</span>PB Command-Line Interface
+    </a>
+    <a class="float-right" href="configuration_file.html" title="Next">
+        Configuration file <span aria-hidden="true">&nbsp;→</span>
+    </a>
+</nav>
+                    </div>
+                    
+                    <nav class="col-12 col-lg-3 pb-4">
+                        <div class="sticky-top toc page-toc" aria-labelledby="page-toc-heading">
+                            <p class="font-weight-bold" id="page-toc-heading">Page contents</p>
+                            <ul>
+<li><a class="reference internal" href="#">Controlling Subsystems</a><ul>
+<li><a class="reference internal" href="#shutter">Shutter</a></li>
+<li><a class="reference internal" href="#monochromator">Monochromator</a></li>
+<li><a class="reference internal" href="#flip-mounts">Flip Mounts</a></li>
+<li><a class="reference internal" href="#zaber-stages">Zaber Stages</a></li>
+<li><a class="reference internal" href="#labjack-interface">LabJack Interface</a></li>
+<li><a class="reference internal" href="#keysight-electrometers">Keysight Electrometers</a></li>
+</ul>
+</li>
+</ul>
+
+                        </div>
+                    </nav>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid bg-primary text-light">
+        <div class="container">
+            <div class="row">
+        <div class="col p-4">
+            
+                <nav aria-label="Footer">
+                    <ul class="nav justify-content-center mb-2">
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/">About Us</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/contact">Contact</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/dev/null">Legal</a></li>
+                        
+                    </ul>
+                </nav>
+            
+            <div class="text-center">
+                    &copy; Copyright 2025, Johnny H. Esteves
+            </div>
+        </div>
+    </div>
+        </div>
+    </footer>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script type="text/javascript" src="_static/dist/theme.js"></script>
+        <script type="text/javascript" src="_static/dist/vendor.js"></script>
+        <script type="text/javascript" src="_static/searchtools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() { Search.loadIndex("searchindex.js"); });
+        </script>
+        <script type="text/javascript" id="searchindexloader"></script>
+    </body>
+</html>

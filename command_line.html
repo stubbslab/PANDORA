@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" data-content_root="./">
+<head>
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+        <title>PB Command-Line Interface &mdash; Pandora Box Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/dist/fontawesome.css" />
+      <link rel="stylesheet" type="text/css" href="_static/dist/theme.css?v=310cf088" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+            <link rel="index" title="Index" href="genindex.html" />
+            <link rel="search" title="Search" href="search.html" />
+            <link rel="top" title="Pandora Box Documentation" href="#" />
+            <link rel="next" title="Controlling Subsystems" href="controlling_subsystems.html" />
+            <link rel="prev" title="Pandora" href="index.html" />
+    </head>
+<body>
+    <script type="text/javascript" src="_static/dist/blocking.js"></script>
+    <header class="container-fluid bg-primary">
+        <a class="btn btn-sm btn-light skip-to-content-link" href="#main">Skip to content</a>
+        <div class="container-fluid">
+            <div class="navbar navbar-expand-lg navbar-dark font-weight-bold">
+                    <a href="index.html"
+                        title="Wagtail"
+                        class="logo navbar-brand"
+                    >
+                        <img src="_static/img/wagtail-logo-circle.svg" width="45" height="59" alt="Wagtail"
+                            class="logo-img"
+                        />
+                        Pandora Box
+                    </a>
+                
+                
+                    <div class="collapse navbar-collapse justify-content-end">
+                        <ul class="navbar-nav">
+                            
+                                
+                                
+                                <li class="nav-item"><a class="nav-link"  href="https://github.com/stubbslab/PANDORA/tree/v1.0">Github Repo</a></li>
+                            
+                        </ul>
+                    </div>
+                
+                <button class="navbar-toggler btn btn-primary d-lg-none" type="button" data-toggle="collapse" data-target="#collapseSidebar" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="sr-only">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-12 col-lg-3 sidebar-container">
+                <div id="collapseSidebar" class="collapse sticky-top d-lg-block pt-5 pr-lg-4">
+<div id="searchbox" class="searchbox mb-6 px-1" role="search">
+    <form id="search-form" action="search.html" autocomplete="off" method="get" role="search">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text border-right-0 bg-white py-3 pl-3 pr-2"><span class="fas fa-search"></span></div>
+            </div>
+            <input class="form-control py-3 pr-3 pl-1 h-100 border-left-0" type="search" name="q" placeholder="Search documentation" aria-label="Search documentation" id="searchinput" />
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div><div class="site-toc">
+    <nav class="toc mt-3" aria-label="Main menu">
+        <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PB Command-Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controlling_subsystems.html">Controlling Subsystems</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration_file.html">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database_access.html">Database Access</a></li>
+</ul>
+
+    </nav>
+    <template data-toggle-item-template>
+        <button class="btn btn-sm btn-link toctree-expand" type="button">
+            <span class="sr-only">Toggle menu contents</span>
+        </button>
+    </template>
+</div>
+                    <div class="d-lg-none border-bottom">
+                        
+                    </div>
+                </div>
+            </aside>
+            <div class="col-12 col-lg-9 pt-5">
+                <header class="row align-items-baseline">
+                    <div class="col">
+                        <nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0 p-0 bg-transparent">
+        <li class="breadcrumb-item"><a href="index.html">Docs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">PB Command-Line Interface</li>
+    </ol>
+</nav>
+                    </div>
+                    <div class="col-sm-12 col-lg-auto mt-3 mt-lg-3">
+                        <noscript>
+                            <p>JavaScript is required to toggle light/dark mode..</p>
+                        </noscript>
+                        <button id="wagtail-theme" class="btn btn-sm btn-light text-decoration-none" type="button">
+                            <span class="dark-only"><i class="fas fa-sun"></i> Light mode</span>
+                            <span class="light-only"><i class="fas fa-moon"></i> Dark mode</span>
+                        </button>
+    <a class="btn btn-sm btn-light text-decoration-none" href="https://github.com/wagtail/sphinx_wagtail_theme/blob/main/docs/command_line.rst" rel="nofollow">
+        <span class="btn-icon"><span class="fab fa-github"></span></span>
+        <span class="btn-text">Edit on GitHub</span>
+    </a>
+    <a class="btn btn-sm btn-light text-decoration-none" href="_sources/command_line.rst.txt" rel="nofollow">
+        <span class="btn-icon"><span class="fas fa-code"></span></span>
+        <span class="btn-text">View source</span>
+    </a>
+                        
+                    </div>
+                </header>
+                <div class="row" >
+                    <div class="col-12">
+                        <hr class="w-100 my-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-9 order-last order-lg-first rst-content">
+                        <main role="main" id="main">
+    <section id="pb-command-line-interface">
+<span id="pandora-box-command-line"></span><h1>PB Command-Line Interface<a class="headerlink" href="#pb-command-line-interface" title="Link to this heading">¶</a></h1>
+<p>This page provides usage instructions and examples for the PandoraBox command line (“pb”). These commands let you control PANDORA’s various subsystems—such as the shutter, monochromator, flip mounts, Keysight electrometers, spectrometer, and Zaber stages—individually.</p>
+<section id="prerequisites">
+<h2>Prerequisites:<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<p>Before running any <code class="docutils literal notranslate"><span class="pre">pb</span></code> command, configure your terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change directory to your PANDORA root folder</span>
+<span class="nb">cd</span><span class="w"> </span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/Documents/dev/versions/v1.0/PANDORA/
+
+<span class="c1"># Add the pandora folder to your PYTHONPATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PWD</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">PYTHONPATH</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># Create an alias so you can call pb anywhere</span>
+<span class="nb">alias</span><span class="w"> </span><span class="nv">pb</span><span class="o">=</span><span class="s2">&quot;python </span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/Documents/dev/versions/v1.0/PANDORA/pandora/commands/pb.py&quot;</span>
+</pre></div>
+</div>
+<p>You will then be able to use the <code class="docutils literal notranslate"><span class="pre">pb</span></code> command from any directory in your terminal session.</p>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>To see all available commands and options, type:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>-h
+</pre></div>
+</div>
+<p>The output lists all subcommands and general usage:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: pb.py [-h]
+             {measure-pandora-throughput,set-wavelength,get-wavelength,
+              open-shutter,close-shutter,get-keysight-readout,
+              get-spectrometer-readout,flip,zaber}
+             ...
+
+PandoraBox Command-Line Interface (commands)
+
+positional arguments:
+  {measure-pandora-throughput,set-wavelength,get-wavelength,open-shutter,
+   close-shutter,get-keysight-readout,get-spectrometer-readout,flip,zaber}
+    measure-pandora-throughput    Measure throughput linking main beam flux
+                                  to monitor diode flux.
+    set-wavelength                Set the monochromator to a specific
+                                  wavelength.
+    get-wavelength                Get the current wavelength of the
+                                  monochromator.
+    open-shutter                  Open the shutter.
+    close-shutter                 Close the shutter.
+    get-keysight-readout          Get the readout from the Keysight
+                                  electrometer.
+    get-spectrometer-readout      Get the readout from the StellarNet
+                                  spectrometer.
+    flip                          Control flip mounts (on/off/state, or list
+                                  mount names).
+    zaber                         Control Zaber stages.
+
+options:
+  -h, --help    show this help message and exit
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">pb</span> <span class="pre">&lt;command&gt;</span> <span class="pre">--help</span></code> for additional details on each command’s options.</p>
+</section>
+<section id="shutter-commands">
+<h2>Shutter Commands<a class="headerlink" href="#shutter-commands" title="Link to this heading">¶</a></h2>
+<p>To control the shutter, you can open or close it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>open-shutter
+pb<span class="w"> </span>close-shutter
+</pre></div>
+</div>
+<p>You may also add <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> for more detailed console output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>open-shutter<span class="w"> </span>--verbose
+</pre></div>
+</div>
+</section>
+<section id="monochromator">
+<h2>Monochromator<a class="headerlink" href="#monochromator" title="Link to this heading">¶</a></h2>
+<p>To set the monochromator to a specific wavelength (in nanometers):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>set-wavelength<span class="w"> </span><span class="m">500</span>
+</pre></div>
+</div>
+<p>To retrieve the current wavelength:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>get-wavelength
+</pre></div>
+</div>
+</section>
+<section id="flip-mounts">
+<h2>Flip Mounts<a class="headerlink" href="#flip-mounts" title="Link to this heading">¶</a></h2>
+<p>Flip mounts are controlled with the <code class="docutils literal notranslate"><span class="pre">flip</span></code> subcommand. You can turn a mount on or off or query its current state:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>flip<span class="w"> </span><span class="o">(</span>mount_name<span class="o">)</span><span class="w"> </span>--on
+pb<span class="w"> </span>flip<span class="w"> </span><span class="o">(</span>mount_name<span class="o">)</span><span class="w"> </span>--off
+pb<span class="w"> </span>flip<span class="w"> </span><span class="o">(</span>mount_name<span class="o">)</span><span class="w"> </span>--state
+</pre></div>
+</div>
+<p>To list all flip mount names recognized by the system:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>flip<span class="w"> </span>--listNames
+</pre></div>
+</div>
+<p>Example usage:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>flip<span class="w"> </span>pd2<span class="w"> </span>--on
+pb<span class="w"> </span>flip<span class="w"> </span>second-order-filter<span class="w"> </span>--off
+</pre></div>
+</div>
+</section>
+<section id="keysight-electrometers">
+<h2>Keysight Electrometers<a class="headerlink" href="#keysight-electrometers" title="Link to this heading">¶</a></h2>
+<p>Retrieve Keysight electrometer data with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>get-keysight-readout<span class="w"> </span>&lt;exptime&gt;<span class="w"> </span><span class="o">[</span>--name<span class="w"> </span>K1<span class="p">|</span>K2<span class="o">]</span><span class="w"> </span><span class="o">[</span>--rang0<span class="w"> </span>&lt;value&gt;<span class="o">]</span>
+<span class="w">                                </span><span class="o">[</span>--nplc<span class="w"> </span>&lt;int&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--autoRange<span class="o">]</span>
+<span class="w">                                </span><span class="o">[</span>--verbose<span class="o">]</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">exptime</span></code> is the measurement duration (in seconds).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--name</span> <span class="pre">K1</span></code> or <code class="docutils literal notranslate"><span class="pre">--name</span> <span class="pre">K2</span></code> selects which Keysight electrometer (default: K1).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--rang0</span> <span class="pre">2e-9</span></code> sets a specific measurement range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--autoRange</span></code> automatically determines the optimum measurement range.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--nplc</span> <span class="pre">10</span></code> sets the integration time in terms of line cycles (default = 10).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--verbose</span></code> prints additional console output.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>get-keysight-readout<span class="w"> </span><span class="m">2</span><span class="w"> </span>--rang0<span class="w"> </span>2e-9
+pb<span class="w"> </span>get-keysight-readout<span class="w"> </span><span class="m">2</span><span class="w"> </span>--name<span class="w"> </span>K2<span class="w"> </span>--autoRange
+pb<span class="w"> </span>get-keysight-readout<span class="w"> </span><span class="m">2</span><span class="w"> </span>--name<span class="w"> </span>K2<span class="w"> </span>--rang0<span class="w"> </span>2e-9<span class="w"> </span>--verbose
+</pre></div>
+</div>
+</section>
+<section id="spectrometer">
+<h2>Spectrometer<a class="headerlink" href="#spectrometer" title="Link to this heading">¶</a></h2>
+<p>Obtain a spectrometer reading, including exposure and other parameters:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>get-spectrometer-readout<span class="w"> </span>&lt;exptime&gt;<span class="w"> </span><span class="o">[</span>--scanavg<span class="w"> </span>&lt;num_scans&gt;<span class="o">]</span>
+<span class="w">                                      </span><span class="o">[</span>--xtiming<span class="w"> </span><span class="m">1</span><span class="p">|</span><span class="m">2</span><span class="p">|</span><span class="m">3</span><span class="o">]</span>
+<span class="w">                                      </span><span class="o">[</span>--is_plot<span class="o">]</span><span class="w"> </span><span class="o">[</span>--verbose<span class="o">]</span>
+</pre></div>
+</div>
+<p>Where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;exptime&gt;</span></code> is exposure time in milliseconds.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--scanavg</span> <span class="pre">&lt;num_scans&gt;</span></code> averages multiple scans.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--xtiming</span> <span class="pre">&lt;mode&gt;</span></code> sets the spectrometer resolution mode (default = 3, highest).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--is_plot</span></code> displays a plot of intensity (counts) vs. wavelength (nm).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--verbose</span></code> prints additional details.</p></li>
+</ul>
+<p>Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>get-spectrometer-readout<span class="w"> </span><span class="m">20</span><span class="w"> </span>--is_plot
+</pre></div>
+</div>
+</section>
+<section id="zaber-stages">
+<h2>Zaber Stages<a class="headerlink" href="#zaber-stages" title="Link to this heading">¶</a></h2>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">zaber</span></code> subcommand to query and move Zaber stages:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>zaber<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>--listZaberNames<span class="o">]</span><span class="w"> </span><span class="o">[</span>--listSlotTable<span class="o">]</span>
+<span class="w">         </span><span class="o">[</span>--move<span class="w"> </span>&lt;mm_position&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>--verbose<span class="o">]</span>
+<span class="w">         </span>&lt;controller_name&gt;<span class="w"> </span><span class="o">[</span>slot<span class="o">]</span>
+</pre></div>
+</div>
+<p><strong>Positional Arguments</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">controller_name</span></code>: The name of the Zaber controller (e.g., nd-filter, pinhole, focus).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">slot</span></code>: The slot name (e.g., home, clear, ND20, etc.) if not using <code class="docutils literal notranslate"><span class="pre">--move</span></code>.</p></li>
+</ul>
+<p><strong>Options</strong>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--listZaberNames</span></code>: Lists all known Zaber controller names.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--listSlotTable</span></code>: Lists the slot table for the specified controller.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--move</span> <span class="pre">&lt;mm_position&gt;</span></code>: Moves to a specified position (in mm).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--verbose</span></code>: Prints extra console output.</p></li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li><p><strong>List all Zaber controllers</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>zaber<span class="w"> </span>--listZaberNames
+</pre></div>
+</div>
+</li>
+<li><p><strong>Move a Zaber stage to a named slot</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>zaber<span class="w"> </span>nd-filter<span class="w"> </span>clear
+</pre></div>
+</div>
+</li>
+<li><p><strong>Return a Zaber stage to home</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>zaber<span class="w"> </span>nd-filter<span class="w"> </span>home
+</pre></div>
+</div>
+</li>
+<li><p><strong>List slot table for a given controller</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>zaber<span class="w"> </span>nd-filter<span class="w"> </span>--listSlotTable
+</pre></div>
+</div>
+</li>
+<li><p><strong>Move stage to a specific mm position</strong>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pb<span class="w"> </span>zaber<span class="w"> </span>nd-filter<span class="w"> </span>--move<span class="w"> </span><span class="m">20</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="further-reading">
+<h2>Further Reading<a class="headerlink" href="#further-reading" title="Link to this heading">¶</a></h2>
+<p>For more details, refer back to the main documentation pages on subsystem control and the PANDORA API:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="controlling_subsystems.html"><span class="doc">Controlling Subsystems</span></a></p></li>
+<li><p><span class="xref std std-doc">PANDORA Controller API</span></p></li>
+</ul>
+<p>This command-line interface is a convenient way to script, automate, or quickly test your laboratory workflows without needing to write Python code in a separate file. For larger automation tasks, consider using the Python API directly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you encounter issues or need advanced troubleshooting, please refer to additional resources in the <a class="reference internal" href="configuration_file.html"><span class="doc">Configuration file</span></a> and <a class="reference internal" href="database_access.html"><span class="doc">Database Access</span></a> documentation, or consult the upcoming “Installation” and “User Guides” sections.</p>
+</div>
+</section>
+</section>
+
+</main>
+                        <nav aria-label="Page navigation" class="py-4 my-5 clearfix font-weight-bold border-top">
+    <a class="float-left" href="index.html" title="Previous">
+        <span aria-hidden="true">←&nbsp;</span>Pandora
+    </a>
+    <a class="float-right" href="controlling_subsystems.html" title="Next">
+        Controlling Subsystems <span aria-hidden="true">&nbsp;→</span>
+    </a>
+</nav>
+                    </div>
+                    
+                    <nav class="col-12 col-lg-3 pb-4">
+                        <div class="sticky-top toc page-toc" aria-labelledby="page-toc-heading">
+                            <p class="font-weight-bold" id="page-toc-heading">Page contents</p>
+                            <ul>
+<li><a class="reference internal" href="#">PB Command-Line Interface</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites:</a></li>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#shutter-commands">Shutter Commands</a></li>
+<li><a class="reference internal" href="#monochromator">Monochromator</a></li>
+<li><a class="reference internal" href="#flip-mounts">Flip Mounts</a></li>
+<li><a class="reference internal" href="#keysight-electrometers">Keysight Electrometers</a></li>
+<li><a class="reference internal" href="#spectrometer">Spectrometer</a></li>
+<li><a class="reference internal" href="#zaber-stages">Zaber Stages</a></li>
+<li><a class="reference internal" href="#further-reading">Further Reading</a></li>
+</ul>
+</li>
+</ul>
+
+                        </div>
+                    </nav>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid bg-primary text-light">
+        <div class="container">
+            <div class="row">
+        <div class="col p-4">
+            
+                <nav aria-label="Footer">
+                    <ul class="nav justify-content-center mb-2">
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/">About Us</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/contact">Contact</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/dev/null">Legal</a></li>
+                        
+                    </ul>
+                </nav>
+            
+            <div class="text-center">
+                    &copy; Copyright 2025, Johnny H. Esteves
+            </div>
+        </div>
+    </div>
+        </div>
+    </footer>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script type="text/javascript" src="_static/dist/theme.js"></script>
+        <script type="text/javascript" src="_static/dist/vendor.js"></script>
+        <script type="text/javascript" src="_static/searchtools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() { Search.loadIndex("searchindex.js"); });
+        </script>
+        <script type="text/javascript" id="searchindexloader"></script>
+    </body>
+</html>

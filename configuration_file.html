@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" data-content_root="./">
+<head>
+    <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+        <title>Configuration file &mdash; Pandora Box Documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/dist/fontawesome.css" />
+      <link rel="stylesheet" type="text/css" href="_static/dist/theme.css?v=310cf088" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+            <link rel="index" title="Index" href="genindex.html" />
+            <link rel="search" title="Search" href="search.html" />
+            <link rel="top" title="Pandora Box Documentation" href="#" />
+            <link rel="next" title="Database Access" href="database_access.html" />
+            <link rel="prev" title="Controlling Subsystems" href="controlling_subsystems.html" />
+    </head>
+<body>
+    <script type="text/javascript" src="_static/dist/blocking.js"></script>
+    <header class="container-fluid bg-primary">
+        <a class="btn btn-sm btn-light skip-to-content-link" href="#main">Skip to content</a>
+        <div class="container-fluid">
+            <div class="navbar navbar-expand-lg navbar-dark font-weight-bold">
+                    <a href="index.html"
+                        title="Wagtail"
+                        class="logo navbar-brand"
+                    >
+                        <img src="_static/img/wagtail-logo-circle.svg" width="45" height="59" alt="Wagtail"
+                            class="logo-img"
+                        />
+                        Pandora Box
+                    </a>
+                
+                
+                    <div class="collapse navbar-collapse justify-content-end">
+                        <ul class="navbar-nav">
+                            
+                                
+                                
+                                <li class="nav-item"><a class="nav-link"  href="https://github.com/stubbslab/PANDORA/tree/v1.0">Github Repo</a></li>
+                            
+                        </ul>
+                    </div>
+                
+                <button class="navbar-toggler btn btn-primary d-lg-none" type="button" data-toggle="collapse" data-target="#collapseSidebar" aria-expanded="false" aria-controls="collapseExample">
+                    <span class="navbar-toggler-icon"></span>
+                    <span class="sr-only">menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-12 col-lg-3 sidebar-container">
+                <div id="collapseSidebar" class="collapse sticky-top d-lg-block pt-5 pr-lg-4">
+<div id="searchbox" class="searchbox mb-6 px-1" role="search">
+    <form id="search-form" action="search.html" autocomplete="off" method="get" role="search">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <div class="input-group-text border-right-0 bg-white py-3 pl-3 pr-2"><span class="fas fa-search"></span></div>
+            </div>
+            <input class="form-control py-3 pr-3 pl-1 h-100 border-left-0" type="search" name="q" placeholder="Search documentation" aria-label="Search documentation" id="searchinput" />
+        </div>
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+    </form>
+</div><div class="site-toc">
+    <nav class="toc mt-3" aria-label="Main menu">
+        <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="command_line.html">PB Command-Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="controlling_subsystems.html">Controlling Subsystems</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database_access.html">Database Access</a></li>
+</ul>
+
+    </nav>
+    <template data-toggle-item-template>
+        <button class="btn btn-sm btn-link toctree-expand" type="button">
+            <span class="sr-only">Toggle menu contents</span>
+        </button>
+    </template>
+</div>
+                    <div class="d-lg-none border-bottom">
+                        
+                    </div>
+                </div>
+            </aside>
+            <div class="col-12 col-lg-9 pt-5">
+                <header class="row align-items-baseline">
+                    <div class="col">
+                        <nav aria-label="breadcrumb">
+    <ol class="breadcrumb m-0 p-0 bg-transparent">
+        <li class="breadcrumb-item"><a href="index.html">Docs</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Configuration file</li>
+    </ol>
+</nav>
+                    </div>
+                    <div class="col-sm-12 col-lg-auto mt-3 mt-lg-3">
+                        <noscript>
+                            <p>JavaScript is required to toggle light/dark mode..</p>
+                        </noscript>
+                        <button id="wagtail-theme" class="btn btn-sm btn-light text-decoration-none" type="button">
+                            <span class="dark-only"><i class="fas fa-sun"></i> Light mode</span>
+                            <span class="light-only"><i class="fas fa-moon"></i> Dark mode</span>
+                        </button>
+    <a class="btn btn-sm btn-light text-decoration-none" href="https://github.com/wagtail/sphinx_wagtail_theme/blob/main/docs/configuration_file.rst" rel="nofollow">
+        <span class="btn-icon"><span class="fab fa-github"></span></span>
+        <span class="btn-text">Edit on GitHub</span>
+    </a>
+    <a class="btn btn-sm btn-light text-decoration-none" href="_sources/configuration_file.rst.txt" rel="nofollow">
+        <span class="btn-icon"><span class="fas fa-code"></span></span>
+        <span class="btn-text">View source</span>
+    </a>
+                        
+                    </div>
+                </header>
+                <div class="row" >
+                    <div class="col-12">
+                        <hr class="w-100 my-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-9 order-last order-lg-first rst-content">
+                        <main role="main" id="main">
+    <section id="configuration-file">
+<h1>Configuration file<a class="headerlink" href="#configuration-file" title="Link to this heading">¶</a></h1>
+<p id="id1">The configuration file is a YAML file that contains the configuration for the
+PandoraBox. It is used to specify the subsystems that are available, their
+configuration, and the default values for the subsystems.</p>
+<p>The configuration file is loaded when the PandoraBox is initialized. The
+configuration file is specified as a command line argument when running the
+PandoraBox.</p>
+<p>An example configuration file is shown below:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># Configuration file for the Pandora system</span>
+<span class="c1"># This file contains the default settings for the system components</span>
+<span class="c1"># and their parameters.</span>
+<span class="nt">database</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pandora.database.db.PandoraDatabase&quot;</span>
+<span class="w">  </span><span class="c1"># type: &quot;pandora.database.calib_db.PandoraCalibrationDatabase&quot;</span>
+<span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/Users/pandora_ctrl/Documents/pandoraData/&quot;</span>
+
+<span class="nt">monochromator</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pandora.controller.monochromator.MonochromatorController&quot;</span>
+<span class="w">  </span><span class="nt">usb_port</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/dev/tty.usbserial-FTDI1CB2&quot;</span>
+<span class="w">  </span><span class="nt">baudrate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9600</span>
+<span class="w">  </span><span class="c1"># model: &quot;Acton_SP2150&quot;</span>
+
+<span class="nt">labjack</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;169.254.84.89&quot;</span>
+<span class="w">  </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">flipShutter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FIO00&quot;</span>
+<span class="w">  </span><span class="nt">flipSpecMount</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FIO1&quot;</span>
+<span class="w">  </span><span class="nt">flipOrderBlockFilter</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FIO2&quot;</span>
+<span class="w">  </span><span class="nt">flipOD2First</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FIO3&quot;</span>
+<span class="w">  </span><span class="nt">flipOD2Second</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FIO4&quot;</span>
+<span class="w">  </span><span class="nt">flipPD2</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FIO5&quot;</span>
+<span class="w">  </span><span class="nt">flipQuarterWavePlate</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FIO6&quot;</span>
+<span class="w">  </span><span class="nt">flipPD3</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FIO7&quot;</span>
+<span class="w">  </span>
+<span class="w">  </span><span class="c1"># Changes to the logic of the flip signals</span>
+<span class="w">  </span><span class="c1"># Default is low signal on the beam, high out of the beam</span>
+<span class="w">  </span><span class="nt">flipSpecMountInvertLogic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">  </span><span class="nt">flipOrderBlockFilterInvertLogic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">  </span><span class="nt">flipOD2FirstInvertLogic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">  </span><span class="nt">flipOD2SecondInvertLogic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">  </span><span class="nt">flipPD3InvertLogic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">False</span>
+<span class="w">  </span><span class="nt">flipQuarterWavePlateInvertLogic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+<span class="w">  </span><span class="nt">flipPD2InvertLogic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
+
+<span class="nt">keysights</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pandora.controller.keysight.KeysightController&quot;</span>
+<span class="w">  </span><span class="c1"># Each Keysight device with its own IP address</span>
+<span class="w">  </span><span class="nt">K1</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;k1&quot;</span>
+<span class="w">    </span><span class="nt">keysight_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;169.254.5.2&quot;</span>
+<span class="w">    </span><span class="nt">timeout_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25000</span>
+<span class="w">    </span><span class="nt">settings</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CURR&quot;</span>
+<span class="w">      </span><span class="nt">rang</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;AUTO&#39;</span>
+<span class="w">      </span><span class="nt">nplc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.</span>
+<span class="w">      </span><span class="nt">nsamples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+<span class="w">      </span><span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.</span>
+<span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2e-3</span>
+<span class="w">  </span><span class="nt">K2</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;k2&quot;</span>
+<span class="w">    </span><span class="nt">keysight_ip</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;169.254.124.255&quot;</span>
+<span class="w">    </span><span class="nt">timeout_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25000</span>
+<span class="w">    </span><span class="nt">settings</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CURR&quot;</span>
+<span class="w">      </span><span class="nt">rang</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;AUTO&#39;</span>
+<span class="w">      </span><span class="nt">nplc</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.</span>
+<span class="w">      </span><span class="nt">nsamples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+<span class="w">      </span><span class="nt">delay</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.</span>
+<span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2e-3</span>
+
+<span class="nt">zaber_stages</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pandora.controller.zaberstages.zaberController&quot;</span>
+<span class="w">  </span><span class="nt">Z1</span><span class="p">:</span><span class="w"> </span><span class="c1"># ND Filter</span>
+<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;140.247.113.250&quot;</span>
+<span class="w">    </span><span class="c1"># ND filters map</span>
+<span class="w">    </span><span class="c1"># The numbers refers to the zaber position in mm</span>
+<span class="w">    </span><span class="nt">slot_map</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="s">&#39;ND20&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">7</span><span class="p p-Indicator">,</span><span class="w"> </span>
+<span class="w">               </span><span class="s">&#39;ND15&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">46.37</span><span class="p p-Indicator">,</span><span class="w"> </span>
+<span class="w">               </span><span class="s">&#39;ND10&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">79.57</span><span class="p p-Indicator">,</span><span class="w"> </span>
+<span class="w">               </span><span class="s">&#39;ND05&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">113.57</span><span class="p p-Indicator">,</span><span class="w"> </span>
+<span class="w">               </span><span class="s">&#39;CLEAR&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">148.77</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="nt">axis_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="c1"># Zaber speed in mm/sec</span>
+<span class="w">    </span><span class="nt">speed_mm_per_sec</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;nd-filter&quot;</span>
+<span class="w">  </span><span class="nt">Z2</span><span class="p">:</span><span class="w"> </span><span class="c1"># Focus SN: 132383 FW: 7.41.17786 </span>
+<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;140.247.113.251&quot;</span>
+<span class="w">    </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="nt">axis_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">speed_mm_per_sec</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">    </span><span class="c1"># The focus position is given in mm</span>
+<span class="w">    </span><span class="c1"># the focus position is very sensitive to positional changes</span>
+<span class="w">    </span><span class="nt">slot_map</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="s">&#39;FOCUS&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">50.8</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;focus&quot;</span>
+<span class="w">  </span><span class="nt">Z3</span><span class="p">:</span><span class="w"> </span><span class="c1"># Pinhole Mask</span>
+<span class="w">    </span><span class="nt">ip_address</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;140.247.113.252&quot;</span>
+<span class="w">    </span><span class="c1"># Pinhole mask map</span>
+<span class="w">    </span><span class="c1"># The numbers refers to the zaber position in mm</span>
+<span class="w">    </span><span class="c1"># The pinhole mask is a 4-position wheel with the following configuration:</span>
+<span class="w">    </span><span class="c1"># 1. 50 um pinhole (P50um)</span>
+<span class="w">    </span><span class="c1"># 2. 100 um pinhole (P100um)</span>
+<span class="w">    </span><span class="c1"># We do not have clear</span>
+<span class="w">    </span><span class="nt">slot_map</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">               </span><span class="s">&#39;P200UM&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">14.02</span><span class="p p-Indicator">,</span>
+<span class="w">               </span><span class="s">&#39;P100UM&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">45.94</span><span class="p p-Indicator">,</span>
+<span class="w">               </span><span class="s">&#39;CLEAR&#39;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">50.8</span><span class="p p-Indicator">,</span>
+<span class="w">               </span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">    </span><span class="nt">axis_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">speed_mm_per_sec</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pinhole-mask&quot;</span>
+
+<span class="nt">spectrograph</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pandora.controller.stellarnet.SpectrographController&quot;</span>
+<span class="w">  </span><span class="nt">inttime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"> </span><span class="c1"># ms</span>
+<span class="w">  </span><span class="nt">scan_avg</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">  </span><span class="nt">xtiming</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"> </span><span class="c1"># 1/2 or 3 (low/mid or high resolution) </span>
+<span class="w">  </span><span class="nt">smooth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="nt">logging</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;INFO&quot;</span>
+<span class="w">  </span><span class="nt">logfile</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./pandora.log&quot;</span>
+</pre></div>
+</div>
+</section>
+
+</main>
+                        <nav aria-label="Page navigation" class="py-4 my-5 clearfix font-weight-bold border-top">
+    <a class="float-left" href="controlling_subsystems.html" title="Previous">
+        <span aria-hidden="true">←&nbsp;</span>Controlling Subsystems
+    </a>
+    <a class="float-right" href="database_access.html" title="Next">
+        Database Access <span aria-hidden="true">&nbsp;→</span>
+    </a>
+</nav>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid bg-primary text-light">
+        <div class="container">
+            <div class="row">
+        <div class="col p-4">
+            
+                <nav aria-label="Footer">
+                    <ul class="nav justify-content-center mb-2">
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/">About Us</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/contact">Contact</a></li>
+                        
+                            
+                            
+                            <li class="nav-item"><a class="nav-link text-light"  href="http://example.com/dev/null">Legal</a></li>
+                        
+                    </ul>
+                </nav>
+            
+            <div class="text-center">
+                    &copy; Copyright 2025, Johnny H. Esteves
+            </div>
+        </div>
+    </div>
+        </div>
+    </footer>
+        <script src="_static/documentation_options.js?v=2709fde1"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="_static/copybutton.js?v=f281be69"></script>
+        <script type="text/javascript" src="_static/dist/theme.js"></script>
+        <script type="text/javascript" src="_static/dist/vendor.js"></script>
+        <script type="text/javascript" src="_static/searchtools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() { Search.loadIndex("searchindex.js"); });
+        </script>
+        <script type="text/javascript" id="searchindexloader"></script>
+    </body>
+</html>
