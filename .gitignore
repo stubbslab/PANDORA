@@ -3,11 +3,16 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.png
+
 plots/
 results/
 *.pdf
 draft*.ipynb
 spec*.ipynb
+
+# _build/
+*.pyc
+.DS_Store
 
 # C extensions
 *.so
