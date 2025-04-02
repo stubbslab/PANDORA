@@ -26,15 +26,14 @@ jobs:
 
       - name: Build Sphinx documentation
         run: |
-          cd source
           make html
-          # After this, your HTML is in source/_build/html
+          # After this, your HTML is in _build/html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./source/_build/html
+          publish_dir: ./_build/html
           # By default, this creates or updates the gh-pages branch
           # You can override the branch name if you like
 
