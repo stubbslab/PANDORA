@@ -94,7 +94,7 @@ zaber_stages:
     # 2. 100 um pinhole (P100um)
     # We do not have clear
     slot_map: {
-               'P50UM': 14.47, 
+               'P200UM': 14.02,
                'P100UM': 45.94,
                'CLEAR': 50.8,
                }
