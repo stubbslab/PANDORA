@@ -13,7 +13,7 @@ PandoraBox.
 
 An example configuration file is shown below:
 
-.. literalinclude:: ../default.yaml
+.. literalinclude:: ../../default.yaml
    :language: yaml
 
 .. .. code-block:: yaml

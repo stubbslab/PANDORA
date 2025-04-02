@@ -10,7 +10,7 @@ results/
 draft*.ipynb
 spec*.ipynb
 
-# _build/
+docs/_build/
 *.pyc
 .DS_Store
 

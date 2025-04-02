@@ -5,7 +5,7 @@ import sys
 from recommonmark.parser import CommonMarkParser
 
 # Add your project directory to the sys.path
-sys.path.insert(0, os.path.abspath('../pandora'))
+# sys.path.insert(0, os.path.abspath('../../pandora'))
 
 # Configuration file for the Sphinx documentation builder.
 #
