@@ -1,3 +1,4 @@
 # PANDORA - Photometrically Adjusted Neutral Density Optical Ray Attenuator
 
-UNDER CONSTRUCTION
+This software is documentated here:
+https://pandora-box.readthedocs.io/en/latest/
