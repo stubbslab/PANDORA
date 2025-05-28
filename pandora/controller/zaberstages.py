@@ -144,9 +144,9 @@ class ZaberController:
         if not self._is_connected():
             self.connect()
 
-        self.axis.move_relative(distance_mm, Units.LENGTH_MILLIMETRES, True)
+        self.axis.move_absolute(distance_mm, Units.LENGTH_MILLIMETRES, True)
         self.logger.info(f"Moved Zaber axis by {distance_mm} mm.")
-        self.position = 'UNKNOWN'
+        self.position = str(distance_mm)
 
     def go_home(self):
         """
