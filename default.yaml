@@ -1,30 +1,28 @@
 # Configuration file for the Pandora system
 # This file contains the default settings for the system components
 # and their parameters.
-
 database:
   type: "pandora.database.db.PandoraDatabase"
   # type: "pandora.database.calib_db.PandoraCalibrationDatabase"
   root: "/Users/pandora_ctrl/Documents/pandoraData/"
-  
+
 monochromator:
   type: "pandora.controller.monochromator.MonochromatorController"
-
   usb_port: "/dev/tty.usbserial-FTDI1CB2"
   baudrate: 9600
+  wav_second_order_filter: 670
   # model: "Acton_SP2150"
 
 labjack:
   ip_address: "169.254.84.89"
   timeout: 2
   flipShutter: "FIO00"
-  flipSpecMount: "FIO1"
-  flipOrderBlockFilter: "FIO2"
-  flipOD2First: "FIO3"
-  flipOD2Second: "FIO4"
+  flipOrderBlockFilter: "FIO6"
+  flipOD2First: "FIO2"
+  flipOD2Second: "FIO3"
   flipPD2: "FIO5"
-  flipQuarterWavePlate: "FIO6"
-  flipPD3: "FIO7"
+  flipQuarterWavePlate: "FIO4"
+  # flipPD3: "FIO6"
   
   # Changes to the logic of the flip signals
   # Default is low signal on the beam, high out of the beam
@@ -33,8 +31,8 @@ labjack:
   flipOD2FirstInvertLogic: False
   flipOD2SecondInvertLogic: False
   flipPD3InvertLogic: False
-  flipQuarterWavePlateInvertLogic: True
-  flipPD2InvertLogic: True
+  flipQuarterWavePlateInvertLogic: False
+  flipPD2InvertLogic: False
 
 keysights:
   type: "pandora.controller.keysight.KeysightController"
@@ -57,6 +55,7 @@ keysights:
     settings:
       mode: "CURR"
       rang: 'AUTO'
+      nplc: 10.
       nsamples: 50
       delay: 0.
       interval: 2e-3
@@ -67,11 +66,11 @@ zaber_stages:
     ip_address: "140.247.113.250"
     # ND filters map
     # The numbers refers to the zaber position in mm
-    slot_map: {'ND20': 7, 
-               'ND15': 46.37, 
-               'ND10': 79.57, 
-               'ND05': 113.57, 
-               'CLEAR': 148.77}
+    slot_map: {'ND20': 43.60, 
+               'ND15': 78.10, 
+               'ND10': 111.50, 
+               'ND05': 151.70, 
+               'CLEAR': 0.00}
     device: 0
     axis_id: 1
     # Zaber speed in mm/sec
@@ -84,20 +83,24 @@ zaber_stages:
     speed_mm_per_sec: 10
     # The focus position is given in mm
     # the focus position is very sensitive to positional changes
-    slot_map: {'FOCUS': 50.8}
+    slot_map: {'FOCUS': 0.00,
+               'P1MM': 18.00,
+               'P2MM': 27.80,
+               'P3MM': 25.50
+    }
     name: "focus"
   Z3: # Pinhole Mask
     ip_address: "140.247.113.252"
     # Pinhole mask map
     # The numbers refers to the zaber position in mm
-    # The pinhole mask is a 4-position wheel with the following configuration:
-    # 1. 50 um pinhole (P50um)
-    # 2. 100 um pinhole (P100um)
-    # We do not have clear
-    slot_map: {
-               'P200UM': 14.02,
-               'P100UM': 45.94,
-               'CLEAR': 50.8,
+    # The pinhole mask  with the following configuration:
+    # 1. 1mm pinhole
+    # 2. 2mm pinhole
+    # 3. 3mm pinhole
+    slot_map: {'P1MM': 32.65,
+               'P2MM': 48.55,
+               'P3MM': 16.75,
+               'CLEAR': 0.00
                }
     device: 0
     axis_id: 1
