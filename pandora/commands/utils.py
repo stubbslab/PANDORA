@@ -85,16 +85,31 @@ def set_wavelength(args):
         verbose (bool): Whether to print verbose output.
     """
     from pandora.controller.monochromator import MonochromatorController
+    from pandora.states.flipmount_state import FlipMountState
+    from pandora.states.labjack_handler import LabJack
+
     # Initialize the logger
     _initialize_logger(args.verbose)
     
     # Create an instance of the MonochromatorController
-    mono_config = get_config_section('monochromator')
+    mono_config = get_config_section('monochromator') 
     mono = MonochromatorController(**mono_config)
 
-    # Set the monochromator to a new wavelength
-    mono.move_to_wavelength(args.wavelength)
+    # Create an instance of the flip order block filter
+    labjack_ip = get_config_value('labjack', 'ip_address')
+    labjack = LabJack(ip_address=labjack_ip)
+    flip_cfg = get_config_value('labjack', 'flipOrderBlockFilter')
+    flip2ndOrderFilter = FlipMountState(flip_cfg, labjack=labjack)
 
+    # Set the monochromator to a new wavelength
+    if args.wavelength>float(mono.wav_second_order_filter):
+        # print(flip2ndOrderFilter.get_state())
+        flip2ndOrderFilter.activate()
+    else:
+        flip2ndOrderFilter.deactivate()
+
+    # Set to the specified wavelength
+    mono.move_to_wavelength(args.wavelength)
     # Get the current wavelength
     mono.get_wavelength()
 
@@ -135,6 +150,7 @@ def get_keysight_readout(args):
     exptime = args.exptime
     verbose = args.verbose
     rang0 = args.rang0
+    #nrepeats = args.nrepeats
 
     # Initialize the logger
     _initialize_logger(verbose)
