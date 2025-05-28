@@ -19,7 +19,7 @@ class MonochromatorController:
     - baudrate (int): The baud rate for the serial connection.
     - logger (logging.Logger): The logger object for logging messages.    
     """
-    def __init__(self, usb_port, baudrate=9600, type=None):
+    def __init__(self, usb_port, baudrate=9600, wav_second_order_filter=650, type=None):
         """
         Initialize the MonochromatorController object.
 
@@ -34,6 +34,9 @@ class MonochromatorController:
         self.logger = logging.getLogger(f"pandora.monochromator")
         self.wavelength = None
         self.timeout = 1.0 # seconds
+        # Optical feature of the monochromator
+        # Second order light
+        self.wav_second_order_filter = wav_second_order_filter
 
         self.get_wavelength()
 
