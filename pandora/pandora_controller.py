@@ -16,6 +16,10 @@ from pandora.utils.operation_timer import OperationTimer
 from pandora.database.db import PandoraDatabase
 from pandora.database.calib_db import PandoraCalibrationDatabase
 
+# Moving average for a 1D array
+def moving_average(arr, window):
+    return np.convolve(arr, np.ones(window)/window, mode='valid')
+
 ## TODOS:
 ## Add a header to the class
 ## Add a header with the run information
@@ -54,7 +58,7 @@ class PandoraBox:
         self.timer = OperationTimer(min_interval=1/self.max_operation_freq, name=f"Pandora")
 
         # initiate the wavelength variable
-        self.wavelength = None
+        self.wavelength = 0
 
     def initialize_db(self, run_id=None):
         # Initialize the database connection
@@ -91,9 +95,9 @@ class PandoraBox:
         shutter_port = self.get_config_value('labjack', 'flipShutter')
 
         # Flip Mounts
-        self.flipMountNames = ['flipSpecMount', 'flipOrderBlockFilter',
+        self.flipMountNames = ['flipOrderBlockFilter',
                                'flipOD2First', 'flipOD2Second', 'flipPD2',
-                               'flipQuarterWavePlate', 'flipPD3'
+                               'flipQuarterWavePlate'
                                # Add more flip mounts as needed...
                                ]
         fports, fstates = [], []
@@ -131,10 +135,10 @@ class PandoraBox:
 
         # Zaber Stages
         # self.zaber = type('ZaberContainer', (), {})()
-        self.zaberNames = list(zb_config.keys())
-        self.zaberNDFilter = ZaberController(**z1_config)
-        self.zaberFocus = ZaberController(**z2_config)
-        self.zaberPinholeMask = ZaberController(**z3_config)
+        # self.zaberNames = list(zb_config.keys())
+        # self.zaberNDFilter = ZaberController(**z1_config)
+        # self.zaberFocus = ZaberController(**z2_config)
+        # self.zaberPinholeMask = ZaberController(**z3_config)
         # Add more stages as needed...
 
         # Monochromator
@@ -238,19 +242,92 @@ class PandoraBox:
         # Check if the exposure is overflow
         if (np.abs(np.mean(d1['CURR'])) > 1e36) and (not warning):
             self.logger.warning("Overflow in Keysight 1")
-            self.set_photodiode_scale(scale_down=1/10)
+            # self.set_photodiode_scale(scale_down=1/10)
+            self.set_photodiode_scale()
+            self.take_exposure(exptime, observation_type=observation_type, is_dark=is_dark, warning=True)
+
+        # Check if the exposure is overflow
+        if (np.abs(np.mean(d2['CURR'])) > 1e36) and (not warning):
+            self.logger.warning("Overflow in Keysight 1")
+            # self.set_photodiode_scale(scale_down=1/10)
+            self.set_photodiode_scale()
             self.take_exposure(exptime, observation_type=observation_type, is_dark=is_dark, warning=True)
 
         # Save the exposure data
         self._save_exposure(d1, d2, timestamp, exptime, eff_exptime, observation_type, not is_dark)
         pass
 
+    def take_exposure_per_sample(self, exptime, observation_type="acq", is_dark=False, warning=False):
+        """
+        Take an exposure for a specified time.
+
+        Args:
+            exptime (float): Exposure time in seconds.
+            is_dark (bool): If True, the exposure is a dark frame. 
+
+        """
+        self.keysight.k1.on()  # Keysight 1 ON
+        self.keysight.k2.on()  # Keysight 2 ON
+
+        # Set acquisition time if exptime is provided
+        self.keysight.k1.set_acquisition_time(exptime)
+        self.keysight.k2.set_acquisition_time(exptime)
+
+        # timestamp
+        timestamp = datetime.now()
+
+        if is_dark:
+            self.close_shutter()
+        else:
+            self.open_shutter()  # Shutter ON
+        self.timer.mark("Exposure")
+
+        # Start acquire without waiting
+        self.keysight.k1.acquire()
+        self.keysight.k2.acquire()
+        self.logger.info(f"Exposure is set last {self.keysight.k1.t_acq:0.3f} seconds.")
+
+        self.timer.sleep(exptime)
+        self.close_shutter()  # Shutter OFF
+        eff_exptime = self.timer.elapsed_since("Exposure")
+
+        # Reading the data
+        d1 = self.keysight.k1.read_data(wait=True)
+        d2 = self.keysight.k2.read_data(wait=True)
+
+        self.logger.info(f"Exposure ended after {eff_exptime:.3f} seconds.")
+
+        # Check if the exposure is overflow
+        if (np.abs(np.mean(d1['CURR'])) > 1e36) and (not warning):
+            self.logger.warning("Overflow in Keysight 1")
+            # self.set_photodiode_scale(scale_down=1/10)
+            self.set_photodiode_scale()
+            self.take_exposure(exptime, observation_type=observation_type, is_dark=is_dark, warning=True)
+
+        # Check if the exposure is overflow
+        if (np.abs(np.mean(d2['CURR'])) > 1e36) and (not warning):
+            self.logger.warning("Overflow in Keysight 1")
+            # self.set_photodiode_scale(scale_down=1/10)
+            self.set_photodiode_scale()
+            self.take_exposure(exptime, observation_type=observation_type, is_dark=is_dark, warning=True)
+
+        window_size = 10
+        # Loop over rows (i.e., d1[0] and d1[1]) if shape is (2, N)
+        avg_curr_d1 = moving_average(d1['CURR'], window_size)
+        avg_curr_d2 = moving_average(d2['CURR'], window_size)
+
+        n = avg_curr_d1.size
+        for i in range(0, n - n % window_size, window_size):
+            dd1 = {'CURR':avg_curr_d1[i:i+window_size]}
+            dd2 = {'CURR':avg_curr_d2[i:i+window_size]}
+            self._save_exposure(dd1, dd2, timestamp, exptime, eff_exptime, observation_type, not is_dark)
+
     def _save_exposure(self, d1, d2, timestamp, exptime, eff_exptime, description, shutter_flag=True):
         # Define exposure
         self.pdb.add("exptime", float(exptime))
         self.pdb.add("timestamp", timestamp)
         self.pdb.add("effective_exptime", eff_exptime)
-        self.pdb.add("wavelength", self.wavelength)
+        self.pdb.add("wavelength", float(self.wavelength))
         self.pdb.add("currentInput", np.abs(np.mean(d1['CURR'])))
         self.pdb.add("currentOutput", np.abs(np.mean(d2['CURR'])))
         self.pdb.add("currentInputErr", np.std(d1['CURR']))
@@ -264,9 +341,9 @@ class PandoraBox:
             flag = val == "on"
             self.pdb.add(name, flag)
         
-        self.pdb.add("ndFilter", self.zaberNDFilter.position)
-        self.pdb.add("pinholeMask", self.zaberPinholeMask.position)
-        self.pdb.add("focusPosition", self.zaberFocus.position)
+        # self.pdb.add("ndFilter", self.zaberNDFilter.position)
+        # self.pdb.add("pinholeMask", self.zaberPinholeMask.position)
+        # self.pdb.add("focusPosition", self.zaberFocus.position)
         self.pdb.add("Description", description)
         
         self.pdb.save_lightcurve(d1, tag="currentInput")
@@ -319,20 +396,68 @@ class PandoraBox:
         self.set_wavelength(start-10)
         self.set_photodiode_scale()
 
+        # wavelength auto range
+        nstops = 6
+        nv = int(wavelengthScan[wavelengthScan<750].size/nstops)
+        wav_auto_range = wavelengthScan[int(nv/2):int((nv-0.5)*nstops):nv]
+
         for wav in wavelengthScan:
             self.logger.info(f"wavelength-scan: start exposure of lambda = {wav:0.1f} nm with {nrepeats} repeats")
             self.set_wavelength(wav)
-            if wav>700:
-                # Check what is the IR filter code
-                self.enable_ir_filter()
 
-            # self.keysight.k1.set_rang(range1)
-            # self.keysight.k2.set_rang(range2)
+            # if wav in wav_auto_range:
+            #     self.set_photodiode_scale()
 
             for _ in range(nrepeats):
                 self.take_dark(exptime)
                 self.take_exposure(exptime, observation_type=observation_type)
                 self.take_dark(exptime)
+
+            self.logger.info(f"wavelength-scan: finished exposure of lambda = {wav:0.1f} nm")
+
+        # self.close_all_connections()
+        self.logger.info("wavelength-scan measurement cycle completed.")
+        self.logger.info("wavelength-scan saved on {self.pdb.run_data_file}")
+
+    def wavelength_scan2(self, start, end, step, exptime, observation_type="acq", nrepeats=100):
+        """
+        Wavelength scan with measurements from start to end with a given step size.
+
+        The measurements sequence is one dark, one light, and one dark.
+
+        Args:
+            start (float): Start wavelength in nm.
+            end (float): End wavelength in nm.
+            step (float): Step size in nm.
+            exptime (float): Exposure time in seconds.
+            observation_type (str, optional): Type of observation (acq, dark, calib).
+            range1 (float, optional): Range for Keysight 1.
+            range2 (float, optional): Range for Keysight 2.
+
+        """
+        self.logger.info(f"Starting wavelength-scan from {start:.1f} nm to {end:.1f} nm with step {step:.1f} nm...")
+
+        ##### Wavelength Scan Setup
+        wavelengthScan = np.arange(start,end+step, step)
+
+        # Flip the wavelength ordering filter
+        # self.flipMount.f1.activate()
+        
+        # Auto-range
+        self.set_wavelength(start-10)
+        self.set_photodiode_scale()
+
+        for wav in wavelengthScan:
+            self.logger.info(f"wavelength-scan: start exposure of lambda = {wav:0.1f} nm with {nrepeats} repeats")
+            self.set_wavelength(wav)
+
+            # if wav in wav_auto_range:
+            #     self.set_photodiode_scale()
+            self.take_dark(exptime)
+            # for _ in range(nrepeats):
+            self.take_exposure_per_sample(exptime, observation_type=observation_type)
+
+            self.take_dark(exptime)
 
             self.logger.info(f"wavelength-scan: finished exposure of lambda = {wav:0.1f} nm")
 
@@ -375,7 +500,7 @@ class PandoraBox:
         #     self.set_wavelength(wav)
         #     if wav>700:
         #         # Check what is the IR filter code
-        #         self.enable_ir_filter()
+        #         self.enable_2nd_order_filter()
 
         #     self.keysight.k1.set_rang(range1)
         #     self.keysight.k2.set_rang(range2)
@@ -403,11 +528,14 @@ class PandoraBox:
         self.logger.info("solar-cell-qe-curve saved on {self.pdb.run_data_file}")
 
     # TODO: Check what is the IR filter code
-    def enable_ir_filter(self):
+    def enable_2nd_order_filter(self, state=True):
         """
         Put the Order-Block(UV) filter on the optical path.
         """
-        self.flipOrderBlockFilter.activate()
+        if state:
+            self.flipOrderBlockFilter.activate()
+        else:
+            self.flipOrderBlockFilter.deactivate()
         pass
 
     def write_exposure(self):
@@ -595,6 +723,11 @@ class PandoraBox:
         Set the monochromator to a specific wavelength.
         """
         self.timer.mark("Wavelength")
+        if wavelength>self.monochromator.wav_second_order_filter:
+            self.enable_2nd_order_filter()
+        else:
+            self.enable_2nd_order_filter(state=False)
+
         self.monochromator.move_to_wavelength(wavelength, timeout)
         # Check how long we should wait here
         # self.monochromator.wait_until_ready()
@@ -618,7 +751,7 @@ class PandoraBox:
         Args:
             nd_filter_name (str): The name of the ND filter to move to.
         """
-        self.zaberNDFilter.move_to_slot(nd_filter_name)
+        # self.zaberNDFilter.move_to_slot(nd_filter_name)
         pass
 
     def set_pinhole_mask(self, mask_name):
@@ -627,7 +760,7 @@ class PandoraBox:
         Args:
             mask_name (str): The name of the pinhole mask to move to.
         """
-        self.zaberPinholeMask.move_to_slot(mask_name)
+        # self.zaberPinholeMask.move_to_slot(mask_name)
         pass
 
     def set_photodiode_scale(self, scale_down=None, scale=None):
@@ -643,6 +776,8 @@ class PandoraBox:
             self.keysight.k2.set_rang(s2/scale_down)
         else:
             self.keysight.k2.set_rang(scale)
+        # wait time to settle down.
+        time.sleep(2)
 
     def shutdown(self):
         """
