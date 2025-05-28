@@ -14,6 +14,32 @@ import os
 script_dir = os.path.dirname(os.path.realpath(__file__))
 default_cfg = os.path.join(script_dir, "../../default.yaml")
 
+def measurePandoraThroughputBeta(args):
+    print("Measuring Pandora throughput")
+
+    from pandora.pandora_controller import PandoraBox   
+    pandora_box = PandoraBox(config_file=default_cfg, verbose=True)
+
+    # print("Clear the optical path, no ND filters")
+    # Take the measurements with no ND filter
+    # filter_name = str(args.ndFilter)
+    # pandora_box.set_nd_filter(filter_name.upper())
+
+    # pinhole mask filter name
+    # mask_name = str(args.pinholeMask)
+    # pandora_box.set_pinhole_mask(mask_name.upper())
+
+    # TODO: Implement turn_on_sollar_cell
+    # pandora_box.turn_on_sollar_cell()
+
+    print(f"Scanning the wavelength from {args.lambda0} to {args.lambdaEnd} in steps of {args.step} with {args.nrepeats} repeats")
+    print("this might take a while...")
+    # Scan the wavelength in linear steps from lambda0 to lambdaEnd
+    # Takes one dark, one exposure, one dark, moves to the next wavelength
+    pandora_box.wavelength_scan2(args.lambda0, args.lambdaEnd, args.step, args.exptime, observation_type="throughput", nrepeats=args.nrepeats)
+    print(f"wavelength-scan saved on {pandora_box.pdb.run_data_file}")
+    print("Done! Thanks for waiting")
+    pass
 
 def measurePandoraThroughput(args):
     print("Measuring Pandora throughput")
@@ -23,12 +49,12 @@ def measurePandoraThroughput(args):
 
     # print("Clear the optical path, no ND filters")
     # Take the measurements with no ND filter
-    filter_name = str(args.ndFilter)
-    pandora_box.set_nd_filter(filter_name.upper())
+    # filter_name = str(args.ndFilter)
+    # pandora_box.set_nd_filter(filter_name.upper())
 
     # pinhole mask filter name
-    mask_name = str(args.pinholeMask)
-    pandora_box.set_pinhole_mask(mask_name.upper())
+    # mask_name = str(args.pinholeMask)
+    # pandora_box.set_pinhole_mask(mask_name.upper())
 
     # TODO: Implement turn_on_sollar_cell
     # pandora_box.turn_on_sollar_cell()
