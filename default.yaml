@@ -3,35 +3,28 @@
 # and their parameters.
 database:
   type: "pandora.database.db.PandoraDatabase"
-  # type: "pandora.database.calib_db.PandoraCalibrationDatabase"
   root: "/Users/pandora_ctrl/Documents/pandoraData/"
 
 monochromator:
   type: "pandora.controller.monochromator.MonochromatorController"
   usb_port: "/dev/tty.usbserial-FTDI1CB2"
   baudrate: 9600
-  wav_second_order_filter: 670
-  # model: "Acton_SP2150"
+  wav_second_order_filter: 520 #may need to adjust this. 
 
 labjack:
   ip_address: "169.254.84.89"
   timeout: 2
-  flipShutter: "FIO00"
-  flipOrderBlockFilter: "FIO6"
-  flipOD2First: "FIO2"
-  flipOD2Second: "FIO3"
-  flipPD2: "FIO5"
-  flipQuarterWavePlate: "FIO4"
-  # flipPD3: "FIO6"
+  flipShutter: "FIO00" #checked this july 18 -ks
+  flipOrderBlockFilter: "FIO02" #checked this july 18 -ks
+  flipOD2First: "FIO03" #checked this july 18 -ks
+  flipOD2Second: "FIO04" #checked this july 18 -ks
+  flipPD2: "FIO05" # for Johnny later
   
   # Changes to the logic of the flip signals
   # Default is low signal on the beam, high out of the beam
-  flipSpecMountInvertLogic: False
-  flipOrderBlockFilterInvertLogic: False
+  flipOrderBlockFilterInvertLogic: True
   flipOD2FirstInvertLogic: False
   flipOD2SecondInvertLogic: False
-  flipPD3InvertLogic: False
-  flipQuarterWavePlateInvertLogic: False
   flipPD2InvertLogic: False
 
 keysights:
@@ -66,10 +59,10 @@ zaber_stages:
     ip_address: "140.247.113.250"
     # ND filters map
     # The numbers refers to the zaber position in mm
-    slot_map: {'ND20': 43.60, 
-               'ND15': 78.10, 
-               'ND10': 111.50, 
-               'ND05': 151.70, 
+    slot_map: {'ND20': 140.50,
+               'ND15': 108.00, 
+               'ND10': 68.50, 
+               'ND05': 37.00,
                'CLEAR': 0.00}
     device: 0
     axis_id: 1
@@ -83,11 +76,16 @@ zaber_stages:
     speed_mm_per_sec: 10
     # The focus position is given in mm
     # the focus position is very sensitive to positional changes
-    slot_map: {'FOCUS': 0.00,
-               'P1MM': 18.00,
-               'P2MM': 27.80,
-               'P3MM': 25.50
+    slot_map: {'FOCUS': 14.5,
+               'P1MM': 14.5,
+               'CLEAR': 14.5
     }
+    # Jan 31: 
+    # 100um pinhole: (currently named P2MM: 6mm
+    # 10um pinhole: can't resolve, but ~6 probably also.
+    # The focus zaber can crash with the photodiode 2
+    # This is a safety threshold to prevent the focus from crashing
+    #safety_threashold: 30 # mm
     name: "focus"
   Z3: # Pinhole Mask
     ip_address: "140.247.113.252"
@@ -97,10 +95,10 @@ zaber_stages:
     # 1. 1mm pinhole
     # 2. 2mm pinhole
     # 3. 3mm pinhole
-    slot_map: {'P1MM': 32.65,
-               'P2MM': 48.55,
-               'P3MM': 16.75,
-               'CLEAR': 0.00
+    slot_map: {'P1MM': 1.12,
+              'P2MM': 26.98,
+              'P3MM': 46.11,
+               'CLEAR': 14.50
                }
     device: 0
     axis_id: 1

@@ -99,7 +99,8 @@ def set_wavelength(args):
     labjack_ip = get_config_value('labjack', 'ip_address')
     labjack = LabJack(ip_address=labjack_ip)
     flip_cfg = get_config_value('labjack', 'flipOrderBlockFilter')
-    flip2ndOrderFilter = FlipMountState(flip_cfg, labjack=labjack)
+    invert_logic = get_config_value('labjack', 'flipOrderBlockFilterInvertLogic', default=False)
+    flip2ndOrderFilter = FlipMountState(flip_cfg, labjack=labjack, invert_logic=invert_logic)
 
     # Set the monochromator to a new wavelength
     if args.wavelength>float(mono.wav_second_order_filter):
@@ -150,6 +151,7 @@ def get_keysight_readout(args):
     exptime = args.exptime
     verbose = args.verbose
     rang0 = args.rang0
+    printAll = args.printAll
     #nrepeats = args.nrepeats
 
     # Initialize the logger
@@ -174,7 +176,7 @@ def get_keysight_readout(args):
     # Auto scale the keysight;
     # override the rang0 if autoRange is True    
     if args.autoRange:
-        keysight.auto_scale(verbose=verbose)
+        keysight.auto_scale()
 
     # Get the readout from the Keysight multimeter
     # Set the NPLC and the integration time
@@ -185,7 +187,12 @@ def get_keysight_readout(args):
     keysight.acquire()
     d = keysight.read_data(wait=True)
 
-    print(f"Readout stats from {name}: {d['CURR'].mean():0.2g} +/- {d['CURR'].std():0.2g} A")
+    if not printAll:
+        print(f"Readout stats from {name}: {d['CURR'].mean():0.2g} +/- {d['CURR'].std():0.2g} A")
+    if printAll:
+        for c in d['CURR']:
+            print(f"{c:0.6g}")
+
     # print(f"Readout from {name}: {d}")
     pass
 
@@ -219,6 +226,10 @@ def get_spectrometer_readout(args):
     print(f"                   counts (max/min): {counts.max():0.2f} / {counts.min():0.2f} counts")
     print(f"                   wav nm (max    ): {counts[np.argmax(counts)]:0.2f}")
     
+    #Always save latest spectrum to a fixed file
+    spectrometer.save_spectrum(wav, counts, "latest_spectrum")
+    print("Spectrum saved to latest_spectrum.txt")
+
     if is_plot:
         spectrometer.plot_spectrum(wav, counts)
 
@@ -274,13 +285,13 @@ def flip(args):
     # Set the flip mount to the desired state
     if is_on:
         flipper.activate()
-        print(f"Flip mount {name} is now {flipper.state.value}")
+        print(f"Flip mount {name} with {fport} is now {flipper.state}")
     elif is_off:
         flipper.deactivate()
-        print(f"Flip mount {name} is now {flipper.state.value}")
+        print(f"Flip mount {name} with {fport} is now {flipper.state}")
     else:
-        flipper.get_state()
-        print(f"Flip mount {name} is {flipper.state.value}")
+        flipper.state
+        print(f"Flip mount {name} with {fport} is {flipper.state}")
     pass
 
 #!/usr/bin/env python3
@@ -319,7 +330,6 @@ def zaber(args):
     logger.info(f"Initializing Zaber controller {controller_name}...")
     zb_config = get_config_section('zaber_stages', config=configDefault)
     zconfig = get_config_section(zcode, config=zb_config)
-    zaber = ZaberController(**zconfig)
 
     # Get the slot map for the specified controller
     slot_dict = zconfig['slot_map']
@@ -334,6 +344,8 @@ def zaber(args):
             print(f"Slot {slot_name}: {position:.2f} mm")
         return
 
+    zaber = ZaberController(**zconfig)
+    
     # Option 2: Get the current position
     if args.getPosition:
         current_position = zaber.get_position_mm()    
@@ -348,12 +360,13 @@ def zaber(args):
     if args.move is not None:
         print(f"Moving controller '{args.controller}' to position {args.move} mm...")
         # Insert code to move to the specified position
-        current_position = zaber.get_position_mm()    
-        zaber.move_zaber_axis(args.move-current_position)  # Move relative to current position
+        zaber.move_zaber_axis(args.move)  # Move relative to current position
         new_position = zaber.get_position_mm()
         print(f"Moved to new position: {new_position:.2f} mm")
         return
     
+
+
     # Option 5:  move to home position
     if args.slot=="home":
         print(f"Moving controller {args.controller} to home position...")

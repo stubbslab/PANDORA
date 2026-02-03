@@ -1,6 +1,12 @@
 import argparse
 # from measure_solar_cell_qe import measureSolarCellQE
 from measure_pandora_throughput import measurePandoraThroughput, measurePandoraThroughputBeta
+# "final" (overflow-safe) throughput routine
+try:
+    from measure_pandora_throughput_2 import measurePandoraTputFinal
+except ImportError:
+    # fallback if the function was added to the original module
+    from measure_pandora_throughput import measurePandoraTputFinal  # type: ignore
 # from measure_nd_transmission import measureNDTransmission
 # from expose import exposeFocalPlane
 # from spectrograph_calib import spectrographCalib
@@ -12,6 +18,7 @@ from utils import get_keysight_readout
 from utils import get_spectrometer_readout
 from utils import flip
 from utils import zaber
+from keysight_continous_readout import start_acquisition, stop_acquisition
 
 """Main function to handle command-line arguments and dispatch to the appropriate function.
 
@@ -56,9 +63,10 @@ def main():
     pt_parser.add_argument("lambda0", type=float, help="Start wavelength (nm).")
     pt_parser.add_argument("lambdaEnd", type=float, help="End wavelength (nm).")
     pt_parser.add_argument("--step", type=float, default=1, help="Wavelength step (nm).")
-    # pt_parser.add_argument("--ndFilter", type=str, default="CLEAR", help="ND filter to use on zaber stage (e.g., ND05, ND10, ND15, ND20, CLEAR).")
+    pt_parser.add_argument("--ndFilter", type=str, default="CLEAR", help="ND filter to use on zaber stage (e.g., ND05, ND10, ND15, ND20, CLEAR).")
     # pt_parser.add_argument("--pinholeMask", type=str, default="CLEAR", help="pinhole mask name to use on zaber stage (e.g., P200UM, P100UM, CLEAR).")
     pt_parser.add_argument("--nrepeats", type=int, default=5, help="Number of repeats per measurement point.")
+    pt_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
     # pt_parser.add_argument("--maskPorts", action="store_true", 
     #                        help="Whether to mask 2 of the 3 output ports.")
     pt_parser.set_defaults(func=measurePandoraThroughput)
@@ -72,12 +80,30 @@ def main():
     pt_parser_beta.add_argument("lambda0", type=float, help="Start wavelength (nm).")
     pt_parser_beta.add_argument("lambdaEnd", type=float, help="End wavelength (nm).")
     pt_parser_beta.add_argument("--step", type=float, default=1, help="Wavelength step (nm).")
-    # pt_parser_beta.add_argument("--ndFilter", type=str, default="CLEAR", help="ND filter to use on zaber stage (e.g., ND05, ND10, ND15, ND20, CLEAR).")
+    pt_parser_beta.add_argument("--ndFilter", type=str, default="CLEAR", help="ND filter to use on zaber stage (e.g., ND05, ND10, ND15, ND20, CLEAR).")
     # pt_parser_beta.add_argument("--pinholeMask", type=str, default="CLEAR", help="pinhole mask name to use on zaber stage (e.g., P200UM, P100UM, CLEAR).")
     pt_parser_beta.add_argument("--nrepeats", type=int, default=100, help="Number of repeats per measurement point.")
+    pt_parser_beta.add_argument("--verbose", action="store_true", help="Enable verbose output.")
+    pt_parser_beta.add_argument("--darktime", type=float, default=None, help="Dark time between measurements (s).")
+    pt_parser_beta.add_argument("--flip", type=str, default=None, help="Name of the flip mount to activate before measurement (e.g., flipPD2).")
     # pt_parser_beta.add_argument("--maskPorts", action="store_true", 
     #                        help="Whether to mask 2 of the 3 output ports.")
     pt_parser_beta.set_defaults(func=measurePandoraThroughputBeta)
+
+    # command: measure-pandora-tput-final (overflow-aware, dark-after-range-change)
+    pt_parser_final = subparsers.add_parser(
+        "measure-pandora-tput-final",
+        help="Throughput scan with automatic overflow handling: dark-before/after range change, repeat failed light blocks."
+    )
+    pt_parser_final.add_argument("exptime", type=float, help="Light block exposure time (s).")
+    pt_parser_final.add_argument("lambda0", type=float, help="Start wavelength (nm).")
+    pt_parser_final.add_argument("lambdaEnd", type=float, help="End wavelength (nm).")
+    pt_parser_final.add_argument("--step", type=float, default=1, help="Wavelength step (nm).")
+    pt_parser_final.add_argument("--ndFilter", type=str, default="CLEAR", help="ND filter on Zaber stage (e.g. ND05, ND10, ND15, ND20, CLEAR).")
+    pt_parser_final.add_argument("--nrepeats", type=int, default=100, help="Repeats per wavelength (successful light blocks only are counted).")
+    pt_parser_final.add_argument("--darktime", type=float, default=None, help="Dark block time (s). If None, use exptime.")
+    pt_parser_final.add_argument("--verbose", action="store_true", help="Verbose logging.")
+    pt_parser_final.set_defaults(func=measurePandoraTputFinal)
 
     # # command: measure-nd-transmission
     # nd_parser = subparsers.add_parser(
@@ -134,6 +160,7 @@ def main():
     keysight_readout_parser.add_argument("--rang0", type=float, default=None, help="If not none, set auto range with initial range.")
     keysight_readout_parser.add_argument("--autoRange", action="store_true", help="Enable verbose output.")
     keysight_readout_parser.add_argument("--verbose", action="store_true", help="Enable verbose output.")
+    keysight_readout_parser.add_argument("--printAll", action="store_true", help="Print all points in the exptime")
     keysight_readout_parser.set_defaults(func=get_keysight_readout)
 
     spectrometer_readout_parser = subparsers.add_parser(
@@ -151,6 +178,47 @@ def main():
         "flip",
         help="Control flip mounts (on/off/state, or list mount names)."
     )
+
+    # inside your pb.py’s main():
+    kc_parser = subparsers.add_parser(
+        "run-keysight",
+        help="Run continuously the Keysight B2980A control script",
+        description="Keysight B2980A control script"
+    )
+    kc_parser.add_argument(
+        "--name", default="K1",
+        help="Name of the electrometer (for config file)"
+    )
+    kc_subparsers = kc_parser.add_subparsers(
+        dest="kc_action", required=True,
+        help="start or stop continuous acquisition"
+    )
+    sp_start = kc_subparsers.add_parser(
+        "start", help="Start continuous acquisition"
+    )
+    sp_start.add_argument(
+        "--points", type=int, default=100000,
+        help="Number of trace buffer points (max 100000)"
+    )
+    sp_start.add_argument(
+        "--nplc", type=int, default=10,
+        help="Number of power line cycles per measurement"
+    )
+    sp_start.add_argument(
+        "--rang0", type=float, default=2e-9,
+        help="If not None, set initial current range (A)"
+    )
+    # sp_start.add_argument(
+    #     "--autoRange", action="store_true",
+    #     help="Enable auto current range"
+    # )
+    sp_start.set_defaults(func=start_acquisition)
+
+    sp_stop = kc_subparsers.add_parser(
+        "stop", help="Stop acquisition and save data"
+    )
+    sp_stop.set_defaults(func=stop_acquisition)
+
 
     # Make 'name' optional, so users can do `pb flip --listNames` with no name
     flipper_parser.add_argument(

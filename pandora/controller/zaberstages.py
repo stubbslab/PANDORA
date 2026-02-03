@@ -12,11 +12,11 @@ The distances units reported here are all in milimiters.
 
 """
 
-MASK_MAP = {'ND05': 7,
-            'ND10': 7+39.37,
-            'ND15': 7+39.37+33.20,
-            'ND20': 7+39.37+33.20+34,
-            'CLEAR': 7+39.37+33.20+34+35.20,
+MASK_MAP = {'ND05': 37.0,
+            'ND10': 68.5,
+            'ND15': 108.0,
+            'ND20': 140.5,
+            'CLEAR': 0.0,
             }
 
 class ZaberController:
@@ -60,7 +60,7 @@ class ZaberController:
         """
         self.connect()
         self.set_zaber_speed(self.speed_mm_per_sec)
-        self.get_current_slot()
+        # self.get_current_slot()
         # self.go_home()
         pass
 

@@ -1,9 +1,11 @@
 import logging
 import pyvisa
 import numpy as np
-
+import time
 
 from pandora.utils.socket_helper import is_port_open
+
+FREQ = 60 # hz
 
 class KeysightController():
     DEFAULT = {"mode": 'CURR',
@@ -44,7 +46,7 @@ class KeysightController():
         self.logger = logging.getLogger(f"pandora.keysight.{name}")
 
         ## Initialize the Keysight State
-        self.tracked_properties = ['mode', 'nplc', 'rang', 'delay', 'interval', 'nsamples']
+        self.tracked_properties = ['mode', 'nplc', 'rang', 'delay', 'nsamples']
         self.params = settings
         self.initialize()
 
@@ -128,7 +130,7 @@ class KeysightController():
             self._reconnect()
             return self.instrument.query(message).strip()
 
-    def acquire(self, freq=50, verbose=False):
+    def acquire(self, verbose=False):
         """
         Acquire data from the instrument.
 
@@ -156,12 +158,12 @@ class KeysightController():
         d = np.array(d, dtype=float)
         return np.rec.fromarrays([t, d], names=['time', self.params["mode"]])
 
-    def get_acquisition_time(self, freq=50):
+    def get_acquisition_time(self):
         """
         Calculate the acquisition time based on the number of samples and the interval.
         """
         self.logger.debug(f"Calculating acquisition time.")
-        self.t_acq = float(self.params['nsamples']) * (float(self.params['nplc'])*1/freq + float(self.params['interval']))
+        self.t_acq = float(self.params['nsamples']) * float(self.params['interval'])
         self.logger.info(f"Acquisition time defined to be {self.t_acq:0.3f} sec.")
 
     def get_power(self):
@@ -204,6 +206,7 @@ class KeysightController():
             charge_range = float(charge_range)
             self.write(f'SENS:{self.params["mode"]}:RANG:AUTO OFF')
             self.write(f'SENS:{self.params["mode"]}:RANG {charge_range}')
+            wait_for_settle(charge_range, margin=1.01)
     
     def set_nplc(self, nplc):
         self.logger.info(f"Setting NPLC to {nplc}.")
@@ -213,6 +216,12 @@ class KeysightController():
         else:
             self.write(f':SENS:{self.params["mode"]}:NPLC:AUTO OFF')
             self.write(f':SENS:{self.params["mode"]}:NPLC {nplc}')
+            self.set_interval_to_nplc(nplc)
+
+    def set_interval_to_nplc(self, nplc, overhead_time=1e-3):
+        """make sure the interval is greater or equal of the nplc
+        """
+        self.set_interval(nplc/FREQ+overhead_time)
     
     def set_nsamples(self, nsamples=5500):
         self.logger.info(f"Setting number of samples to {nsamples}.")
@@ -253,7 +262,7 @@ class KeysightController():
                 print(f"{param}: {value}")
             print("")
 
-    def set_acquisition_time(self, time, freq=50):
+    def set_acquisition_time(self, time):
         self.logger.info(f"Setting acquisition time to {time} seconds.")
         nsamples = int(time / float(self.params['interval'])) + 1
         self.set_nsamples(nsamples)
@@ -306,31 +315,114 @@ class KeysightController():
         self.logger.info(f"Getting power line frequency setting from Keysight.")
         return float(self.read(':SYST:POWE:FREQ?'))
 
-    def auto_scale(self, verbose=False, rang0=20e-4):
+    def auto_scale(self, rang0=2e-5):
+        """
+        Conservative auto-scale for smooth wavelength scans.
+        Favors ranging up early to prevent overflows.
+        """
+        # Actual available current ranges for B2980B (2-20-200 pattern)
+        AVAILABLE_RANGES = [
+            2e-12,  # 2 pA
+            2e-11,  # 20 pA  
+            2e-10,  # 200 pA
+            2e-9,   # 2 nA
+            2e-8,   # 20 nA
+            2e-7,   # 200 nA
+            2e-6,   # 2 μA
+            2e-5,   # 20 μA
+            2e-4,   # 200 μA
+            2e-3,   # 2 mA
+        ]
+        
         self.logger.info(f"Starting auto scale with initial value {rang0}")
-        self.set_acquisition_time(0.1)
-
-        rang = rang0 # 20 microA
-        for i in range(9):
+        self.set_acquisition_time(10/FREQ)
+        
+        # Start at 2e-5 (20 μA) range by default
+        try:
+            rang_idx = AVAILABLE_RANGES.index(rang0)
+        except ValueError:
+            # If rang0 not in list, default to 2e-5 (20 μA)
+            rang_idx = AVAILABLE_RANGES.index(2e-5)
+            self.logger.info(f"Starting range {rang0} not available, defaulting to 2e-5")
+        
+        # Maximum iterations to prevent infinite loop
+        for iteration in range(15):
+            rang = AVAILABLE_RANGES[rang_idx]
             self.set_rang(rang)
             self.acquire()
             d = self.read_data()
             value = np.abs(np.mean(d[self.params['mode']]))
             self.logger.info(f"Range: {rang:e}, Value: {value:.2e}")
-
-            if np.log10(np.abs(value))>15:
-                # print("")
-                # print(f"Optimal range is {rang*10:e}")
-                self.set_rang(rang*100)
-                self.logger.info(f"Range is set to {100*rang}")
-                break
-            else:
-                rang /= 10
             
-            if rang < 1e-15:
-                self.logger.warning("Range is beyond the limit")
+            # Conservative thresholds:
+            # - Range UP at 80% to prevent overflow
+            # - Range DOWN below 5% to avoid oscillation
+            
+            if value > 0.80 * rang:
+                # Value approaching limit, go to less sensitive range
+                if rang_idx < len(AVAILABLE_RANGES) - 1:
+                    rang_idx += 1
+                    continue
+                else:
+                    self.logger.warning("Signal approaching maximum range")
+                    break
+                    
+            elif value < 0.05 * rang:
+                # Value too small, go to more sensitive range
+                if rang_idx > 0:
+                    rang_idx -= 1
+                    continue
+                else:
+                    self.logger.info("At minimum range")
+                    break
+            else:
+                # Value is within safe zone (5% to 80%)
+                self.logger.info(f"Optimal range found: {rang:e}")
                 break
-    
+        
+        # Ensure we're set to the final determined range
+        self.set_rang(AVAILABLE_RANGES[rang_idx])
+        return AVAILABLE_RANGES[rang_idx]
+
+  
+# factory numbers (seconds) – keys are the nominal range limits
+_EXP_SETTLING = {
+    -12: 16.0,       #  2 pA range
+    -11: 1.4,        # 20 pA
+    -10: 1.4,        # 200 pA
+     -9: 0.013,      #   2 nA / 20 nA
+     -8: 0.013,      #  20 nA (same decade)
+     -7: 0.0012,     # 200 nA
+     -6: 0.00055,    #   2 µA
+     -5: 0.00060,    #  20 µA
+     -4: 0.00060,    # 200 µA
+     -3: 0.00010,    #   2 mA
+}
+
+def wait_for_settle(current_range, margin=1.01):
+    """
+    Pause long enough for the B2983A to settle after you switch to *current_range*.
+
+    Parameters
+    ----------
+    current_range : float
+        The full-scale range you just selected, in amperes.
+    margin : float, optional
+        Multiplicative safety factor (>1 stretches the wait).
+
+    Raises
+    ------
+    KeyError
+        If the range isn’t in the spec table.
+    """
+    rang_power = int(np.log10(current_range))-1
+    try:
+        delay = _EXP_SETTLING[rang_power] * margin
+    except KeyError as exc:
+        raise KeyError(f"Range {current_range} A not in spec table") from exc
+    # print(f"Delay time {delay}, {current_range}, {rang_power}")
+    time.sleep(delay)
+
         
 if __name__ == "__main__":
     settings = {

@@ -19,7 +19,7 @@ class MonochromatorController:
     - baudrate (int): The baud rate for the serial connection.
     - logger (logging.Logger): The logger object for logging messages.    
     """
-    def __init__(self, usb_port, baudrate=9600, wav_second_order_filter=650, type=None):
+    def __init__(self, usb_port, baudrate=9600, wav_second_order_filter=520, type=None):
         """
         Initialize the MonochromatorController object.
 
@@ -37,7 +37,7 @@ class MonochromatorController:
         # Optical feature of the monochromator
         # Second order light
         self.wav_second_order_filter = wav_second_order_filter
-
+        self.set_units("angstroms")  # Set default units to Angstroms
         self.get_wavelength()
 
     def initialize(self):
@@ -50,6 +50,7 @@ class MonochromatorController:
         3. Get the current wavelength.
         """
         self.logger.info(f"Initialize Zaber device at {self.ip_address}.")
+        self.set_units("angstroms")  # Set default units to Angstroms
         self.go_home()
         self.logger.info(f"Current wavelength is: {self.wavelength} nm.")
 

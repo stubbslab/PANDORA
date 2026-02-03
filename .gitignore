@@ -4,6 +4,10 @@ __pycache__/
 *$py.class
 *.png
 
+# Data
+data/*.npy
+data/*.csv
+
 plots/
 results/
 *.pdf

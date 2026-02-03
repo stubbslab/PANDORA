@@ -13,16 +13,15 @@ labjack = LabJack(ip_address)
 import time 
 
 mydict = {
-"flipShutter": "FIO00",
-"flipOrderBlockFilter": "FIO1",
-"flipOD2First": "FIO2",
-"flipOD2Second": "FIO3",
-"flipQuaterWavePlate": "FIO4",
-"flipPD2": "FIO5",
+  "flipShutter": "FIO00", #checked this july 18 -ks
+  "flipOrderBlockFilter": "FIO02", #checked this july 18 -ks
+  "flipOD2First": "FIO03", #checked this july 18 -ks
+  "flipOD2Second": "FIO04", #checked this july 18 -ks
+  "flipPD2": "FIO05" # for Johnny later
 }
 
 def shall_we_go():
-    answer = str(input("Should we continue (y/n)?"))
+    answer = str(input("Should we continue (y/n)? : "))
     if answer == "n":
         print("Exiting...")
         exit()
@@ -40,26 +39,8 @@ for key, name in mydict.items():
     fm = FlipMountState(name, labjack=labjack)
 
     # Check the state
-    s = fm.get_state()
-    print(f"Current state: {s.value}")
-    shall_we_go()
-
-    # Check the high signal
-    time.sleep(1)
-    print(f"Sending high signal to {name}")
-    fm.labjack.send_high_signal(name)
-    shall_we_go()
-
-    # Check the high signal
-    time.sleep(1)
-    print(f"Sending low signal to {name}")
-    fm.labjack.send_low_signal(name)
-    shall_we_go()
-
-    # Check the square signal
-    time.sleep(1)
-    print(f"Sending square signal to {name}")
-    fm.labjack.send_binary_signal(name, wait_time_ms=50)
+    s = fm.state
+    print(f"Current state: {s}")
     shall_we_go()
 
     # Check flipMount activate function
@@ -73,5 +54,24 @@ for key, name in mydict.items():
     print(f"Check flipMount deactivate function: {name}")
     fm.deactivate()
 
+    # # Check the high signal
+    # time.sleep(1)
+    # print(f"Sending high signal to {name}")
+    # fm.labjack.send_high_signal(name)
+    # shall_we_go()
+
+    # # Check the high signal
+    # time.sleep(1)
+    # print(f"Sending low signal to {name}")
+    # fm.labjack.send_low_signal(name)
+    # shall_we_go()
+
+    # # Check the square signal
+    # time.sleep(1)
+    # print(f"Sending square signal to {name}")
+    # fm.labjack.send_binary_signal(name, wait_time_ms=50)
+    # shall_we_go()
+
+    time.sleep(3)
     print("The test is complete.")
     print(10*"------")
