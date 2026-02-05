@@ -37,37 +37,39 @@ The output lists all subcommands and general usage:
 .. code-block:: text
 
    usage: pb.py [-h]
-                {measure-pandora-throughput,set-wavelength,get-wavelength,
-                 open-shutter,close-shutter,get-keysight-readout,
-                 get-spectrometer-readout,flip,zaber,mount}
+                {measure-pandora-throughput,measure-pandora-throughput-beta,
+                 measure-pandora-tput-final,measure-pandora-charge,
+                 set-wavelength,get-wavelength,open-shutter,close-shutter,
+                 get-keysight-readout,get-spectrometer-readout,flip,zaber,mount}
                 ...
 
    PandoraBox Command-Line Interface (commands)
 
    positional arguments:
-     {measure-pandora-throughput,set-wavelength,get-wavelength,open-shutter,
-      close-shutter,get-keysight-readout,get-spectrometer-readout,flip,zaber,mount}
-       measure-pandora-throughput    Measure throughput linking main beam flux
-                                     to monitor diode flux.
-       set-wavelength                Set the monochromator to a specific
-                                     wavelength.
-       get-wavelength                Get the current wavelength of the
-                                     monochromator.
-       open-shutter                  Open the shutter.
-       close-shutter                 Close the shutter.
-       get-keysight-readout          Get the readout from the Keysight
-                                     electrometer.
-       get-spectrometer-readout      Get the readout from the StellarNet
-                                     spectrometer.
-       flip                          Control flip mounts (on/off/state, or list
-                                     mount names).
-       zaber                         Control Zaber stages.
-       mount                         Control iOptron telescope mount.
+     measure-pandora-throughput      Measure throughput (current mode)
+     measure-pandora-throughput-beta Enhanced throughput with dark measurements
+     measure-pandora-tput-final      Production throughput with overflow handling
+     measure-pandora-charge          Charge accumulation measurement (coulomb mode)
+     set-wavelength                  Set monochromator wavelength
+     get-wavelength                  Get current wavelength
+     open-shutter                    Open the shutter
+     close-shutter                   Close the shutter
+     get-keysight-readout            Get electrometer readout
+     get-spectrometer-readout        Get spectrometer readout
+     flip                            Control flip mounts
+     zaber                           Control Zaber stages
+     mount                           Control iOptron telescope mount
 
    options:
      -h, --help    show this help message and exit
 
-Use ``pb <command> --help`` for additional details on each command’s options.
+Use ``pb <command> --help`` for additional details on each command's options.
+
+.. note::
+
+   For detailed documentation on the wavelength scan measurement commands
+   (``measure-pandora-throughput``, ``measure-pandora-charge``, etc.),
+   see :doc:`Wavelength Scan Measurements <wavelength_scans>`.
 
 Shutter Commands
 ----------------
@@ -127,7 +129,14 @@ Example usage:
 Keysight Electrometers
 ----------------------
 
-Retrieve Keysight electrometer data with:
+The Keysight B2980 series electrometers support multiple measurement modes:
+
+- **CURR** (Current mode): Measures instantaneous current in amperes
+- **CHAR** (Charge mode): Measures accumulated charge in coulombs using the integrating capacitor
+
+**Current Mode (Default)**
+
+Retrieve Keysight electrometer data in current mode:
 
 .. code-block:: bash
 
@@ -151,6 +160,23 @@ Examples:
    pb get-keysight-readout 2 --rang0 2e-9
    pb get-keysight-readout 2 --name K2 --autoRange
    pb get-keysight-readout 2 --name K2 --rang0 2e-9 --verbose
+
+**Charge Mode (Coulomb Meter)**
+
+The B2985B/B2987B electrometers support charge measurement mode, which integrates current over time using a feedback capacitor. This is useful for measuring total accumulated charge from photodiodes or other charge-generating devices.
+
+Available charge ranges:
+
+- 2 nC (resolution: 1 fC)
+- 20 nC (resolution: 10 fC)
+- 200 nC (resolution: 100 fC)
+- 2 µC (resolution: 1 pC)
+
+Charge mode is primarily used through the wavelength scan commands (see :doc:`Wavelength Scan Measurements <wavelength_scans>`).
+
+.. note::
+
+   When using charge mode, the feedback capacitor should be discharged (zeroed) before each measurement to start with a clean baseline. The ``--discharge`` flag controls this behavior in scan commands.
 
 Spectrometer
 ------------
@@ -340,6 +366,7 @@ Further Reading
 
 For more details, refer back to the main documentation pages on subsystem control and the PANDORA API:
 
+- :doc:`Wavelength Scan Measurements <wavelength_scans>` - Automated measurement commands
 - :doc:`Controlling Subsystems <controlling_subsystems>`
 - :doc:`PANDORA Controller API <api/modules>`
 

@@ -11,6 +11,7 @@ Pandora
    :caption: Contents
 
    command_line
+   wavelength_scans
    controlling_subsystems
    configuration_file
    database_access
