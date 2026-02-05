@@ -115,6 +115,10 @@ class PandoraBox:
         # Ethernet connections with ip_addresses
         k1_config = self.get_config_section('K1', config=ks_config)
         k2_config = self.get_config_section('K2', config=ks_config)
+        # Add powerline_freq from keysights section to each Keysight config
+        powerline_freq = ks_config.get('powerline_freq', 60)
+        k1_config['powerline_freq'] = powerline_freq
+        k2_config['powerline_freq'] = powerline_freq
 
         z1_config = self.get_config_section('Z1', config=zb_config)
         # z2_config = self.get_config_section('Z2', config=zb_config)

@@ -29,6 +29,9 @@ labjack:
 
 keysights:
   type: "pandora.controller.keysight.KeysightController"
+  # Power line frequency in Hz (60 Hz in US, 50 Hz in Europe)
+  # Used for NPLC timing calculations
+  powerline_freq: 60
   # Each Keysight device with its own IP address
   K1:
     name: "k1"

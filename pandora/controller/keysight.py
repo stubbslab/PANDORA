@@ -5,7 +5,8 @@ import time
 
 from pandora.utils.socket_helper import is_port_open
 
-FREQ = 60 # hz
+# Default power line frequency (Hz) - can be overridden via config
+DEFAULT_POWERLINE_FREQ = 60
 
 # Available charge ranges for B2985B/B2987B electrometers (coulomb meter mode)
 CHARGE_RANGES = [
@@ -30,7 +31,9 @@ class KeysightController():
         name (str): Name of the Keysight device.
         keysight_ip (str): IP address of the Keysight device.
         timeout_ms (int): Timeout in milliseconds for the connection.
-    
+        settings (dict): Device settings (mode, rang, nplc, etc.).
+        powerline_freq (float): Power line frequency in Hz (60 for US, 50 for Europe).
+
     Example:
         keysight = KeysightController(name="K01", keysight_ip="169.254.56.239")
         keysight.get_device_info()
@@ -39,17 +42,19 @@ class KeysightController():
         keysight.close()
 
     """
-    def __init__(self, name, keysight_ip="169.254.56.239", timeout_ms=5000, settings=DEFAULT):
+    def __init__(self, name, keysight_ip="169.254.56.239", timeout_ms=5000,
+                 settings=DEFAULT, powerline_freq=None):
         if name is None:
             raise ValueError("Keysight name cannot be None.")
         if keysight_ip is None:
             raise ValueError("Keysight IP address cannot be None.")
-        
+
         ## Initialize the Keysight State Parameters
         self.name = name
         self.keysight_ip = keysight_ip
         self.resource_string = f"TCPIP::{keysight_ip}::hislip0,4880::INSTR"
         self.timeout_ms = timeout_ms
+        self.freq = powerline_freq if powerline_freq is not None else DEFAULT_POWERLINE_FREQ
 
         self.logger = logging.getLogger(f"pandora.keysight.{name}")
 
@@ -275,9 +280,8 @@ class KeysightController():
             self.set_interval_to_nplc(nplc)
 
     def set_interval_to_nplc(self, nplc, overhead_time=1e-3):
-        """make sure the interval is greater or equal of the nplc
-        """
-        self.set_interval(nplc/FREQ+overhead_time)
+        """Make sure the interval is greater or equal to the nplc duration."""
+        self.set_interval(nplc / self.freq + overhead_time)
     
     def set_nsamples(self, nsamples=5500):
         self.logger.info(f"Setting number of samples to {nsamples}.")
@@ -391,7 +395,7 @@ class KeysightController():
         ]
         
         self.logger.info(f"Starting auto scale with initial value {rang0}")
-        self.set_acquisition_time(10/FREQ)
+        self.set_acquisition_time(10 / self.freq)
         
         # Start at 2e-5 (20 μA) range by default
         try:
@@ -459,7 +463,7 @@ class KeysightController():
             self.set_mode('CHAR')
 
         self.logger.info(f"Starting charge auto-scale with initial range {rang0}")
-        self.set_acquisition_time(10/FREQ)
+        self.set_acquisition_time(10 / self.freq)
 
         # Start at specified range or default to 20 nC
         try:

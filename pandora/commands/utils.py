@@ -164,6 +164,8 @@ def get_keysight_readout(args):
         raise ValueError(f"Keysight device {name} not found in config file.")
 
     kconfig = get_config_section(name, config=_kconfig)
+    # Add powerline_freq from keysights section
+    kconfig['powerline_freq'] = _kconfig.get('powerline_freq', 60)
     keysight = KeysightController(**kconfig)
 
     # Make sure keysight is on
