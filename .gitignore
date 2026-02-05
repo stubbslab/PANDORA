@@ -16,6 +16,7 @@ draft*.ipynb
 spec*.ipynb
 
 docs/_build/
+docs/keysight_B2980B_charge_measurement_summary.md
 *.pyc
 .DS_Store
 
