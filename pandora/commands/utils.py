@@ -383,3 +383,156 @@ def zaber(args):
     else:
         print("Error: You must specify a slot name or use --move or --listSlotTable.")
         sys.exit(1)
+
+
+# ---------- Mount (iOptron) Handler Functions ---------------------------------
+
+def mount_status(args):
+    """Display current mount position and state."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    # Remove 'type' key if present (not needed for instantiation)
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        alt, az, state = mount.get_status()
+        print(f"Altitude : {alt:8.4f} deg")
+        print(f"Azimuth  : {az:8.4f} deg")
+        print(f"State    : {state}")
+
+
+def mount_goto(args):
+    """Slew mount to specified Alt/Az position."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        track = getattr(args, 'track', False)
+        mount.goto_altaz(args.altitude, args.azimuth, track_after=track)
+        print(f"Slew complete: Alt={args.altitude:.4f} deg, Az={args.azimuth:.4f} deg")
+        if getattr(args, 'status', False):
+            alt, az, state = mount.get_status()
+            print(f"Current position: Alt={alt:.4f} deg, Az={az:.4f} deg, State={state}")
+
+
+def mount_home(args):
+    """Return mount to home (zenith) position."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        mount.goto_home()
+        print("Mount returned to home (zenith) position.")
+
+
+def mount_park(args):
+    """Park the mount at stored parking position."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        mount.park()
+        print("Mount parked.")
+
+
+def mount_unpark(args):
+    """Unpark the mount to allow movements."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        mount.unpark()
+        print("Mount unparked.")
+
+
+def mount_stop(args):
+    """Emergency stop - halt all mount motion."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        mount.stop()
+        print("EMERGENCY STOP: Mount halted.")
+
+
+def mount_set_park(args):
+    """Define a new parking position."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        # Optionally move to the position first
+        if getattr(args, 'move_first', True):
+            print(f"Moving to Alt={args.altitude:.4f} deg, Az={args.azimuth:.4f} deg...")
+            mount.goto_altaz(args.altitude, args.azimuth)
+        mount.set_park(args.altitude, args.azimuth)
+        print(f"Park position set to Alt={args.altitude:.4f} deg, Az={args.azimuth:.4f} deg")
+
+
+def mount_get_position(args):
+    """Query current mount position."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        alt, az = mount.get_altaz()
+        print(f"Current position: Alt={alt:.4f} deg, Az={az:.4f} deg")
+
+
+def mount_set_alt_limit(args):
+    """Set the minimum altitude safety limit."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        mount.set_alt_limit(args.limit)
+        print(f"Altitude limit set to {args.limit} deg")
+
+
+def mount_get_alt_limit(args):
+    """Query current altitude safety limit."""
+    from pandora.controller.ioptron import IoptronController
+
+    _initialize_logger(getattr(args, 'verbose', False))
+
+    mount_config = get_config_section('mount')
+    mount_config = {k: v for k, v in mount_config.items() if k != 'type'}
+
+    with IoptronController(**mount_config) as mount:
+        limit = mount.get_alt_limit()
+        print(f"Current altitude limit: {limit} deg")

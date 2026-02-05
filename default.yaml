@@ -115,6 +115,18 @@ spectrograph:
   xtiming: 1 # 1/2 or 3 (low/mid or high resolution) 
   smooth: 1
 
+mount:
+  type: "pandora.controller.ioptron.IoptronController"
+  port: "/dev/cu.PL2303G-USBtoUART110"
+  baudrate: 115200
+  timeout: 2.0
+  monitor_enabled: false
+  name: "ioptron"
+  safety:
+    alt_limit_default: 0
+    az_lower: 0.0
+    az_upper: 360.0
+
 logging:
   level: "INFO"
   logfile: "./pandora.log"

@@ -20,6 +20,11 @@ from utils import get_keysight_readout
 from utils import get_spectrometer_readout
 from utils import flip
 from utils import zaber
+from utils import (
+    mount_status, mount_goto, mount_home, mount_park, mount_unpark,
+    mount_stop, mount_set_park, mount_get_position,
+    mount_set_alt_limit, mount_get_alt_limit
+)
 from keysight_continous_readout import start_acquisition, stop_acquisition
 
 """Main function to handle command-line arguments and dispatch to the appropriate function.
@@ -307,6 +312,132 @@ def main():
     )
     zaber_parser.add_argument("--verbose", action="store_true", default=False, help="Enable verbose output.")
     zaber_parser.set_defaults(func=zaber)
+
+    # command: mount (iOptron telescope mount control)
+    mount_parser = subparsers.add_parser(
+        "mount",
+        help="Control iOptron HAZ-series Alt-Az telescope mount",
+        description="iOptron mount control commands"
+    )
+    mount_subparsers = mount_parser.add_subparsers(
+        dest="mount_action", required=True,
+        help="Mount control actions"
+    )
+
+    # mount status
+    mount_status_parser = mount_subparsers.add_parser(
+        "status", help="Show current Alt/Az position and state"
+    )
+    mount_status_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_status_parser.set_defaults(func=mount_status)
+
+    # mount goto <alt> <az>
+    mount_goto_parser = mount_subparsers.add_parser(
+        "goto", help="Slew to specified Alt/Az position"
+    )
+    mount_goto_parser.add_argument(
+        "altitude", type=float, help="Target altitude in degrees (-90 to +90)"
+    )
+    mount_goto_parser.add_argument(
+        "azimuth", type=float, help="Target azimuth in degrees (0 to 360)"
+    )
+    mount_goto_parser.add_argument(
+        "--track", action="store_true", help="Enable tracking after slew"
+    )
+    mount_goto_parser.add_argument(
+        "--status", action="store_true", help="Print status after slew completes"
+    )
+    mount_goto_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_goto_parser.set_defaults(func=mount_goto)
+
+    # mount home
+    mount_home_parser = mount_subparsers.add_parser(
+        "home", help="Return to home (zenith) position"
+    )
+    mount_home_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_home_parser.set_defaults(func=mount_home)
+
+    # mount park
+    mount_park_parser = mount_subparsers.add_parser(
+        "park", help="Park mount at stored parking position"
+    )
+    mount_park_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_park_parser.set_defaults(func=mount_park)
+
+    # mount unpark
+    mount_unpark_parser = mount_subparsers.add_parser(
+        "unpark", help="Unpark mount to allow movements"
+    )
+    mount_unpark_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_unpark_parser.set_defaults(func=mount_unpark)
+
+    # mount stop
+    mount_stop_parser = mount_subparsers.add_parser(
+        "stop", help="Emergency stop - halt all motion immediately"
+    )
+    mount_stop_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_stop_parser.set_defaults(func=mount_stop)
+
+    # mount set-park <alt> <az>
+    mount_set_park_parser = mount_subparsers.add_parser(
+        "set-park", help="Define a new parking position"
+    )
+    mount_set_park_parser.add_argument(
+        "altitude", type=float, help="Altitude for park position in degrees"
+    )
+    mount_set_park_parser.add_argument(
+        "azimuth", type=float, help="Azimuth for park position in degrees"
+    )
+    mount_set_park_parser.add_argument(
+        "--no-move", dest="move_first", action="store_false",
+        help="Set park position without moving to it first"
+    )
+    mount_set_park_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_set_park_parser.set_defaults(func=mount_set_park)
+
+    # mount get-position
+    mount_get_position_parser = mount_subparsers.add_parser(
+        "get-position", help="Query current Alt/Az position"
+    )
+    mount_get_position_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_get_position_parser.set_defaults(func=mount_get_position)
+
+    # mount set-alt-limit <deg>
+    mount_set_alt_limit_parser = mount_subparsers.add_parser(
+        "set-alt-limit", help="Set minimum altitude safety limit"
+    )
+    mount_set_alt_limit_parser.add_argument(
+        "limit", type=int, help="Altitude limit in degrees (-89 to 89)"
+    )
+    mount_set_alt_limit_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_set_alt_limit_parser.set_defaults(func=mount_set_alt_limit)
+
+    # mount get-alt-limit
+    mount_get_alt_limit_parser = mount_subparsers.add_parser(
+        "get-alt-limit", help="Query current altitude safety limit"
+    )
+    mount_get_alt_limit_parser.add_argument(
+        "--verbose", action="store_true", help="Enable verbose output"
+    )
+    mount_get_alt_limit_parser.set_defaults(func=mount_get_alt_limit)
 
     # # command: expose
     # expose_parser = subparsers.add_parser("expose", help="Expose telescope with a known photon dose.")

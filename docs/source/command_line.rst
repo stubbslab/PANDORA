@@ -39,14 +39,14 @@ The output lists all subcommands and general usage:
    usage: pb.py [-h]
                 {measure-pandora-throughput,set-wavelength,get-wavelength,
                  open-shutter,close-shutter,get-keysight-readout,
-                 get-spectrometer-readout,flip,zaber}
+                 get-spectrometer-readout,flip,zaber,mount}
                 ...
 
    PandoraBox Command-Line Interface (commands)
 
    positional arguments:
      {measure-pandora-throughput,set-wavelength,get-wavelength,open-shutter,
-      close-shutter,get-keysight-readout,get-spectrometer-readout,flip,zaber}
+      close-shutter,get-keysight-readout,get-spectrometer-readout,flip,zaber,mount}
        measure-pandora-throughput    Measure throughput linking main beam flux
                                      to monitor diode flux.
        set-wavelength                Set the monochromator to a specific
@@ -62,6 +62,7 @@ The output lists all subcommands and general usage:
        flip                          Control flip mounts (on/off/state, or list
                                      mount names).
        zaber                         Control Zaber stages.
+       mount                         Control iOptron telescope mount.
 
    options:
      -h, --help    show this help message and exit
@@ -230,6 +231,108 @@ Examples:
   .. code-block:: bash
 
      pb zaber nd-filter --move 20
+
+
+Telescope Mount (iOptron)
+-------------------------
+
+The ``mount`` subcommand controls the iOptron HAZ-series Alt-Az telescope mount. This includes slewing to positions, parking, and safety limit management.
+
+.. warning::
+
+   The mount will not remember its home position across power cycles. If a complete power loss occurs, the mount will set its current position as the new zenith. After power loss, zenith must be reacquired manually. Always check the altitude limit and parking position after power failures.
+
+**Available Mount Commands**:
+
+.. code-block:: bash
+
+   pb mount status          # Show current Alt/Az and state
+   pb mount goto <alt> <az> # Slew to specified position
+   pb mount home            # Return to zenith position
+   pb mount park            # Park mount
+   pb mount unpark          # Unpark mount
+   pb mount stop            # Emergency stop
+   pb mount set-park <alt> <az>  # Define parking position
+   pb mount get-position    # Query current position
+   pb mount set-alt-limit <deg>  # Set altitude safety limit
+   pb mount get-alt-limit   # Query altitude limit
+
+**Checking Mount Status**:
+
+.. code-block:: bash
+
+   pb mount status
+
+Output example:
+
+.. code-block:: text
+
+   Altitude :  45.0000 deg
+   Azimuth  : 180.0000 deg
+   State    : Stopped (home)
+
+**Slewing to a Position**:
+
+.. code-block:: bash
+
+   # Slew to Alt=45 deg, Az=180 deg
+   pb mount goto 45 180
+
+   # Slew with tracking enabled after completion
+   pb mount goto 45 180 --track
+
+   # Slew and print status after completion
+   pb mount goto 45 180 --status
+
+**Returning Home (Zenith)**:
+
+.. code-block:: bash
+
+   pb mount home
+
+**Parking and Unparking**:
+
+.. code-block:: bash
+
+   # Park the mount at stored parking position
+   pb mount park
+
+   # Unpark to allow movements
+   pb mount unpark
+
+**Emergency Stop**:
+
+To immediately halt all mount motion:
+
+.. code-block:: bash
+
+   pb mount stop
+
+**Setting and Querying Park Position**:
+
+.. code-block:: bash
+
+   # Define a new parking position (moves to position first)
+   pb mount set-park 45 180
+
+   # Define without moving first
+   pb mount set-park 45 180 --no-move
+
+**Safety Limits**:
+
+The altitude limit prevents the mount from slewing below a specified angle:
+
+.. code-block:: bash
+
+   # Set minimum altitude limit to 10 degrees
+   pb mount set-alt-limit 10
+
+   # Query current altitude limit
+   pb mount get-alt-limit
+
+.. note::
+
+   All mount commands support ``--verbose`` for additional console output.
 
 
 Further Reading
