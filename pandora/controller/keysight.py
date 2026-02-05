@@ -7,6 +7,14 @@ from pandora.utils.socket_helper import is_port_open
 
 FREQ = 60 # hz
 
+# Available charge ranges for B2985B/B2987B electrometers (coulomb meter mode)
+CHARGE_RANGES = [
+    2e-9,   # 2 nC  (resolution: 1 fC)
+    2e-8,   # 20 nC (resolution: 10 fC)
+    2e-7,   # 200 nC (resolution: 100 fC)
+    2e-6,   # 2 µC  (resolution: 1 pC)
+]
+
 class KeysightController():
     DEFAULT = {"mode": 'CURR',
                "rang": 'AUTO',
@@ -139,9 +147,54 @@ class KeysightController():
         self.logger.info(f"Acquiring data for {self.t_acq:0.3f} sec.")
         self.write(':INIT:ACQ')
 
-        if verbose: 
+        if verbose:
             print('acquisition time:', self.t_acq)
-    
+
+    def discharge(self):
+        """
+        Zero the feedback capacitor before a new charge measurement.
+
+        Only applicable in CHAR (charge) mode on B2985B/B2987B electrometers.
+        This resets the integrating capacitor to start a fresh charge accumulation.
+        """
+        self.logger.info("Discharging feedback capacitor.")
+        self.write('SENS:CHAR:DISCharge')
+
+    def set_auto_discharge(self, enabled=True, level=None):
+        """
+        Configure automatic discharge to prevent range overflow.
+
+        When enabled, the instrument automatically resets the integrator
+        when accumulated charge reaches the threshold level.
+
+        Args:
+            enabled (bool): Enable or disable auto-discharge.
+            level (float, optional): Threshold in Coulombs.
+                Valid values: 2e-9, 2e-8, 2e-7, 2e-6 (2nC to 2µC).
+        """
+        state = 'ON' if enabled else 'OFF'
+        self.logger.info(f"Setting auto-discharge to {state}.")
+        self.write(f'SENS:CHAR:DISCharge:AUTO {state}')
+        if level is not None:
+            self.logger.info(f"Setting auto-discharge level to {level}.")
+            self.write(f'SENS:CHAR:DISCharge:LEVel {level}')
+
+    def acquire_charge(self, discharge_first=True, verbose=False):
+        """
+        Acquire charge data, optionally discharging the capacitor first.
+
+        This is a convenience wrapper for charge measurements that ensures
+        the feedback capacitor is zeroed before starting acquisition.
+
+        Args:
+            discharge_first (bool): If True, discharge capacitor before acquiring.
+            verbose (bool): If True, print acquisition time.
+        """
+        if discharge_first:
+            self.discharge()
+            time.sleep(0.05)  # brief settling time after discharge
+        self.acquire(verbose=verbose)
+
     def read_data(self, wait=False):
         """Read data from the instrument.
         :param wait: If True, wait for the acquisition to complete.
@@ -196,17 +249,20 @@ class KeysightController():
         self.params["mode"] = mode
         self.write(f'SENSe:FUNCtion:ON "{mode}"')
 
-    def set_rang(self, charge_range):
-        self.logger.info(f"Setting range to {charge_range}.")
-        self.params['rang'] = charge_range
-        
-        if charge_range == 'AUTO' :
+    def set_rang(self, rang):
+        self.logger.info(f"Setting range to {rang}.")
+        self.params['rang'] = rang
+
+        if rang == 'AUTO':
             self.write(f'SENS:{self.params["mode"]}:RANG:AUTO ON')
-        else :
-            charge_range = float(charge_range)
+        else:
+            rang = float(rang)
             self.write(f'SENS:{self.params["mode"]}:RANG:AUTO OFF')
-            self.write(f'SENS:{self.params["mode"]}:RANG {charge_range}')
-            wait_for_settle(charge_range, margin=1.01)
+            self.write(f'SENS:{self.params["mode"]}:RANG {rang}')
+            # Settling time only applies to current mode (RC time constants)
+            # Charge mode uses feedback capacitor with different characteristics
+            if self.params.get('mode') == 'CURR':
+                wait_for_settle(rang, margin=1.01)
     
     def set_nplc(self, nplc):
         self.logger.info(f"Setting NPLC to {nplc}.")
@@ -384,7 +440,76 @@ class KeysightController():
         self.set_rang(AVAILABLE_RANGES[rang_idx])
         return AVAILABLE_RANGES[rang_idx]
 
-  
+    def auto_scale_charge(self, rang0=2e-8):
+        """
+        Conservative auto-scale for charge mode wavelength scans.
+        Similar to auto_scale() but uses charge ranges (2nC to 2µC).
+
+        Only works on B2985B/B2987B electrometers in CHAR mode.
+
+        Args:
+            rang0 (float): Initial range to start scaling from.
+                Default is 2e-8 (20 nC).
+
+        Returns:
+            float: The optimal charge range found.
+        """
+        if self.params.get('mode') != 'CHAR':
+            self.logger.warning("auto_scale_charge called but mode is not CHAR. Switching to CHAR mode.")
+            self.set_mode('CHAR')
+
+        self.logger.info(f"Starting charge auto-scale with initial range {rang0}")
+        self.set_acquisition_time(10/FREQ)
+
+        # Start at specified range or default to 20 nC
+        try:
+            rang_idx = CHARGE_RANGES.index(rang0)
+        except ValueError:
+            rang_idx = CHARGE_RANGES.index(2e-8)
+            self.logger.info(f"Starting range {rang0} not available, defaulting to 2e-8 (20 nC)")
+
+        # Maximum iterations to prevent infinite loop
+        for iteration in range(10):
+            rang = CHARGE_RANGES[rang_idx]
+            self.set_rang(rang)
+            self.discharge()  # Zero capacitor before test measurement
+            time.sleep(0.05)
+            self.acquire()
+            d = self.read_data(wait=True)
+            value = np.abs(np.mean(d[self.params['mode']]))
+            self.logger.info(f"Charge range: {rang:e}, Value: {value:.2e}")
+
+            # Conservative thresholds:
+            # - Range UP at 80% to prevent overflow
+            # - Range DOWN below 5% to avoid oscillation
+
+            if value > 0.80 * rang:
+                # Value approaching limit, go to less sensitive range
+                if rang_idx < len(CHARGE_RANGES) - 1:
+                    rang_idx += 1
+                    continue
+                else:
+                    self.logger.warning("Charge signal approaching maximum range (2 µC)")
+                    break
+
+            elif value < 0.05 * rang:
+                # Value too small, go to more sensitive range
+                if rang_idx > 0:
+                    rang_idx -= 1
+                    continue
+                else:
+                    self.logger.info("At minimum charge range (2 nC)")
+                    break
+            else:
+                # Value is within safe zone (5% to 80%)
+                self.logger.info(f"Optimal charge range found: {rang:e}")
+                break
+
+        # Ensure we're set to the final determined range
+        self.set_rang(CHARGE_RANGES[rang_idx])
+        return CHARGE_RANGES[rang_idx]
+
+
 # factory numbers (seconds) – keys are the nominal range limits
 _EXP_SETTLING = {
     -12: 16.0,       #  2 pA range

@@ -7,6 +7,8 @@ try:
 except ImportError:
     # fallback if the function was added to the original module
     from measure_pandora_throughput import measurePandoraTputFinal  # type: ignore
+# charge measurement (coulomb meter mode)
+from measure_pandora_charge import measurePandoraCharge
 # from measure_nd_transmission import measureNDTransmission
 # from expose import exposeFocalPlane
 # from spectrograph_calib import spectrographCalib
@@ -104,6 +106,31 @@ def main():
     pt_parser_final.add_argument("--darktime", type=float, default=None, help="Dark block time (s). If None, use exptime.")
     pt_parser_final.add_argument("--verbose", action="store_true", help="Verbose logging.")
     pt_parser_final.set_defaults(func=measurePandoraTputFinal)
+
+    # command: measure-pandora-charge (coulomb meter mode)
+    charge_parser = subparsers.add_parser(
+        "measure-pandora-charge",
+        help="Measure accumulated charge vs wavelength using the B2985B/B2987B electrometer in coulomb meter mode."
+    )
+    charge_parser.add_argument("exptime", type=float,
+        help="Integration time per measurement (s).")
+    charge_parser.add_argument("lambda0", type=float,
+        help="Start wavelength (nm).")
+    charge_parser.add_argument("lambdaEnd", type=float,
+        help="End wavelength (nm).")
+    charge_parser.add_argument("--step", type=float, default=1,
+        help="Wavelength step (nm).")
+    charge_parser.add_argument("--nrepeats", type=int, default=100,
+        help="Number of repeats per wavelength.")
+    charge_parser.add_argument("--darktime", type=float, default=None,
+        help="Dark exposure time (s). Defaults to exptime if not specified.")
+    charge_parser.add_argument("--discharge", action="store_true", default=True,
+        help="Discharge capacitor before each acquisition (default: enabled).")
+    charge_parser.add_argument("--no-discharge", dest="discharge", action="store_false",
+        help="Skip discharge for continuous charge accumulation.")
+    charge_parser.add_argument("--verbose", action="store_true",
+        help="Enable verbose output.")
+    charge_parser.set_defaults(func=measurePandoraCharge)
 
     # # command: measure-nd-transmission
     # nd_parser = subparsers.add_parser(

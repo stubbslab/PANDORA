@@ -528,6 +528,202 @@ class PandoraBox:
             nrepeats=nrepeats,
         )
 
+    # ─────────────────────────────────────────────────────────────────────────────
+    # Charge Measurement Methods (CHAR mode)
+    # ─────────────────────────────────────────────────────────────────────────────
+
+    def charge_wavelength_scan(self, start, end, step, exptime, dark_time=None,
+                                nrepeats=100, discharge_before_acquire=True):
+        """
+        Wavelength scan measuring charge instead of current.
+
+        Uses the B2985B/B2987B electrometer in CHAR (coulomb meter) mode.
+        Similar to wavelength_scan2() but:
+        - Sets Keysight to CHAR mode
+        - Discharges capacitor before each acquisition
+        - Saves charge values instead of current
+
+        Args:
+            start (float): Start wavelength in nm.
+            end (float): End wavelength in nm.
+            step (float): Step size in nm.
+            exptime (float): Integration time in seconds.
+            dark_time (float, optional): Dark exposure time. Defaults to exptime.
+            nrepeats (int): Number of repeats per wavelength.
+            discharge_before_acquire (bool): If True, discharge capacitor before each acquisition.
+        """
+        self.logger.info(f"Starting charge wavelength scan from {start:.1f} nm to {end:.1f} nm with step {step:.1f} nm...")
+
+        # Wavelength scan setup
+        wavelengths = np.arange(start, end + step, np.round(step, 1))
+
+        # Switch to charge mode
+        self.logger.info("Switching Keysights to CHAR (charge) mode")
+        self.keysight.k1.set_mode('CHAR')
+        self.keysight.k2.set_mode('CHAR')
+
+        # Auto-scale for charge ranges at starting wavelength
+        self.set_wavelength(start - 10)
+        self.logger.info("Auto-scaling charge ranges...")
+        self.keysight.k1.auto_scale_charge()
+        self.keysight.k2.auto_scale_charge()
+
+        if dark_time is None:
+            dark_time = exptime
+
+        for wav in wavelengths:
+            self.logger.info(f"charge-scan: start measurement at lambda = {wav:.1f} nm with {nrepeats} repeats")
+            self.set_wavelength(wav)
+
+            # Baseline dark at start of this wavelength
+            self.take_charge_exposure(dark_time, is_dark=True,
+                                       discharge=discharge_before_acquire,
+                                       observation_type="charge_dark")
+
+            for _ in range(nrepeats):
+                # Light exposure
+                self.take_charge_exposure(exptime, is_dark=False,
+                                           discharge=discharge_before_acquire,
+                                           observation_type="charge")
+                # Closing dark for this repeat
+                self.take_charge_exposure(dark_time, is_dark=True,
+                                           discharge=discharge_before_acquire,
+                                           observation_type="charge_dark")
+
+            self.logger.info(f"charge-scan: finished measurement at lambda = {wav:.1f} nm")
+
+        # Restore current mode
+        self.logger.info("Restoring Keysights to CURR (current) mode")
+        self.keysight.k1.set_mode('CURR')
+        self.keysight.k2.set_mode('CURR')
+
+        self.logger.info("Charge wavelength scan completed.")
+        self.logger.info(f"Charge scan saved to {self.pdb.run_data_file}")
+
+    def take_charge_exposure(self, exptime, is_dark=False, discharge=True,
+                              observation_type="charge", warning=False):
+        """
+        Take a charge measurement and save every data point.
+
+        Similar to take_exposure_per_sample() but:
+        - Calls discharge() before acquire to zero the feedback capacitor
+        - Reads CHAR data instead of CURR
+        - Saves every data point with its timestamp for timeline analysis
+
+        Args:
+            exptime (float): Integration time in seconds.
+            is_dark (bool): If True, keep shutter closed.
+            discharge (bool): If True, discharge capacitor before acquiring.
+            observation_type (str): Description for database.
+            warning (bool): If True, this is a retry after overflow.
+        """
+        self.keysight.k1.on()
+        self.keysight.k2.on()
+
+        self.keysight.k1.set_acquisition_time(exptime)
+        self.keysight.k2.set_acquisition_time(exptime)
+
+        timestamp = datetime.now()
+
+        if is_dark:
+            self.close_shutter()
+        else:
+            self.open_shutter()
+
+        self.timer.mark("ChargeExposure")
+
+        # Discharge capacitors and acquire
+        if discharge:
+            self.keysight.k1.discharge()
+            self.keysight.k2.discharge()
+            time.sleep(0.05)  # Brief settling after discharge
+
+        self.keysight.k1.acquire()
+        self.keysight.k2.acquire()
+        self.logger.info(f"Charge exposure set to last {self.keysight.k1.t_acq:.3f} seconds.")
+
+        self.timer.sleep(exptime)
+        self.close_shutter()
+        eff_exptime = self.timer.elapsed_since("ChargeExposure")
+
+        # Read charge data
+        d1 = self.keysight.k1.read_data(wait=True)
+        d2 = self.keysight.k2.read_data(wait=True)
+
+        self.logger.info(f"Charge exposure ended after {eff_exptime:.3f} seconds.")
+
+        # Check for overflow and retry with auto-scale if needed
+        if (np.abs(np.mean(d1['CHAR'])) > 1e36) and (not warning):
+            self.logger.warning("Overflow in Keysight 1 (charge mode)")
+            self.keysight.k1.auto_scale_charge()
+            self.take_charge_exposure(exptime, is_dark=is_dark, discharge=discharge,
+                                       observation_type=observation_type, warning=True)
+            return
+
+        if (np.abs(np.mean(d2['CHAR'])) > 1e36) and (not warning):
+            self.logger.warning("Overflow in Keysight 2 (charge mode)")
+            self.keysight.k2.auto_scale_charge()
+            self.take_charge_exposure(exptime, is_dark=is_dark, discharge=discharge,
+                                       observation_type=observation_type, warning=True)
+            return
+
+        # Save every data point individually (for timeline analysis)
+        for i in range(len(d1['CHAR'])):
+            self._save_charge_exposure(
+                d1['time'][i], d1['CHAR'][i], d2['CHAR'][i],
+                timestamp, exptime, eff_exptime,
+                observation_type, not is_dark
+            )
+
+    def _save_charge_exposure(self, sample_time, charge1, charge2,
+                               timestamp, exptime, eff_exptime,
+                               description, shutter_flag=True):
+        """
+        Save a single charge data point to database.
+
+        Saves individual data points with their relative timestamps,
+        enabling timeline reconstruction for shutter timing analysis.
+
+        Args:
+            sample_time (float): Relative time of this sample (seconds from acquisition start).
+            charge1 (float): Charge value from Keysight 1 (Coulombs).
+            charge2 (float): Charge value from Keysight 2 (Coulombs).
+            timestamp: Acquisition start timestamp.
+            exptime: Requested exposure time.
+            eff_exptime: Actual elapsed time.
+            description: Observation type description.
+            shutter_flag: True if shutter was open.
+        """
+        self.pdb.add("exptime", float(exptime))
+        self.pdb.add("timestamp", timestamp)
+        self.pdb.add("effective_exptime", eff_exptime)
+        self.pdb.add("sampleTime", float(sample_time))
+        self.pdb.add("wavelength", float(self.wavelength))
+        self.pdb.add("chargeInput", float(np.abs(charge1)))
+        self.pdb.add("chargeOutput", float(np.abs(charge2)))
+        self.pdb.add('shutter', shutter_flag)
+        self.pdb.add("measurementMode", "CHAR")
+
+        # Save the flip mount states (same as _save_exposure)
+        for name in self.flipMountNames[1:]:
+            fm = getattr(self, name, None)
+            if fm is None:
+                self.pdb.add(name, False)
+                continue
+            st = getattr(fm, "state", None)
+            raw = getattr(st, "value", st)
+            flag = str(raw).lower() == "on"
+            self.pdb.add(name, flag)
+
+        if self.zaberNDFilter is not None:
+            self.pdb.add("ndFilter", self.zaberNDFilter.position)
+        else:
+            self.pdb.add("ndFilter", "DISABLED")
+
+        self.pdb.add("Description", description)
+
+        self.write_exposure()
+
     ## TODO
     ## Under construction
     ## First Draft
