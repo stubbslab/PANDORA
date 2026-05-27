@@ -53,7 +53,7 @@ html_theme = 'sphinx_wagtail_theme'
 html_show_sphinx = False
 
 html_theme_options = dict(
-    header_links = "Github Repo|https://github.com/stubbslab/PANDORA/tree/v1.0",
+    header_links = "Github Repo|https://github.com/stubbslab/PANDORA/tree/main",
     footer_links = ",".join([
         "About Us|http://example.com/",
         "Contact|http://example.com/contact",

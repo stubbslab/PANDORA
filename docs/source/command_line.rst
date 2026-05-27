@@ -13,13 +13,13 @@ Before running any ``pb`` command, configure your terminal:
 .. code-block:: bash
 
    # Change directory to your PANDORA root folder
-   cd ${HOME}/Documents/dev/versions/v1.0/PANDORA/
+   cd ${HOME}/Documents/dev/versions/v2.0/PANDORA/
 
    # Add the pandora folder to your PYTHONPATH
    export PYTHONPATH="${PWD}:${PYTHONPATH}"
 
    # Create an alias so you can call pb anywhere
-   alias pb="python ${HOME}/Documents/dev/versions/v1.0/PANDORA/pandora/commands/pb.py"
+   alias pb="python ${HOME}/Documents/dev/versions/v2.0/PANDORA/pandora/commands/pb.py"
 
 You will then be able to use the ``pb`` command from any directory in your terminal session.
 

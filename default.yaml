@@ -117,7 +117,7 @@ spectrograph:
 
 mount:
   type: "pandora.controller.ioptron.IoptronController"
-  port: "/dev/cu.PL2303G-USBtoUART110"
+  port: "/dev/cu.PL2303G-USBtoUART2110"
   baudrate: 115200
   timeout: 2.0
   monitor_enabled: false
